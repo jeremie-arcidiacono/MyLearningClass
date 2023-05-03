@@ -1,0 +1,6 @@
+composer.phar
+
+.env
+
+.idea/
+vendor/
