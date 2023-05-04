@@ -20,7 +20,7 @@ class Config
     /**
      * Array of files that should not be loaded into the config array
      */
-    private const EXCLUDED_FILES = ['constants.php'];
+    private const EXCLUDED_FILES = ['constants.php', 'migrations.php'];
 
     /**
      * @param string $dirPath The path to the config directory

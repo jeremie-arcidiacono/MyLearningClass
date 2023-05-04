@@ -576,10 +576,10 @@ class ValidatorTest extends TestCase
 
     public function test_rule_exists_2(): void
     {
-        // Check event's id field when it does not exist
+        // Check course's id field when it does not exist
         $this->setUpFakeDb();
 
-        $validator = new Validator(['myTestField' => '9999'], ['myTestField' => ['exists:\App\Models\Event']], $this->db);
+        $validator = new Validator(['myTestField' => '9999'], ['myTestField' => ['exists:\App\Models\Course']], $this->db);
         $this->assertFalse($validator->isValid());
     }
 
@@ -649,10 +649,10 @@ class ValidatorTest extends TestCase
 
     public function test_rule_unique_4(): void
     {
-        // Check reservation's id field when it does not exist
+        // Check course's id field when it does not exist
         $this->setUpFakeDb();
 
-        $validator = new Validator(['myTestField' => '9999'], ['myTestField' => ['unique:\App\Models\Reservation']], $this->db);
+        $validator = new Validator(['myTestField' => '9999'], ['myTestField' => ['unique:\App\Models\Course']], $this->db);
         $this->assertTrue($validator->isValid());
     }
     //</editor-fold>
