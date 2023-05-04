@@ -1,0 +1,21 @@
+############################################
+# Apache configuration file with mod_rewrite rules
+#
+# Author : Jérémie Arcidiacono
+# Date   : December 2022
+############################################
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Redirect trailing slashes to non-trailing slash version
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)/$ /$1 [L,R=301]
+
+    # Send requests to entry point
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-l
+    RewriteRule ^(.*)$ index.php/$1 [L,QSA]
+
+</IfModule>
