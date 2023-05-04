@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 02, 2023 at 01:08 PM
+-- Generation Time: May 04, 2023 at 01:18 PM
 -- Server version: 10.3.38-MariaDB-0ubuntu0.20.04.1
 -- PHP Version: 8.2.5
 
@@ -34,8 +34,8 @@ CREATE TABLE `CHAPTER` (
   `idChapter` int(12) UNSIGNED NOT NULL,
   `title` varchar(200) NOT NULL,
   `videoFilename` varchar(30) DEFAULT NULL COMMENT 'The name of the file of the video stored in the server',
-  `videoName` int(100) DEFAULT NULL COMMENT 'The original name of the video, before renaming the file to make it unique',
-  `videoDuration` int(6) DEFAULT NULL COMMENT 'The duration of the video in seconds',
+  `videoName` varchar(100) DEFAULT NULL COMMENT 'The original name of the video, before renaming the file to make it unique',
+  `videoDuration` int(6) UNSIGNED DEFAULT NULL COMMENT 'The duration of the video in seconds',
   `ressourceFilename` varchar(30) DEFAULT NULL COMMENT 'An additional file to download (pdf)',
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
@@ -113,7 +113,7 @@ INSERT INTO `COURSE_CATEGORY` (`codeCourseCategory`, `label`) VALUES
 
 CREATE TABLE `COURSE_ENROLLMENT` (
   `idUser` int(10) UNSIGNED NOT NULL,
-  `idCouse` int(10) UNSIGNED NOT NULL,
+  `idCourse` int(10) UNSIGNED NOT NULL,
   `createdAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -126,14 +126,14 @@ CREATE TABLE `COURSE_ENROLLMENT` (
 CREATE TABLE `PERMISSION` (
   `codePermission` int(4) UNSIGNED NOT NULL,
   `action` enum('create','read','read_own','read_any','update','update_own','update_any','delete','delete_any','delete_own') NOT NULL,
-  `ressoure` varchar(30) NOT NULL
+  `ressource` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `PERMISSION`
 --
 
-INSERT INTO `PERMISSION` (`codePermission`, `action`, `ressoure`) VALUES
+INSERT INTO `PERMISSION` (`codePermission`, `action`, `ressource`) VALUES
 (1, 'delete_own', 'enrollment'),
 (2, 'create', 'course'),
 (3, 'update_own', 'course'),
@@ -276,8 +276,8 @@ ALTER TABLE `COURSE_CATEGORY`
 -- Indexes for table `COURSE_ENROLLMENT`
 --
 ALTER TABLE `COURSE_ENROLLMENT`
-  ADD PRIMARY KEY (`idUser`,`idCouse`),
-  ADD KEY `idCouse` (`idCouse`);
+  ADD PRIMARY KEY (`idUser`,`idCourse`),
+  ADD KEY `idCouse` (`idCourse`);
 
 --
 -- Indexes for table `PERMISSION`
@@ -289,14 +289,15 @@ ALTER TABLE `PERMISSION`
 -- Indexes for table `ROLE`
 --
 ALTER TABLE `ROLE`
-  ADD PRIMARY KEY (`codeRole`);
+  ADD PRIMARY KEY (`codeRole`),
+  ADD UNIQUE KEY `name` (`name`);
 
 --
 -- Indexes for table `ROLE_HAS_PERMISSION`
 --
 ALTER TABLE `ROLE_HAS_PERMISSION`
   ADD PRIMARY KEY (`codeRole`,`codePermission`),
-  ADD KEY `codePermission` (`codePermission`);
+  ADD KEY `ROLE_HAS_PERMISSION_ibfk_1` (`codePermission`);
 
 --
 -- Indexes for table `SESSION`
@@ -334,12 +335,6 @@ ALTER TABLE `CHAPTER`
 --
 ALTER TABLE `COURSE`
   MODIFY `idCourse` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `PERMISSION`
---
-ALTER TABLE `PERMISSION`
-  MODIFY `codePermission` int(4) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `SESSION_DATA`
@@ -389,7 +384,7 @@ ALTER TABLE `COURSE_BOOKMARK`
 -- Constraints for table `COURSE_ENROLLMENT`
 --
 ALTER TABLE `COURSE_ENROLLMENT`
-  ADD CONSTRAINT `COURSE_ENROLLMENT_ibfk_1` FOREIGN KEY (`idCouse`) REFERENCES `COURSE` (`idCourse`),
+  ADD CONSTRAINT `COURSE_ENROLLMENT_ibfk_1` FOREIGN KEY (`idCourse`) REFERENCES `COURSE` (`idCourse`),
   ADD CONSTRAINT `COURSE_ENROLLMENT_ibfk_2` FOREIGN KEY (`idUser`) REFERENCES `USER` (`idUser`);
 
 --
