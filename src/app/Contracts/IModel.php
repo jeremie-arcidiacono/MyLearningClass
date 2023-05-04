@@ -14,9 +14,5 @@ namespace App\Contracts;
  */
 interface IModel
 {
-    /**
-     * Get the ID of the model.
-     * @return int|string
-     */
-    public function getId(): int|string;
+
 }

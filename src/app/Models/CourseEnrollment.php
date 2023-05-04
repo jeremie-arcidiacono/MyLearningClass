@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Contracts\IModel;
 use App\Models\Traits\HasCreatedAt;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
@@ -25,7 +26,7 @@ use Doctrine\ORM\Mapping\Table;
  */
 #[Entity, Table(name: 'COURSE_ENROLLMENT')]
 #[HasLifecycleCallbacks]
-class CourseEnrollment
+class CourseEnrollment implements IModel
 {
     use HasCreatedAt;
 

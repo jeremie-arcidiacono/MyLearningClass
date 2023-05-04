@@ -1,6 +1,11 @@
 <?php
-
 declare(strict_types=1);
+
+/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Author      :    Jérémie Arcidiacono
+ * Created     :    May 2023
+ * Description :    This class if the service for the Role model.
+ ** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 namespace App\Services;
 
@@ -8,6 +13,9 @@ use App\App;
 use App\Models\Role;
 use Doctrine\ORM\Exception\ORMException;
 
+/**
+ *  Database service class for the Role model
+ */
 class RoleService extends Service
 {
     protected static string $model = Role::class;
@@ -20,6 +28,11 @@ class RoleService extends Service
         return static::$model;
     }
 
+    /**
+     * Find a role by its name
+     * @param string $name
+     * @return Role|null
+     */
     public static function FindByName(string $name): ?Role
     {
         try {
@@ -29,29 +42,14 @@ class RoleService extends Service
         }
     }
 
+    /**
+     * @param int $id
+     * @return Role|null
+     */
     public static function Find(int $id): ?Role
     {
         /** @var ?Role $role */
         $role = parent::FindGeneric($id);
         return $role;
-    }
-
-    public static function Create(Role $role, bool $autoFlush = true): ?Role
-    {
-        /** @var ?Role $role */
-        $role = parent::CreateGeneric($role, $autoFlush);
-        return $role;
-    }
-
-    public static function Update(Role $role, bool $autoFlush = true): ?Role
-    {
-        /** @var ?Role $role */
-        $role = parent::UpdateGeneric($role, $autoFlush);
-        return $role;
-    }
-
-    public static function Delete(Role $role, bool $autoFlush = true): bool
-    {
-        return parent::DeleteGeneric($role, $autoFlush);
     }
 }

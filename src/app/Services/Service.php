@@ -47,7 +47,7 @@ abstract class Service
      */
     public static function FindAll(): array
     {
-        return static::GetRepository()->findBy(['deletedAt' => null]);
+        return static::GetRepository()->findAll();
     }
 
     /**
@@ -58,7 +58,7 @@ abstract class Service
     protected static function FindGeneric(int|string $id): ?IModel
     {
         try {
-            return static::GetRepository()->findOneBy(['id' => $id, 'deletedAt' => null]);
+            return static::GetRepository()->findOneBy(['id' => $id]);
         } catch (ORMException $e) {
             return null;
         }
@@ -181,4 +181,5 @@ abstract class Service
     {
         App::$db->flush();
     }
+
 }

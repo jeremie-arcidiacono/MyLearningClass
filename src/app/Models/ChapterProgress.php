@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Contracts\IModel;
 use App\Enums\ChapterProgressStatus;
 use App\Models\Traits\HasCreatedAt;
 use Doctrine\ORM\Mapping\Column;
@@ -29,7 +30,7 @@ use Doctrine\ORM\Mapping\Table;
  */
 #[Entity, Table(name: 'CHAPTER_PROGRESS')]
 #[HasLifecycleCallbacks]
-class ChapterProgress
+class ChapterProgress implements IModel
 {
     use HasCreatedAt;
 
@@ -101,4 +102,12 @@ class ChapterProgress
     }
 
 
+    /**
+     * Get the ID of the model.
+     * @return int|string
+     */
+    public function getId(): int|string
+    {
+        // TODO: Implement getId() method.
+    }
 }
