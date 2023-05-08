@@ -100,14 +100,4 @@ class ChapterProgress implements IModel
         $this->status = $status;
         return $this;
     }
-
-
-    /**
-     * Get the ID of the model.
-     * @return int|string
-     */
-    public function getId(): int|string
-    {
-        // TODO: Implement getId() method.
-    }
 }
