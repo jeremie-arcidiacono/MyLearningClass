@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dc5f2100fa222588c90c1a59eda628b7",
+    "content-hash": "59a16ee481a863ccde128ff468bd3af2",
     "packages": [
         {
             "name": "developermarius/simple-router",
-            "version": "5.1.0.0",
+            "version": "5.1.0.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/DeveloperMarius/simple-php-router.git",
-                "reference": "5e7cc1a9300ff16eaf504d37e49ebbd29e5ad53d"
+                "reference": "3ed8687f78aa8006a322fdf7596a30353f931dd2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DeveloperMarius/simple-php-router/zipball/5e7cc1a9300ff16eaf504d37e49ebbd29e5ad53d",
-                "reference": "5e7cc1a9300ff16eaf504d37e49ebbd29e5ad53d",
+                "url": "https://api.github.com/repos/DeveloperMarius/simple-php-router/zipball/3ed8687f78aa8006a322fdf7596a30353f931dd2",
+                "reference": "3ed8687f78aa8006a322fdf7596a30353f931dd2",
                 "shasum": ""
             },
             "require": {
@@ -27,6 +27,7 @@
                 "somnambulist/validation": "^1.4"
             },
             "require-dev": {
+                "erusev/parsedown": "^1.7",
                 "mockery/mockery": "^1",
                 "phpstan/phpstan": "^0",
                 "phpstan/phpstan-deprecation-rules": "^0",
@@ -48,6 +49,10 @@
                 {
                     "name": "Simon Sessingø",
                     "email": "simon.sessingoe@gmail.com"
+                },
+                {
+                    "name": "Marius Karstedt",
+                    "email": "info@marius-karstedt.de"
                 }
             ],
             "description": "Simple, fast PHP router that is easy to get integrated and in almost any project. Heavily inspired by the Laravel router.",
@@ -67,9 +72,9 @@
             ],
             "support": {
                 "issues": "https://github.com/DeveloperMarius/simple-php-router/issues",
-                "source": "https://github.com/skipperbent/simple-php-router/issues"
+                "source": "https://github.com/DeveloperMarius/simple-php-router/issues"
             },
-            "time": "2022-11-14T11:49:38+00:00"
+            "time": "2023-03-25T15:24:03+00:00"
         },
         {
             "name": "doctrine/cache",
@@ -930,16 +935,16 @@
         },
         {
             "name": "doctrine/orm",
-            "version": "2.15.0",
+            "version": "2.15.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/orm.git",
-                "reference": "7b5fafffbeb560e75adc349e71bf1e90463796d2"
+                "reference": "9bc6f5b4ac6f1e7d4248b2efbd01a748782075bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/orm/zipball/7b5fafffbeb560e75adc349e71bf1e90463796d2",
-                "reference": "7b5fafffbeb560e75adc349e71bf1e90463796d2",
+                "url": "https://api.github.com/repos/doctrine/orm/zipball/9bc6f5b4ac6f1e7d4248b2efbd01a748782075bc",
+                "reference": "9bc6f5b4ac6f1e7d4248b2efbd01a748782075bc",
                 "shasum": ""
             },
             "require": {
@@ -975,7 +980,7 @@
                 "symfony/cache": "^4.4 || ^5.4 || ^6.0",
                 "symfony/var-exporter": "^4.4 || ^5.4 || ^6.2",
                 "symfony/yaml": "^3.4 || ^4.0 || ^5.0 || ^6.0",
-                "vimeo/psalm": "4.30.0 || 5.9.0"
+                "vimeo/psalm": "4.30.0 || 5.11.0"
             },
             "suggest": {
                 "ext-dom": "Provides support for XSD validation for XML mapping files",
@@ -1025,9 +1030,9 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/orm/issues",
-                "source": "https://github.com/doctrine/orm/tree/2.15.0"
+                "source": "https://github.com/doctrine/orm/tree/2.15.1"
             },
-            "time": "2023-04-26T18:52:02+00:00"
+            "time": "2023-05-07T18:56:25+00:00"
         },
         {
             "name": "doctrine/persistence",
@@ -3163,16 +3168,16 @@
         },
         {
             "name": "phpunit/php-file-iterator",
-            "version": "4.0.1",
+            "version": "4.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-file-iterator.git",
-                "reference": "fd9329ab3368f59fe1fe808a189c51086bd4b6bd"
+                "reference": "5647d65443818959172645e7ed999217360654b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/fd9329ab3368f59fe1fe808a189c51086bd4b6bd",
-                "reference": "fd9329ab3368f59fe1fe808a189c51086bd4b6bd",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/5647d65443818959172645e7ed999217360654b6",
+                "reference": "5647d65443818959172645e7ed999217360654b6",
                 "shasum": ""
             },
             "require": {
@@ -3211,7 +3216,8 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-file-iterator/issues",
-                "source": "https://github.com/sebastianbergmann/php-file-iterator/tree/4.0.1"
+                "security": "https://github.com/sebastianbergmann/php-file-iterator/security/policy",
+                "source": "https://github.com/sebastianbergmann/php-file-iterator/tree/4.0.2"
             },
             "funding": [
                 {
@@ -3219,7 +3225,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-02-10T16:53:14+00:00"
+            "time": "2023-05-07T09:13:23+00:00"
         },
         {
             "name": "phpunit/php-invoker",

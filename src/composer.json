@@ -7,7 +7,6 @@
             "App\\": "app/"
         }
     },
-
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
@@ -17,7 +16,7 @@
         "php": "^8.2",
         "ext-pdo_mysql": "*",
         "vlucas/phpdotenv": "^5.5",
-        "developermarius/simple-router": "5.1",
+        "developermarius/simple-router": "^5.1",
         "haydenpierce/class-finder": "^0.5",
         "doctrine/orm": "^2.14",
         "doctrine/dbal": "3.6",
