@@ -22,6 +22,10 @@ Router::group(['exceptionHandler' => App\Exceptions\ExceptionHandler::class, 'me
     });
     Router::post('/deconnexion', [AuthController::class, 'destroy'])->addMiddleware(AuthenticateMiddleware::class)->name('auth.logout');
 
+
+    Router::get('/', [App\Controllers\HomeController::class, 'index'])->name('home');
+
+    Router::get('/cours/{courseId}/banner', [App\Controllers\CourseController::class, 'renderBannerImg'])->name('course.banner');
 });
 
 // Special route for Clockwork

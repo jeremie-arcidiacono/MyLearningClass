@@ -40,17 +40,20 @@ class Course implements IModel
     #[Column(length: 30)]
     private string $imgFilename;
 
+    #[Column(length: 15)]
+    private string $imgMimeType;
+
     #[Column(enumType: CourseVisibility::class)]
     private CourseVisibility $visibility;
 
-    #[ManyToOne(targetEntity: CourseCategory::class, inversedBy: CourseCategory::class)]
+    #[ManyToOne(targetEntity: CourseCategory::class, inversedBy: 'courses')]
     #[JoinColumn(name: 'codeCourseCategory', referencedColumnName: 'codeCourseCategory')]
     private CourseCategory $category;
 
-    #[OneToMany(mappedBy: 'course', targetEntity: Chapter::class, cascade: ['persist', 'remove'])]
+    #[OneToMany(mappedBy: 'course', targetEntity: Chapter::class, cascade: ['persist', 'remove'], fetch: 'EXTRA_LAZY')]
     private Collection $chapters;
 
-    #[ManyToOne(targetEntity: User::class, inversedBy: Course::class)]
+    #[ManyToOne(targetEntity: User::class, inversedBy: 'createdCourses')]
     #[JoinColumn(name: 'idUser', referencedColumnName: 'idUser')]
     private User $owner;
 
@@ -127,6 +130,24 @@ class Course implements IModel
     public function setImgFilename(string $imgFilename): Course
     {
         $this->imgFilename = $imgFilename;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImgMimeType(): string
+    {
+        return $this->imgMimeType;
+    }
+
+    /**
+     * @param string $imgMimeType
+     * @return Course
+     */
+    public function setImgMimeType(string $imgMimeType): Course
+    {
+        $this->imgMimeType = $imgMimeType;
         return $this;
     }
 
