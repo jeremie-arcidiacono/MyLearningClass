@@ -8,12 +8,20 @@ declare(strict_types=1);
  *                  All routes should be defined in a group with the exceptionHandler of the app (App\Exceptions\ExceptionHandler).
  ** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+use App\Controllers\AuthController;
+use App\Middleware\AuthenticateMiddleware;
 use App\Routing\Router;
 
 Router::group(['exceptionHandler' => App\Exceptions\ExceptionHandler::class, 'mergeExceptionHandlers' => false], function () {
-    Router::get('/', function () {
-        echo PHP_EOL . 'Hello world!';
+    // Routes for Authentification
+    Router::group(['middleware' => App\Middleware\GuestMiddleware::class], function () {
+        Router::get('/connexion', [AuthController::class, 'login_view'])->name('auth.login_view');
+        Router::post('/connexion', [AuthController::class, 'login'])->name('auth.login');
+        Router::get('/inscription', [AuthController::class, 'register_view'])->name('auth.register_view');
+        Router::post('/inscription', [AuthController::class, 'register'])->name('auth.register');
     });
+    Router::post('/deconnexion', [AuthController::class, 'destroy'])->addMiddleware(AuthenticateMiddleware::class)->name('auth.logout');
+
 });
 
 // Special route for Clockwork

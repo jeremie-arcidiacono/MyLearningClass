@@ -13,8 +13,10 @@ namespace App;
 use App\Contracts\IModel;
 use App\Contracts\ISession;
 use App\Enums\Action;
+use App\Models\Role;
 use App\Models\Traits\HasAnOwner;
 use App\Models\User;
+use App\Services\RoleService;
 use App\Services\UserService;
 
 /**
@@ -133,14 +135,16 @@ class Auth
      * Returns false otherwise.
      * @param string $firstname
      * @param string $lastname
-     * @param string $email The email of the user (must be unique)
-     * @param string $password
+     * @param string $email The email of the user (will be checked for uniqueness)
+     * @param string $password The password of the user (will be hashed)
+     * @param Role $role The role of the user
      * @return bool|null
      */
-    public function register(string $firstname, string $lastname, string $email, string $password): ?bool
+    public function register(string $firstname, string $lastname, string $email, string $password, Role $role): ?bool
     {
         $user = UserService::FindByEmail($email);
 
+        // If the email is already used, abort the registration
         if ($user !== null) {
             return false;
         }
@@ -150,6 +154,7 @@ class Auth
         $user->setLastname($lastname);
         $user->setEmail($email);
         $user->setPassword($password);
+        $user->setRole($role);
 
         if (!UserService::Create($user)) {
             return false;

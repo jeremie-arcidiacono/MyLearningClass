@@ -36,4 +36,4 @@ const MODELS_PATH = __DIR__ . '/../app/Models';
 /**
  * The path to the Blade views directory
  */
-const VIEWS_PATH = __DIR__ . '/../resources/views';
+const VIEWS_PATH = __DIR__ . '/../views';

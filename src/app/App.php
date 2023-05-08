@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App;
 
 use App\Contracts\ISession;
+use App\Exceptions\ExceptionHandler;
 use App\Routing\Router;
 use App\TemplateEngine\TemplateEngine;
 use Clockwork\DataSource\DBALDataSource;
@@ -125,6 +126,8 @@ class App
             self::$auth,
         );
 
+        Router::init();
+
         // Enable CSRF protection
         if (static::$config->get('security.csrf.enabled') === true) {
             Router::enableCsrfVerifier(self::$session, static::$config->get('security.csrf.token_length'));
@@ -174,14 +177,28 @@ class App
         if (self::isDebugEnabled()) {
             ob_start(); // Start output buffering to be able to process the response with Clockwork before sending it to the client
 
-            Router::start();
+            try {
+                Router::start();
+            } catch (TokenMismatchException $e) {
+                // For CSRF errors, we need to catch the exception and send it manually to the exception handler
+                // The router will not send it automatically like for other exceptions
+                $exceptionHandler = new ExceptionHandler();
+                $exceptionHandler->handleError(static::$request, $e);
+            }
 
             static::$clockwork->requestProcessed();
 
             echo ob_get_clean();
         }
         else {
-            Router::start();
+            try {
+                Router::start();
+            } catch (TokenMismatchException $e) {
+                // For CSRF errors, we need to catch the exception and send it manually to the exception handler
+                // The router will not send it automatically like for other exceptions
+                $exceptionHandler = new ExceptionHandler();
+                $exceptionHandler->handleError(static::$request, $e);
+            }
         }
     }
 

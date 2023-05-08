@@ -18,13 +18,12 @@ use Pecee\Http\Middleware\BaseCsrfVerifier;
 class CustomCsrfVerifier extends BaseCsrfVerifier
 {
     // The CSRF token is not required for the following routes
-    protected ?array $except = [
-        '/logout',
-    ];
+    protected ?array $except = [];
 
     protected ?array $include = null;
 
     public function __construct()
     {
+        $this->except[] = url('deconnexion');
     }
 }

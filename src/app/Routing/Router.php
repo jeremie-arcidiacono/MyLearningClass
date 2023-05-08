@@ -38,9 +38,8 @@ class Router extends SimpleRouter
 
     /**
      * Load the routes and helpers, set the custom class loader and other settings.
-     * Then start the routing process.
      */
-    public static function start(): void
+    public static function init(): void
     {
         // Load some helpers methods related to routing
         require_once ROOT_PATH . '/app/Routing/helpers.php';
@@ -52,9 +51,5 @@ class Router extends SimpleRouter
         parent::setCustomClassLoader(new ClassLoader());
 
         parent::enableMultiRouteRendering(false);
-
-        // Even if this method can theoretically throw an exception, it is not the case in practice because
-        // all the exception is caught by the exception handler (see \App\Exceptions\ExceptionHandler)
-        parent::start();
     }
 }

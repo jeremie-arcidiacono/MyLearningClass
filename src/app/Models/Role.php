@@ -23,7 +23,7 @@ class Role implements IModel
 {
     #[Column(name: 'codeRole', length: 2, options: ['unsigned' => true])]
     #[Id]
-    private int $code;
+    private int $id;
 
     #[Column(length: 20, unique: true)]
     private string $name;
@@ -53,24 +53,16 @@ class Role implements IModel
      */
     public function getId(): int
     {
-        return $this->getCode();
+        return $this->getId();
     }
 
     /**
-     * @return int
-     */
-    public function getCode(): int
-    {
-        return $this->code;
-    }
-
-    /**
-     * @param int $code
+     * @param int $id
      * @return Role
      */
-    public function setCode(int $code): Role
+    public function setId(int $id): Role
     {
-        $this->code = $code;
+        $this->id = $id;
         return $this;
     }
 
