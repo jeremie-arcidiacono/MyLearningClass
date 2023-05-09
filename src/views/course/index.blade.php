@@ -114,43 +114,47 @@ Description : The page to display a list of courses with a grid layout.
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="rbt-course-grid-column">
+                    @if(!empty($courses))
+                        <div class="rbt-course-grid-column">
 
-                        @foreach($courses as $course)
-                            <div class="course-grid-3">
-                                @component('components.course-card-s1', ['course' => $course])
-                                @endcomponent
-                            </div>
-                        @endforeach
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12 mt--60">
-                            @if(!empty($courses) && $totalPages > 1)
-                                <nav>
-                                    <ul class="rbt-pagination">
-                                        @if($currentPage > 1)
-                                            <li><a href="javascript:void(0);" aria-label="Précédent"
-                                                   onclick="changePage({{ $currentPage - 1 }})">
-                                                    <i class="feather-chevron-left"></i>
-                                                </a></li>
-                                        @endif
-                                        @for($i = 1; $i <= $totalPages; $i++)
-                                            <li class="{{ $i == $currentPage ? 'active' : '' }}">
-                                                <a href="javascript:void(0);"
-                                                   onclick="changePage({{ $i }})">{{ $i }}</a>
-                                            </li>
-                                        @endfor
-                                        @if($currentPage < $totalPages)
-                                            <li><a href="javascript:void(0);" aria-label="Suivant"
-                                                   onclick="changePage({{ $currentPage + 1 }})">
-                                                    <i class="feather-chevron-right"></i>
-                                                </a></li>
-                                        @endif
-                                    </ul>
-                                </nav>
-                            @endif
+                            @foreach($courses as $course)
+                                <div class="course-grid-3">
+                                    @component('components.course-card-s1', ['course' => $course])
+                                    @endcomponent
+                                </div>
+                            @endforeach
                         </div>
-                    </div>
+                        <div class="row">
+                            <div class="col-lg-12 mt--60">
+                                @if($totalPages > 1)
+                                    <nav>
+                                        <ul class="rbt-pagination">
+                                            @if($currentPage > 1)
+                                                <li><a href="javascript:void(0);" aria-label="Précédent"
+                                                       onclick="changePage({{ $currentPage - 1 }})">
+                                                        <i class="feather-chevron-left"></i>
+                                                    </a></li>
+                                            @endif
+                                            @for($i = 1; $i <= $totalPages; $i++)
+                                                <li class="{{ $i == $currentPage ? 'active' : '' }}">
+                                                    <a href="javascript:void(0);"
+                                                       onclick="changePage({{ $i }})">{{ $i }}</a>
+                                                </li>
+                                            @endfor
+                                            @if($currentPage < $totalPages)
+                                                <li><a href="javascript:void(0);" aria-label="Suivant"
+                                                       onclick="changePage({{ $currentPage + 1 }})">
+                                                        <i class="feather-chevron-right"></i>
+                                                    </a></li>
+                                            @endif
+                                        </ul>
+                                    </nav>
+                                @endif
+                            </div>
+                        </div>
+                    @else
+                        <h3 class="text-center">Aucun cours trouvé</h3>
+                    @endif
                 </div>
             </div>
         </div>

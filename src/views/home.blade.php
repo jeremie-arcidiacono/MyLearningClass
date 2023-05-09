@@ -75,7 +75,10 @@ Need to provide :
                                 <!-- Start Single Card  -->
                                 @foreach($topCourses as $course)
                                     <div class="swiper-slide">
-                                        @component('components.course-card-s1', ['course' => $course, 'badge' => 'Top course'])
+                                        @component('components.course-card-s1', [
+                                            'course' => $course,
+                                            'badge' => 'Top course',
+                                            'showDescription' => false])
                                         @endcomponent
                                     </div>
                                 @endforeach

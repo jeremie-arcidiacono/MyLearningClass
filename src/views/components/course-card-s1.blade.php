@@ -4,7 +4,12 @@ A course card component.
 Need to provide :
     - $course : the course to display (App\Models\Course)
     - $badge : (optional) the text to display in the badge. Default is null (no badge).
+    - $showDescription : (optional) whether to show the description or not. Default is true.
 --}}
+
+@php
+    $showDescription = $showDescription ?? true;
+@endphp
 
 @php
     /** @var \App\Models\Course $course */
@@ -43,7 +48,9 @@ Need to provide :
             <li><i class="feather-book"></i>{{ $course->getChapters()->count() }} Chapitres</li>
             <li><i class="feather-users"></i>{{ $course->getEnrollments()->count() }} Inscrits</li>
         </ul>
-        <p class="rbt-card-text">{{ $course->getDescription() }}</p>
+        @if($showDescription)
+            <p class="rbt-card-text">{{ $course->getDescription() }}</p>
+        @endif
         <div class="rbt-card-bottom">
             <div class="rbt-author-meta">
                 <div class="rbt-author-info">
