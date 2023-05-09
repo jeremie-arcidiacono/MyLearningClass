@@ -115,14 +115,14 @@ class CourseController
             throw new ForbiddenHttpException('Vous ne pouvez pas accéder à ce cours.');
         }
 
-        $filePath = self::COURSE_BANNER_IMG_PATH . '/' . $course->getImgFilename();
+        $filePath = self::COURSE_BANNER_IMG_PATH . '/' . $course->getBanner()->getFilename();
 
         if (!file_exists($filePath)) {
             throw new \Exception("Erreur interne. L'image n'existe pas.");
         }
 
 
-        $mime = $course->getImgMimeType();
+        $mime = $course->getBanner()->getMimeType();
 
         App::$response->httpCode(200)
             ->header("Content-Type: $mime")

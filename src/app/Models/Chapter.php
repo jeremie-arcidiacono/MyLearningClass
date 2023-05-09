@@ -11,7 +11,7 @@ namespace App\Models;
 
 use App\Contracts\IModel;
 use App\Models\Traits\HasTimestamps;
-use Doctrine\ORM\Mapping\{Column, Entity, GeneratedValue, HasLifecycleCallbacks, Id, JoinColumn, ManyToOne, Table};
+use Doctrine\ORM\Mapping\{Column, Entity, GeneratedValue, HasLifecycleCallbacks, Id, JoinColumn, ManyToOne, OneToOne, Table};
 
 /**
  * Entity representing a chapter of a course.
@@ -29,17 +29,13 @@ class Chapter implements IModel
     #[Column(length: 200)]
     private string $title;
 
-    #[Column(length: 30)]
-    private ?string $videoFilename;
+    #[OneToOne(targetEntity: Media::class, cascade: ['persist', 'remove'])]
+    #[JoinColumn(name: 'mediaVideo', referencedColumnName: 'filename')]
+    private ?Media $video;
 
-    #[Column(length: 100)]
-    private ?string $videoName;
-
-    #[Column(length: 6, options: ['unsigned' => true])]
-    private ?int $videoDuration;
-
-    #[Column(length: 30)]
-    private ?string $ressourceFilename;
+    #[OneToOne(targetEntity: Media::class, cascade: ['persist', 'remove'])]
+    #[JoinColumn(name: 'mediaRessource', referencedColumnName: 'filename')]
+    private ?Media $ressource;
 
     #[ManyToOne(targetEntity: Course::class, inversedBy: 'chapters')]
     #[JoinColumn(name: 'idCourse', referencedColumnName: 'idCourse')]
@@ -72,76 +68,41 @@ class Chapter implements IModel
     }
 
     /**
-     * @return string|null
+     * @return Media|null
      */
-    public function getVideoFilename(): ?string
+    public function getVideo(): ?Media
     {
-        return $this->videoFilename;
+        return $this->video;
     }
 
     /**
-     * @param string $videoFilename
+     * @param Media|null $video
      * @return Chapter
      */
-    public function setVideoFilename(string $videoFilename): Chapter
+    public function setVideo(?Media $video): Chapter
     {
-        $this->videoFilename = $videoFilename;
+        $this->video = $video;
         return $this;
     }
 
     /**
-     * @return string|null
+     * @return Media|null
      */
-    public function getVideoName(): ?string
+    public function getRessource(): ?Media
     {
-        return $this->videoName;
+        return $this->ressource;
     }
 
     /**
-     * @param string $videoName
+     * @param Media|null $ressource
      * @return Chapter
      */
-    public function setVideoName(string $videoName): Chapter
+    public function setRessource(?Media $ressource): Chapter
     {
-        $this->videoName = $videoName;
+        $this->ressource = $ressource;
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getVideoDuration(): ?int
-    {
-        return $this->videoDuration;
-    }
-
-    /**
-     * @param int $videoDuration
-     * @return Chapter
-     */
-    public function setVideoDuration(int $videoDuration): Chapter
-    {
-        $this->videoDuration = $videoDuration;
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getRessourceFilename(): ?string
-    {
-        return $this->ressourceFilename;
-    }
-
-    /**
-     * @param string $ressourceFilename
-     * @return Chapter
-     */
-    public function setRessourceFilename(string $ressourceFilename): Chapter
-    {
-        $this->ressourceFilename = $ressourceFilename;
-        return $this;
-    }
 
     /**
      * @return Course

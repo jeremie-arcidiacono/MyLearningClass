@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 04, 2023 at 01:18 PM
+-- Generation Time: May 09, 2023 at 07:09 AM
 -- Server version: 10.3.38-MariaDB-0ubuntu0.20.04.1
 -- PHP Version: 8.2.5
 
@@ -33,13 +33,11 @@ USE `my_learning_class`;
 CREATE TABLE `CHAPTER` (
   `idChapter` int(12) UNSIGNED NOT NULL,
   `title` varchar(200) NOT NULL,
-  `videoFilename` varchar(30) DEFAULT NULL COMMENT 'The name of the file of the video stored in the server',
-  `videoName` varchar(100) DEFAULT NULL COMMENT 'The original name of the video, before renaming the file to make it unique',
-  `videoDuration` int(6) UNSIGNED DEFAULT NULL COMMENT 'The duration of the video in seconds',
-  `ressourceFilename` varchar(30) DEFAULT NULL COMMENT 'An additional file to download (pdf)',
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   `idCourse` int(10) UNSIGNED NOT NULL,
+  `mediaVideo` varchar(30) DEFAULT NULL,
+  `mediaRessource` varchar(30) DEFAULT NULL COMMENT 'An additional ressource file for the student',
   `idNextChapter` int(12) UNSIGNED DEFAULT NULL COMMENT 'The id of the next chapter. If null, this chapter is the last one of the course'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -66,12 +64,12 @@ CREATE TABLE `COURSE` (
   `idCourse` int(10) UNSIGNED NOT NULL,
   `title` varchar(200) NOT NULL,
   `description` text NOT NULL,
-  `imgFilename` varchar(30) NOT NULL,
   `visibility` enum('1','2','3') NOT NULL COMMENT '1: draft   2: public   3: private',
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   `codeCourseCategory` int(4) UNSIGNED NOT NULL,
-  `idUser` int(10) UNSIGNED NOT NULL
+  `idUser` int(10) UNSIGNED NOT NULL,
+  `mediaBanner` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -115,6 +113,19 @@ CREATE TABLE `COURSE_ENROLLMENT` (
   `idUser` int(10) UNSIGNED NOT NULL,
   `idCourse` int(10) UNSIGNED NOT NULL,
   `createdAt` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `MEDIA`
+--
+
+CREATE TABLE `MEDIA` (
+  `filename` varchar(30) NOT NULL COMMENT 'The name of the file of the video stored in the server ',
+  `name` varchar(100) NOT NULL COMMENT ' 	The original name of the video, before renaming the file to make it unique ',
+  `mimeType` varchar(15) NOT NULL,
+  `duration` int(6) UNSIGNED DEFAULT NULL COMMENT 'Only for video : the duration of the video in seconds '
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -242,7 +253,9 @@ CREATE TABLE `USER` (
 ALTER TABLE `CHAPTER`
   ADD PRIMARY KEY (`idChapter`),
   ADD KEY `idCourse` (`idCourse`),
-  ADD KEY `idNextChapter` (`idNextChapter`);
+  ADD KEY `idNextChapter` (`idNextChapter`),
+  ADD KEY `mediaVideo` (`mediaVideo`),
+  ADD KEY `mediaRessource` (`mediaRessource`);
 
 --
 -- Indexes for table `CHAPTER_PROGRESS`
@@ -257,7 +270,8 @@ ALTER TABLE `CHAPTER_PROGRESS`
 ALTER TABLE `COURSE`
   ADD PRIMARY KEY (`idCourse`),
   ADD KEY `codeCourseCategory` (`codeCourseCategory`),
-  ADD KEY `idUser` (`idUser`);
+  ADD KEY `idUser` (`idUser`),
+  ADD KEY `filenameBanner` (`mediaBanner`);
 
 --
 -- Indexes for table `COURSE_BOOKMARK`
@@ -280,6 +294,12 @@ ALTER TABLE `COURSE_ENROLLMENT`
   ADD KEY `idCouse` (`idCourse`);
 
 --
+-- Indexes for table `MEDIA`
+--
+ALTER TABLE `MEDIA`
+  ADD PRIMARY KEY (`filename`);
+
+--
 -- Indexes for table `PERMISSION`
 --
 ALTER TABLE `PERMISSION`
@@ -297,7 +317,7 @@ ALTER TABLE `ROLE`
 --
 ALTER TABLE `ROLE_HAS_PERMISSION`
   ADD PRIMARY KEY (`codeRole`,`codePermission`),
-  ADD KEY `ROLE_HAS_PERMISSION_ibfk_1` (`codePermission`);
+  ADD KEY `codePermission` (`codePermission`);
 
 --
 -- Indexes for table `SESSION`
@@ -357,7 +377,9 @@ ALTER TABLE `USER`
 --
 ALTER TABLE `CHAPTER`
   ADD CONSTRAINT `CHAPTER_ibfk_1` FOREIGN KEY (`idCourse`) REFERENCES `COURSE` (`idCourse`),
-  ADD CONSTRAINT `CHAPTER_ibfk_2` FOREIGN KEY (`idNextChapter`) REFERENCES `CHAPTER` (`idChapter`);
+  ADD CONSTRAINT `CHAPTER_ibfk_2` FOREIGN KEY (`idNextChapter`) REFERENCES `CHAPTER` (`idChapter`),
+  ADD CONSTRAINT `CHAPTER_ibfk_3` FOREIGN KEY (`mediaVideo`) REFERENCES `MEDIA` (`filename`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `CHAPTER_ibfk_4` FOREIGN KEY (`mediaRessource`) REFERENCES `MEDIA` (`filename`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `CHAPTER_PROGRESS`
@@ -371,7 +393,8 @@ ALTER TABLE `CHAPTER_PROGRESS`
 --
 ALTER TABLE `COURSE`
   ADD CONSTRAINT `COURSE_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `USER` (`idUser`),
-  ADD CONSTRAINT `COURSE_ibfk_2` FOREIGN KEY (`codeCourseCategory`) REFERENCES `COURSE_CATEGORY` (`codeCourseCategory`);
+  ADD CONSTRAINT `COURSE_ibfk_2` FOREIGN KEY (`codeCourseCategory`) REFERENCES `COURSE_CATEGORY` (`codeCourseCategory`),
+  ADD CONSTRAINT `COURSE_ibfk_3` FOREIGN KEY (`mediaBanner`) REFERENCES `MEDIA` (`filename`);
 
 --
 -- Constraints for table `COURSE_BOOKMARK`
@@ -398,7 +421,7 @@ ALTER TABLE `ROLE_HAS_PERMISSION`
 -- Constraints for table `SESSION_DATA`
 --
 ALTER TABLE `SESSION_DATA`
-  ADD CONSTRAINT `SESSION_DATA_ibfk_1` FOREIGN KEY (`idSession`) REFERENCES `SESSION` (`idSession`);
+  ADD CONSTRAINT `SESSION_DATA_ibfk_1` FOREIGN KEY (`idSession`) REFERENCES `SESSION` (`idSession`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `USER`

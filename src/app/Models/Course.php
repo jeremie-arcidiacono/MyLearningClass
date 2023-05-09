@@ -15,7 +15,7 @@ use App\Models\Traits\HasAnOwner;
 use App\Models\Traits\HasTimestamps;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping\{Column, Entity, GeneratedValue, HasLifecycleCallbacks, Id, JoinColumn, ManyToMany, ManyToOne, OneToMany, Table};
+use Doctrine\ORM\Mapping\{Column, Entity, GeneratedValue, HasLifecycleCallbacks, Id, JoinColumn, ManyToMany, ManyToOne, OneToMany, OneToOne, Table};
 
 /**
  * Entity representing a course.
@@ -37,14 +37,12 @@ class Course implements IModel
     #[Column(type: 'text')]
     private string $description;
 
-    #[Column(length: 30)]
-    private string $imgFilename;
-
-    #[Column(length: 15)]
-    private string $imgMimeType;
-
     #[Column(enumType: CourseVisibility::class)]
     private CourseVisibility $visibility;
+
+    #[OneToOne(targetEntity: Media::class, cascade: ['persist', 'remove'])]
+    #[JoinColumn(name: 'mediaBanner', referencedColumnName: 'filename')]
+    private Media $banner;
 
     #[ManyToOne(targetEntity: CourseCategory::class, inversedBy: 'courses')]
     #[JoinColumn(name: 'codeCourseCategory', referencedColumnName: 'codeCourseCategory')]
@@ -115,41 +113,6 @@ class Course implements IModel
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getImgFilename(): string
-    {
-        return $this->imgFilename;
-    }
-
-    /**
-     * @param string $imgFilename
-     * @return $this
-     */
-    public function setImgFilename(string $imgFilename): Course
-    {
-        $this->imgFilename = $imgFilename;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getImgMimeType(): string
-    {
-        return $this->imgMimeType;
-    }
-
-    /**
-     * @param string $imgMimeType
-     * @return Course
-     */
-    public function setImgMimeType(string $imgMimeType): Course
-    {
-        $this->imgMimeType = $imgMimeType;
-        return $this;
-    }
 
     /**
      * @return CourseVisibility
@@ -168,6 +131,25 @@ class Course implements IModel
         $this->visibility = $visibility;
         return $this;
     }
+
+    /**
+     * @return Media
+     */
+    public function getBanner(): Media
+    {
+        return $this->banner;
+    }
+
+    /**
+     * @param Media $banner
+     * @return Course
+     */
+    public function setBanner(Media $banner): Course
+    {
+        $this->banner = $banner;
+        return $this;
+    }
+
 
     /**
      * @return CourseCategory

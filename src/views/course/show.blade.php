@@ -509,7 +509,7 @@ Need to provide :
                                         @php
                                             $totalDuration = 0;
                                             foreach ($course->getChapters() as $chapter){
-                                                $totalDuration += $chapter->getVideoDuration();
+                                                $totalDuration += $chapter->getVideo()?->getDuration();
                                             }
                                         @endphp
                                         <li><span>Durée</span><span
