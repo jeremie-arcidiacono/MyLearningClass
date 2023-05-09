@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 09, 2023 at 07:09 AM
+-- Generation Time: May 09, 2023 at 08:16 AM
 -- Server version: 10.3.38-MariaDB-0ubuntu0.20.04.1
 -- PHP Version: 8.2.5
 
@@ -38,7 +38,7 @@ CREATE TABLE `CHAPTER` (
   `idCourse` int(10) UNSIGNED NOT NULL,
   `mediaVideo` varchar(30) DEFAULT NULL,
   `mediaRessource` varchar(30) DEFAULT NULL COMMENT 'An additional ressource file for the student',
-  `idNextChapter` int(12) UNSIGNED DEFAULT NULL COMMENT 'The id of the next chapter. If null, this chapter is the last one of the course'
+  `position` int(3) UNSIGNED NOT NULL DEFAULT 1 COMMENT 'The position of the chapter in the course (start from 1)'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -253,7 +253,7 @@ CREATE TABLE `USER` (
 ALTER TABLE `CHAPTER`
   ADD PRIMARY KEY (`idChapter`),
   ADD KEY `idCourse` (`idCourse`),
-  ADD KEY `idNextChapter` (`idNextChapter`),
+  ADD KEY `idNextChapter` (`position`),
   ADD KEY `mediaVideo` (`mediaVideo`),
   ADD KEY `mediaRessource` (`mediaRessource`);
 
@@ -377,7 +377,6 @@ ALTER TABLE `USER`
 --
 ALTER TABLE `CHAPTER`
   ADD CONSTRAINT `CHAPTER_ibfk_1` FOREIGN KEY (`idCourse`) REFERENCES `COURSE` (`idCourse`),
-  ADD CONSTRAINT `CHAPTER_ibfk_2` FOREIGN KEY (`idNextChapter`) REFERENCES `CHAPTER` (`idChapter`),
   ADD CONSTRAINT `CHAPTER_ibfk_3` FOREIGN KEY (`mediaVideo`) REFERENCES `MEDIA` (`filename`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `CHAPTER_ibfk_4` FOREIGN KEY (`mediaRessource`) REFERENCES `MEDIA` (`filename`) ON DELETE CASCADE ON UPDATE CASCADE;
 

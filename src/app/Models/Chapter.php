@@ -29,6 +29,9 @@ class Chapter implements IModel
     #[Column(length: 200)]
     private string $title;
 
+    #[Column(length: 3, options: ['unsigned' => true])]
+    private int $position;
+
     #[OneToOne(targetEntity: Media::class, cascade: ['persist', 'remove'])]
     #[JoinColumn(name: 'mediaVideo', referencedColumnName: 'filename')]
     private ?Media $video;
@@ -66,6 +69,25 @@ class Chapter implements IModel
         $this->title = $title;
         return $this;
     }
+
+    /**
+     * @return int
+     */
+    public function getPosition(): int
+    {
+        return $this->position;
+    }
+
+    /**
+     * @param int $position
+     * @return Chapter
+     */
+    public function setPosition(int $position): Chapter
+    {
+        $this->position = $position;
+        return $this;
+    }
+    
 
     /**
      * @return Media|null
