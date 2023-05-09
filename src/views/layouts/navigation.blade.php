@@ -12,7 +12,7 @@
                     <div class="header-info">
                         <div class="logo">
                             <a href="{{ url('home') }}">
-                                <img src="assets/images/logo/logo.png" alt="MyLearningClass logo">
+                                <img src="/assets/images/logo/logo.png" alt="MyLearningClass logo">
                             </a>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                                                     <div class="inner">
                                                         <div class="thumbnail">
                                                             <a href="01-main-demo.html"><img
-                                                                        src="assets/images/splash/demo/h1.jpg"
+                                                                        src="/assets/images/splash/demo/h1.jpg"
                                                                         alt="Demo Images"></a>
                                                         </div>
                                                         <div class="content">
@@ -60,7 +60,7 @@
                                                     <div class="inner">
                                                         <div class="thumbnail">
                                                             <a href="12-marketplace.html"><img
-                                                                        src="assets/images/splash/demo/h12.jpg"
+                                                                        src="/assets/images/splash/demo/h12.jpg"
                                                                         alt="Demo Images"></a>
                                                         </div>
                                                         <div class="content">
@@ -79,7 +79,7 @@
                                                     <div class="inner">
                                                         <div class="thumbnail">
                                                             <a href="04-kindergarten.html"><img
-                                                                        src="assets/images/splash/demo/h4.jpg"
+                                                                        src="/assets/images/splash/demo/h4.jpg"
                                                                         alt="Demo Images"></a>
                                                         </div>
                                                         <div class="content">
@@ -98,7 +98,7 @@
                                                     <div class="inner">
                                                         <div class="thumbnail">
                                                             <a href="13-university-classic.html"><img
-                                                                        src="assets/images/splash/demo/h13.jpg"
+                                                                        src="/assets/images/splash/demo/h13.jpg"
                                                                         alt="Demo Images"></a>
                                                         </div>
                                                         <div class="content">
@@ -118,7 +118,7 @@
                                                     <div class="inner">
                                                         <div class="thumbnail">
                                                             <a href="14-home-elegant.html"><img
-                                                                        src="assets/images/splash/demo/h14.jpg"
+                                                                        src="/assets/images/splash/demo/h14.jpg"
                                                                         alt="Demo Images"></a>
                                                         </div>
                                                         <div class="content">
@@ -138,7 +138,7 @@
                                                     <div class="inner">
                                                         <div class="thumbnail">
                                                             <a href="09-gym-coaching.html"><img
-                                                                        src="assets/images/splash/demo/h9.jpg"
+                                                                        src="/assets/images/splash/demo/h9.jpg"
                                                                         alt="Demo Images"></a>
                                                         </div>
                                                         <div class="content">
@@ -158,7 +158,7 @@
                                                     <div class="inner">
                                                         <div class="thumbnail">
                                                             <a href="03-online-school.html"><img
-                                                                        src="assets/images/splash/demo/h3.jpg"
+                                                                        src="/assets/images/splash/demo/h3.jpg"
                                                                         alt="Demo Images"></a>
                                                         </div>
                                                         <div class="content">
@@ -178,7 +178,7 @@
                                                     <div class="inner">
                                                         <div class="thumbnail">
                                                             <a href="06-university-status.html"><img
-                                                                        src="assets/images/splash/demo/h6.jpg"
+                                                                        src="/assets/images/splash/demo/h6.jpg"
                                                                         alt="Demo Images"></a>
                                                         </div>
                                                         <div class="content">
@@ -198,7 +198,7 @@
                                                     <div class="inner">
                                                         <div class="thumbnail">
                                                             <a href="15-home-technology.html"><img
-                                                                        src="assets/images/splash/demo/h15.jpg"
+                                                                        src="/assets/images/splash/demo/h15.jpg"
                                                                         alt="Demo Images"></a>
                                                         </div>
                                                         <div class="content">
@@ -218,7 +218,7 @@
                                                     <div class="inner">
                                                         <div class="thumbnail">
                                                             <a href="07-instructor-portfolio.html"><img
-                                                                        src="assets/images/splash/demo/h7.jpg"
+                                                                        src="/assets/images/splash/demo/h7.jpg"
                                                                         alt="Demo Images"></a>
                                                         </div>
                                                         <div class="content">
@@ -238,7 +238,7 @@
                                                     <div class="inner">
                                                         <div class="thumbnail">
                                                             <a href="08-language-academy.html"><img
-                                                                        src="assets/images/splash/demo/h8.jpg"
+                                                                        src="/assets/images/splash/demo/h8.jpg"
                                                                         alt="Demo Images"></a>
                                                         </div>
                                                         <div class="content">
@@ -258,7 +258,7 @@
                                                     <div class="inner">
                                                         <div class="thumbnail">
                                                             <a href="11-single-course.html"><img
-                                                                        src="assets/images/splash/demo/h11.jpg"
+                                                                        src="/assets/images/splash/demo/h11.jpg"
                                                                         alt="Demo Images"></a>
                                                         </div>
                                                         <div class="content">
@@ -278,7 +278,7 @@
                                                     <div class="inner">
                                                         <div class="thumbnail">
                                                             <a href="10-online-course.html"><img
-                                                                        src="assets/images/splash/demo/h10.jpg"
+                                                                        src="/assets/images/splash/demo/h10.jpg"
                                                                         alt="Demo Images"></a>
                                                         </div>
                                                         <div class="content">
@@ -298,7 +298,7 @@
                                                     <div class="inner">
                                                         <div class="thumbnail">
                                                             <a href="05-classic-lms.html"><img
-                                                                        src="assets/images/splash/demo/h5.jpg"
+                                                                        src="/assets/images/splash/demo/h5.jpg"
                                                                         alt="Demo Images"></a>
                                                         </div>
                                                         <div class="content">
@@ -318,7 +318,7 @@
                                                     <div class="inner">
                                                         <div class="thumbnail">
                                                             <a href="02-course-school.html"><img
-                                                                        src="assets/images/splash/demo/h2.jpg"
+                                                                        src="/assets/images/splash/demo/h2.jpg"
                                                                         alt="Demo Images"></a>
                                                         </div>
                                                         <div class="content">
@@ -338,7 +338,7 @@
                                                     <div class="inner">
                                                         <div class="thumbnail">
                                                             <a href="#"><img
-                                                                        src="assets/images/splash/demo/coming-soon-1.png"
+                                                                        src="/assets/images/splash/demo/coming-soon-1.png"
                                                                         alt="Demo Images"></a>
                                                         </div>
                                                         <div class="content">
@@ -358,7 +358,7 @@
                                                     <div class="inner">
                                                         <div class="thumbnail">
                                                             <a href="#"><img
-                                                                        src="assets/images/splash/demo/coming-soon-2.png"
+                                                                        src="/assets/images/splash/demo/coming-soon-2.png"
                                                                         alt="Demo Images"></a>
                                                         </div>
                                                         <div class="content">
@@ -378,7 +378,7 @@
                                                     <div class="inner">
                                                         <div class="thumbnail">
                                                             <a href="#"><img
-                                                                        src="assets/images/splash/demo/coming-soon-3.png"
+                                                                        src="/assets/images/splash/demo/coming-soon-3.png"
                                                                         alt="Demo Images"></a>
                                                         </div>
                                                         <div class="content">
@@ -563,7 +563,7 @@
                                                     <div class="nav-category-item">
                                                         <div class="thumbnail">
                                                             <div class="image"><img
-                                                                        src="assets/images/course/category-2.png"
+                                                                        src="/assets/images/course/category-2.png"
                                                                         alt="Course images"></div>
                                                             <a href="course-filter-one-toggle.html">
                                                                 <span>Online Education</span>
@@ -577,7 +577,7 @@
                                                     <div class="nav-category-item">
                                                         <div class="thumbnail">
                                                             <div class="image"><img
-                                                                        src="assets/images/course/category-1.png"
+                                                                        src="/assets/images/course/category-1.png"
                                                                         alt="Course images"></div>
                                                             <a href="course-filter-one-toggle.html">
                                                                 <span>Language Club</span>
@@ -591,7 +591,7 @@
                                                     <div class="nav-category-item">
                                                         <div class="thumbnail">
                                                             <div class="image"><img
-                                                                        src="assets/images/course/category-4.png"
+                                                                        src="/assets/images/course/category-4.png"
                                                                         alt="Course images"></div>
                                                             <a href="course-filter-one-toggle.html">
                                                                 <span>University Status</span>
@@ -616,7 +616,7 @@
                                                     <div class="nav-category-item">
                                                         <div class="thumbnail">
                                                             <div class="image"><img
-                                                                        src="assets/images/course/category-9.png"
+                                                                        src="/assets/images/course/category-9.png"
                                                                         alt="Course images"></div>
                                                             <a href="course-filter-one-toggle.html">
                                                                 <span>Academy</span>
@@ -743,7 +743,7 @@
                                             <div class="col-lg-12 col-xl-4 col-xxl-4 single-mega-item">
                                                 <div class="rbt-ads-wrapper">
                                                     <a class="d-block" href="#"><img
-                                                                src="assets/images/service/mobile-cat.jpg"
+                                                                src="/assets/images/service/mobile-cat.jpg"
                                                                 alt="Education Images"></a>
                                                 </div>
                                             </div>
@@ -836,10 +836,10 @@
                                         <ul class="user-list-wrapper">
                                             <li>
                                                 <form method="POST" action="{{ url('auth.logout') }}" id="logout-form">
-                                                <a onclick="document.getElementById('logout-form').submit();">
-                                                    <i class="feather-log-out"></i>
-                                                    <span>Déconnexion</span>
-                                                </a>
+                                                    <a onclick="document.getElementById('logout-form').submit();">
+                                                        <i class="feather-log-out"></i>
+                                                        <span>Déconnexion</span>
+                                                    </a>
                                                 </form>
                                             </li>
                                         </ul>
@@ -853,7 +853,7 @@
                                     <div class="inner">
                                         <div class="rbt-admin-profile">
                                             <div class="admin-thumbnail">
-                                                <img src="assets/images/team/avatar.jpg" alt="User Images">
+                                                <img src="/assets/images/team/avatar.jpg" alt="User Images">
                                             </div>
                                             <div class="admin-info">
                                                 <span class="name">Nipa Bali</span>
@@ -981,7 +981,7 @@
             <div class="content">
                 <div class="logo">
                     <a href="{{ url('home') }}">
-                        <img src="assets/images/logo/logo.png" alt="MyLearningClass logo">
+                        <img src="/assets/images/logo/logo.png" alt="MyLearningClass logo">
                     </a>
                 </div>
                 <div class="ml--10 mt-auto mb-auto">
@@ -1009,7 +1009,7 @@
                                     <div class="demo-single">
                                         <div class="inner">
                                             <div class="thumbnail">
-                                                <a href="01-main-demo.html"><img src="assets/images/splash/demo/h1.jpg"
+                                                <a href="01-main-demo.html"><img src="/assets/images/splash/demo/h1.jpg"
                                                                                  alt="Demo Images"></a>
                                             </div>
                                             <div class="content">
@@ -1028,7 +1028,7 @@
                                         <div class="inner">
                                             <div class="thumbnail">
                                                 <a href="12-marketplace.html"><img
-                                                            src="assets/images/splash/demo/h12.jpg"
+                                                            src="/assets/images/splash/demo/h12.jpg"
                                                             alt="Demo Images"></a>
                                             </div>
                                             <div class="content">
@@ -1046,7 +1046,7 @@
                                         <div class="inner">
                                             <div class="thumbnail">
                                                 <a href="04-kindergarten.html"><img
-                                                            src="assets/images/splash/demo/h4.jpg"
+                                                            src="/assets/images/splash/demo/h4.jpg"
                                                             alt="Demo Images"></a>
                                             </div>
                                             <div class="content">
@@ -1064,7 +1064,7 @@
                                         <div class="inner">
                                             <div class="thumbnail">
                                                 <a href="13-university-classic.html"><img
-                                                            src="assets/images/splash/demo/h13.jpg"
+                                                            src="/assets/images/splash/demo/h13.jpg"
                                                             alt="Demo Images"></a>
                                             </div>
                                             <div class="content">
@@ -1083,7 +1083,7 @@
                                         <div class="inner">
                                             <div class="thumbnail">
                                                 <a href="14-home-elegant.html"><img
-                                                            src="assets/images/splash/demo/h14.jpg"
+                                                            src="/assets/images/splash/demo/h14.jpg"
                                                             alt="Demo Images"></a>
                                             </div>
                                             <div class="content">
@@ -1102,7 +1102,7 @@
                                         <div class="inner">
                                             <div class="thumbnail">
                                                 <a href="09-gym-coaching.html"><img
-                                                            src="assets/images/splash/demo/h9.jpg"
+                                                            src="/assets/images/splash/demo/h9.jpg"
                                                             alt="Demo Images"></a>
                                             </div>
                                             <div class="content">
@@ -1121,7 +1121,7 @@
                                         <div class="inner">
                                             <div class="thumbnail">
                                                 <a href="03-online-school.html"><img
-                                                            src="assets/images/splash/demo/h3.jpg"
+                                                            src="/assets/images/splash/demo/h3.jpg"
                                                             alt="Demo Images"></a>
                                             </div>
                                             <div class="content">
@@ -1140,7 +1140,7 @@
                                         <div class="inner">
                                             <div class="thumbnail">
                                                 <a href="06-university-status.html"><img
-                                                            src="assets/images/splash/demo/h6.jpg"
+                                                            src="/assets/images/splash/demo/h6.jpg"
                                                             alt="Demo Images"></a>
                                             </div>
                                             <div class="content">
@@ -1159,7 +1159,7 @@
                                         <div class="inner">
                                             <div class="thumbnail">
                                                 <a href="15-home-technology.html"><img
-                                                            src="assets/images/splash/demo/h15.jpg"
+                                                            src="/assets/images/splash/demo/h15.jpg"
                                                             alt="Demo Images"></a>
                                             </div>
                                             <div class="content">
@@ -1178,7 +1178,7 @@
                                         <div class="inner">
                                             <div class="thumbnail">
                                                 <a href="07-instructor-portfolio.html"><img
-                                                            src="assets/images/splash/demo/h7.jpg"
+                                                            src="/assets/images/splash/demo/h7.jpg"
                                                             alt="Demo Images"></a>
                                             </div>
                                             <div class="content">
@@ -1197,7 +1197,7 @@
                                         <div class="inner">
                                             <div class="thumbnail">
                                                 <a href="08-language-academy.html"><img
-                                                            src="assets/images/splash/demo/h8.jpg"
+                                                            src="/assets/images/splash/demo/h8.jpg"
                                                             alt="Demo Images"></a>
                                             </div>
                                             <div class="content">
@@ -1216,7 +1216,7 @@
                                         <div class="inner">
                                             <div class="thumbnail">
                                                 <a href="11-single-course.html"><img
-                                                            src="assets/images/splash/demo/h11.jpg"
+                                                            src="/assets/images/splash/demo/h11.jpg"
                                                             alt="Demo Images"></a>
                                             </div>
                                             <div class="content">
@@ -1235,7 +1235,7 @@
                                         <div class="inner">
                                             <div class="thumbnail">
                                                 <a href="10-online-course.html"><img
-                                                            src="assets/images/splash/demo/h10.jpg"
+                                                            src="/assets/images/splash/demo/h10.jpg"
                                                             alt="Demo Images"></a>
                                             </div>
                                             <div class="content">
@@ -1254,7 +1254,7 @@
                                         <div class="inner">
                                             <div class="thumbnail">
                                                 <a href="05-classic-lms.html"><img
-                                                            src="assets/images/splash/demo/h5.jpg"
+                                                            src="/assets/images/splash/demo/h5.jpg"
                                                             alt="Demo Images"></a>
                                             </div>
                                             <div class="content">
@@ -1273,7 +1273,7 @@
                                         <div class="inner">
                                             <div class="thumbnail">
                                                 <a href="02-course-school.html"><img
-                                                            src="assets/images/splash/demo/h2.jpg"
+                                                            src="/assets/images/splash/demo/h2.jpg"
                                                             alt="Demo Images"></a>
                                             </div>
                                             <div class="content">
@@ -1291,7 +1291,7 @@
                                     <div class="demo-single">
                                         <div class="inner">
                                             <div class="thumbnail">
-                                                <a href="#"><img src="assets/images/splash/demo/coming-soon-1.png"
+                                                <a href="#"><img src="/assets/images/splash/demo/coming-soon-1.png"
                                                                  alt="Demo Images"></a>
                                             </div>
                                             <div class="content">
@@ -1308,7 +1308,7 @@
                                     <div class="demo-single">
                                         <div class="inner">
                                             <div class="thumbnail">
-                                                <a href="#"><img src="assets/images/splash/demo/coming-soon-2.png"
+                                                <a href="#"><img src="/assets/images/splash/demo/coming-soon-2.png"
                                                                  alt="Demo Images"></a>
                                             </div>
                                             <div class="content">
@@ -1325,7 +1325,7 @@
                                     <div class="demo-single">
                                         <div class="inner">
                                             <div class="thumbnail">
-                                                <a href="#"><img src="assets/images/splash/demo/coming-soon-3.png"
+                                                <a href="#"><img src="/assets/images/splash/demo/coming-soon-3.png"
                                                                  alt="Demo Images"></a>
                                             </div>
                                             <div class="content">
@@ -1500,7 +1500,7 @@
                                         {{-- Start Single Category  --}}
                                         <div class="nav-category-item">
                                             <div class="thumbnail">
-                                                <div class="image"><img src="assets/images/course/category-2.png"
+                                                <div class="image"><img src="/assets/images/course/category-2.png"
                                                                         alt="Course images"></div>
                                                 <a href="course-filter-one-toggle.html">
                                                     <span>Online Education</span>
@@ -1513,7 +1513,7 @@
                                         {{-- Start Single Category  --}}
                                         <div class="nav-category-item">
                                             <div class="thumbnail">
-                                                <div class="image"><img src="assets/images/course/category-1.png"
+                                                <div class="image"><img src="/assets/images/course/category-1.png"
                                                                         alt="Course images"></div>
                                                 <a href="course-filter-one-toggle.html">
                                                     <span>Language Club</span>
@@ -1526,7 +1526,7 @@
                                         {{-- Start Single Category  --}}
                                         <div class="nav-category-item">
                                             <div class="thumbnail">
-                                                <div class="image"><img src="assets/images/course/category-4.png"
+                                                <div class="image"><img src="/assets/images/course/category-4.png"
                                                                         alt="Course images"></div>
                                                 <a href="course-filter-one-toggle.html">
                                                     <span>University Status</span>
@@ -1550,7 +1550,7 @@
                                         {{-- Start Single Category  --}}
                                         <div class="nav-category-item">
                                             <div class="thumbnail">
-                                                <div class="image"><img src="assets/images/course/category-9.png"
+                                                <div class="image"><img src="/assets/images/course/category-9.png"
                                                                         alt="Course images"></div>
                                                 <a href="course-filter-one-toggle.html">
                                                     <span>Academy</span>
@@ -1672,7 +1672,7 @@
 
                                 <div class="col-lg-12 col-xl-4 col-xxl-4 single-mega-item">
                                     <div class="rbt-ads-wrapper">
-                                        <a class="d-block" href="#"><img src="assets/images/service/mobile-cat.jpg"
+                                        <a class="d-block" href="#"><img src="/assets/images/service/mobile-cat.jpg"
                                                                          alt="Education Images"></a>
                                     </div>
                                 </div>
@@ -1700,10 +1700,10 @@
                     </a>
                 </div>
             </div>
-            @else
+        @else
             <form method="POST" action="{{ url('auth.logout') }}" id="logout-form">
                 <a class="rbt-btn-link" href="javascript:void(0);"
-                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="feather-log-out"></i>
                     <span>Déconnexion</span>
                 </a>

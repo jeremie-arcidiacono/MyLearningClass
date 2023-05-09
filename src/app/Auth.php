@@ -16,7 +16,6 @@ use App\Enums\Action;
 use App\Models\Role;
 use App\Models\Traits\HasAnOwner;
 use App\Models\User;
-use App\Services\RoleService;
 use App\Services\UserService;
 
 /**
@@ -135,9 +134,9 @@ class Auth
      * Returns false otherwise.
      * @param string $firstname
      * @param string $lastname
-     * @param string $email The email of the user (will be checked for uniqueness)
+     * @param string $email    The email of the user (will be checked for uniqueness)
      * @param string $password The password of the user (will be hashed)
-     * @param Role $role The role of the user
+     * @param Role $role       The role of the user
      * @return bool|null
      */
     public function register(string $firstname, string $lastname, string $email, string $password, Role $role): ?bool

@@ -15,4 +15,9 @@ return [
     'home' => [
         'nbRandomCourseDisplayed' => 9,
     ],
+    'course' => [
+        'index' => [
+            'nbItemsPerPage' => 9,
+        ],
+    ],
 ];

@@ -30,16 +30,16 @@ class Chapter implements IModel
     private string $title;
 
     #[Column(length: 30)]
-    private string $videoFilename;
+    private ?string $videoFilename;
 
     #[Column(length: 100)]
-    private string $videoName;
+    private ?string $videoName;
 
     #[Column(length: 6, options: ['unsigned' => true])]
-    private int $videoDuration;
+    private ?int $videoDuration;
 
     #[Column(length: 30)]
-    private string $ressourceFilename;
+    private ?string $ressourceFilename;
 
     #[ManyToOne(targetEntity: Course::class, inversedBy: 'chapters')]
     #[JoinColumn(name: 'idCourse', referencedColumnName: 'idCourse')]
@@ -72,9 +72,9 @@ class Chapter implements IModel
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getVideoFilename(): string
+    public function getVideoFilename(): ?string
     {
         return $this->videoFilename;
     }
@@ -90,9 +90,9 @@ class Chapter implements IModel
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getVideoName(): string
+    public function getVideoName(): ?string
     {
         return $this->videoName;
     }
@@ -108,9 +108,9 @@ class Chapter implements IModel
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getVideoDuration(): int
+    public function getVideoDuration(): ?int
     {
         return $this->videoDuration;
     }
@@ -126,9 +126,9 @@ class Chapter implements IModel
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getRessourceFilename(): string
+    public function getRessourceFilename(): ?string
     {
         return $this->ressourceFilename;
     }

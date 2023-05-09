@@ -14,13 +14,94 @@ use App\App;
 use App\Enums\CourseVisibility;
 use App\Exceptions\ForbiddenHttpException;
 use App\Models\Course;
+use App\Models\CourseCategory;
+use App\Services\CourseCategoryService;
+use App\Services\CourseService;
+use App\Validator;
+use Pecee\SimpleRouter\RouterUtils;
 
 /**
  *  Manage the courses.
  */
 class CourseController
 {
+    use RouterUtils;
+
     public const COURSE_BANNER_IMG_PATH = STORAGE_PATH . '/assets/courses/banners';
+
+    /**
+     * Show a list of paginated and filtered courses.
+     * @return string
+     */
+    public function index(): string
+    {
+        $filters = getAllInputs();
+
+        $rules = [
+            'page' => ['integer', 'min:1'],
+            'recherche' => ['string', 'lenmin:1'],
+            'categorie' => ['integer', 'exists:' . CourseCategory::class],
+        ];
+
+        $validator = new Validator($filters, $rules, App::$db);
+        if ($validator->isValid()) {
+            $search = $filters['recherche'] ?? null;
+            if (isset($filters['categorie']) && $filters['categorie'] !== '') {
+                $category = CourseCategoryService::Find((int)$filters['categorie']);
+            }
+            else {
+                $category = null;
+            }
+            $page = isset($filters['page']) ? (int)$filters['page'] : 1;
+        }
+        else {
+            $search = null;
+            $category = null;
+            $page = 1;
+        }
+
+        $coursesPaginator = CourseService::FindByWithPagination(
+            $page,
+            unescape($search),
+            $category,
+        );
+
+        $courses = $coursesPaginator->getIterator()->getArrayCopy();
+
+        flashInputsOnly(['recherche', 'categorie']);
+
+        return App::$templateEngine->run(
+            'course.index',
+            [
+                'nbCourseAvailable' => CourseService::getNbCoursesAvailable(),
+                'courses' => $courses,
+                'currentPage' => $coursesPaginator->getCurrentPage(),
+                'totalPages' => $coursesPaginator->getTotalPage(),
+                'categories' => CourseCategoryService::FindAll(),
+            ]
+        );
+    }
+
+    /**
+     * Show the course detail page.
+     * @param Course $course
+     * @return string
+     * @throws ForbiddenHttpException
+     */
+    public function show(Course $course): string
+    {
+        if (!$this->userCanSeeCourse($course)) {
+            throw new ForbiddenHttpException('Vous ne pouvez pas accéder à ce cours.');
+        }
+
+        return App::$templateEngine->run(
+            'course.show',
+            [
+                'course' => $course
+            ]
+        );
+    }
+
 
     /**
      * Send the image of the course banner.

@@ -41,6 +41,25 @@ function escape(string|array|null $value): string|array|null
 }
 
 /**
+ * Unescape a string or an array of strings (using html_entity_decode)
+ * @param string|array|null $value
+ * @return string|array|null
+ */
+function unescape(string|array|null $value): string|array|null
+{
+    if (is_array($value)) {
+        // Use recursion to escape all values of the array
+        return array_map('unescape', $value);
+    }
+    elseif (is_null($value)) {
+        return null;
+    }
+    else {
+        return html_entity_decode($value, ENT_QUOTES, 'UTF-8');
+    }
+}
+
+/**
  * Put the current user inputs ($_GET, $_POST, ...) in the session as a flash message.
  * @return void
  */

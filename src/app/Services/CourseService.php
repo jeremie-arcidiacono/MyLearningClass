@@ -12,6 +12,8 @@ namespace App\Services;
 use App\App;
 use App\Enums\CourseVisibility;
 use App\Models\Course;
+use App\Models\CourseCategory;
+use App\Paginator;
 use Doctrine\ORM\Exception\ORMException;
 
 /**
@@ -27,6 +29,22 @@ class CourseService extends Service
     public static function getModel(): string
     {
         return static::$model;
+    }
+
+    /**
+     * Get the number of courses publicly available in the site.
+     * @return int
+     */
+    public static function getNbCoursesAvailable(): int
+    {
+        try {
+            $qb = App::$db->getRepository(static::getModel())->createQueryBuilder('c');
+            $qb->select('count(c.id)');
+            $qb->where('c.visibility = ' . CourseVisibility::Public->value);
+            return $qb->getQuery()->getSingleScalarResult();
+        } catch (ORMException $e) {
+            return 0;
+        }
     }
 
     /**
@@ -94,11 +112,47 @@ class CourseService extends Service
             $qb->setFirstResult($offset);
             $qb->setMaxResults($limit);
             $result = $qb->getQuery()->getResult();
-            
+
             shuffle($result); // To be sure there is no order
             return $result;
         } catch (ORMException $e) {
             return [];
         }
+    }
+
+    /**
+     * Find courses with pagination (only public courses).
+     * @param int $page
+     * @param string|null $search
+     * @param CourseCategory|null $category
+     * @return Paginator
+     */
+    public static function FindByWithPagination(
+        int $page = 1,
+        string|null $search = null,
+        CourseCategory|null $category = null,
+    ): Paginator {
+        $qb = App::$db->getRepository(static::getModel())->createQueryBuilder('c');
+        $qb->select('c', 'category', 'user')
+            ->leftJoin('c.category', 'category')
+            ->leftJoin('c.owner', 'user');
+        $qb->where('c.visibility = ' . CourseVisibility::Public->value);
+        $qb->orderBy('c.updatedAt', 'DESC');
+        $qb->addOrderBy('c.id', 'DESC');
+
+        if ($search !== null) {
+            $search = addcslashes($search, '%_');
+            $qb->andWhere('c.title LIKE :search');
+            $qb->setParameter('search', '%' . $search . '%');
+        }
+
+        if ($category !== null) {
+            $qb->andWhere('c.category = :category');
+            $qb->setParameter('category', $category);
+        }
+
+        $perPage = App::$config->get('ux.course.index.nbItemsPerPage', 10);
+
+        return new Paginator($qb, $page, $perPage);
     }
 }

@@ -25,6 +25,8 @@ Router::group(['exceptionHandler' => App\Exceptions\ExceptionHandler::class, 'me
 
     Router::get('/', [App\Controllers\HomeController::class, 'index'])->name('home');
 
+    Router::get('/cours', [App\Controllers\CourseController::class, 'index'])->name('course.index');
+    Router::get('/cours/{courseId}', [App\Controllers\CourseController::class, 'show'])->name('course.show');
     Router::get('/cours/{courseId}/banner', [App\Controllers\CourseController::class, 'renderBannerImg'])->name('course.banner');
 });
 
