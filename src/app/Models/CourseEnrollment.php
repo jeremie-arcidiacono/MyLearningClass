@@ -30,12 +30,12 @@ class CourseEnrollment implements IModel
 {
     use HasCreatedAt;
 
-    #[ManyToOne(targetEntity: User::class)]
+    #[ManyToOne(targetEntity: User::class, inversedBy: 'enrollments')]
     #[JoinColumn(name: 'idUser', referencedColumnName: 'idUser')]
     #[Id]
     private User $student;
 
-    #[ManyToOne(targetEntity: Course::class)]
+    #[ManyToOne(targetEntity: Course::class, inversedBy: 'enrollments')]
     #[JoinColumn(name: 'idCourse', referencedColumnName: 'idCourse')]
     #[Id]
     private Course $course;
@@ -75,6 +75,4 @@ class CourseEnrollment implements IModel
         $this->course = $course;
         return $this;
     }
-
-
 }

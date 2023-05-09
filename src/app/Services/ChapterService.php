@@ -9,7 +9,10 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\App;
 use App\Models\Chapter;
+use App\Models\Course;
+use Doctrine\ORM\Exception\ORMException;
 
 /**
  * Database service class for the Chapter model
@@ -35,6 +38,21 @@ class ChapterService extends Service
         /** @var ?Chapter $chapter */
         $chapter = parent::FindGeneric($id);
         return $chapter;
+    }
+
+    /**
+     * Find a chapter by its course and its position in the course
+     * @param Course $course
+     * @param int $position 1 = the first chapter of the course
+     * @return void
+     */
+    public static function FindByCourseAndPosition(Course $course, int $position)
+    {
+        try {
+            return App::$db->getRepository(static::$model)->findOneBy(['course' => $course, 'position' => $position]);
+        } catch (ORMException $e) {
+            return null;
+        }
     }
 
     /**

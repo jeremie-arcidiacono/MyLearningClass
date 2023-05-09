@@ -26,8 +26,24 @@ Router::group(['exceptionHandler' => App\Exceptions\ExceptionHandler::class, 'me
     Router::get('/', [App\Controllers\HomeController::class, 'index'])->name('home');
 
     Router::get('/cours', [App\Controllers\CourseController::class, 'index'])->name('course.index');
-    Router::get('/cours/{courseId}', [App\Controllers\CourseController::class, 'show'])->name('course.show');
-    Router::get('/cours/{courseId}/banner', [App\Controllers\CourseController::class, 'renderBannerImg'])->name('course.banner');
+    Router::get('/cours/{courseId}', [App\Controllers\CourseController::class, 'show'])->where(['courseId' => '[0-9]+'])->name('course.show');
+    Router::get('/cours/{courseId}/banner', [App\Controllers\CourseController::class, 'renderBannerImg'])->where(['courseId' => '[0-9]+'])->name(
+        'course.banner'
+    );
+
+    Router::group(['middleware' => App\Middleware\AuthenticateMiddleware::class], function () {
+        Router::post('/cours/{courseId}/inscription', [App\Controllers\CourseController::class, 'enroll'])
+            ->where(['courseId' => '[0-9]+'])->name('course.enroll');
+        Router::delete('/cours/{courseId}/desinscription', [App\Controllers\CourseController::class, 'unenroll'])
+            ->where(['courseId' => '[0-9]+'])->name('course.unenroll');
+
+        Router::get('/cours/{courseId}/lesson/{chapter?}', [App\Controllers\ChapterController::class, 'show'])
+            ->where(['courseId' => '[0-9]+', 'chapter' => '[0-9]+'])->name('chapter.show');
+        Router::get('/cours/{courseId}/chapitres/{chapterId}/video', [App\Controllers\ChapterController::class, 'renderVideo'])
+            ->where(['courseId' => '[0-9]+', 'chapterId' => '[0-9]+'])->name('chapter.video');
+        Router::get('/cours/{courseId}/chapitres/{chapterId}/ressource', [App\Controllers\ChapterController::class, 'downloadRessource'])
+            ->where(['courseId' => '[0-9]+', 'chapterId' => '[0-9]+'])->name('chapter.ressource');
+    });
 });
 
 // Special route for Clockwork

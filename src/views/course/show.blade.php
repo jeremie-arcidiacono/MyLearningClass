@@ -117,10 +117,37 @@ Need to provide :
                         <div class="inner">
                             <div class="content-item-content">
                                 <div class="add-to-card-button mt--15">
-                                    <a class="rbt-btn btn-gradient icon-hover w-100 d-block text-center" href="#">
-                                        <span class="btn-text">S'inscrire</span>
-                                        <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                                    </a>
+                                    @if($auth->check() && \App\Services\CourseEnrollmentService::isEnrolled($auth->getUser(), $course))
+
+                                        <a class="rbt-btn btn-gradient icon-hover w-100 d-block text-center"
+                                           href="{{ url('chapter.show', ['courseId' => $course->getId()]) }}">
+                                            <span class="btn-text">Commencer à étudier</span>
+                                            <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                                        </a>
+
+                                        <form action="{{ url('course.unenroll', ['courseId' => $course->getId()]) }}"
+                                              method="POST">
+                                            @method('DELETE')
+                                            @customCsrf
+                                            <a class="rbt-btn-link color-primary"
+                                               href="javascript:void(0)" onclick="$(this).closest('form').submit()">
+                                                Se désinscrire
+                                            </a>
+                                        </form>
+                                    @else
+                                        <form action="{{ url('course.enroll', ['courseId' => $course->getId()])
+                                                 }}"
+                                              method="POST">
+                                            @customCsrf
+                                            <a class="rbt-btn btn-gradient icon-hover w-100 d-block text-center"
+                                               href="javascript:void(0)"
+                                               onclick="$(this).closest('form').submit()">
+                                                <span class="btn-text">S'inscrire</span>
+                                                <span class="btn-icon"><i
+                                                            class="feather-arrow-right"></i></span>
+                                            </a>
+                                        </form>
+                                    @endif
                                 </div>
 
                                 @if(!\App\App::$auth->check())

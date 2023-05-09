@@ -7,26 +7,29 @@ declare(strict_types=1);
  * Description :    This class is a controller used to manage the courses.
  ** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
 namespace App\Controllers;
 
 use App\App;
+use App\Contracts\ISession;
+use App\Enums\ChapterProgressStatus;
 use App\Enums\CourseVisibility;
 use App\Exceptions\ForbiddenHttpException;
+use App\Models\ChapterProgress;
 use App\Models\Course;
 use App\Models\CourseCategory;
+use App\Services\ChapterProgressService;
 use App\Services\CourseCategoryService;
+use App\Services\CourseEnrollmentService;
 use App\Services\CourseService;
+use App\Services\Service;
+use App\Services\UserService;
 use App\Validator;
-use Pecee\SimpleRouter\RouterUtils;
 
 /**
  *  Manage the courses.
  */
 class CourseController
 {
-    use RouterUtils;
-
     public const COURSE_BANNER_IMG_PATH = STORAGE_PATH . '/assets/courses/banners';
 
     /**
@@ -132,7 +135,7 @@ class CourseController
     }
 
     /**
-     * Check if the current logged user (or a guest) can see the course.
+     * Check if the current logged user (or a guest) can see the course (only the public info, not the chapters videos/resources).
      * @param Course $course
      * @return bool
      */
@@ -147,10 +150,66 @@ class CourseController
         elseif ($course->getVisibility() !== CourseVisibility::Public) {
             // The course is not public, so the user must be enrolled or be a teacher.
             if (!(App::$auth->getUser()->getId() === $course->getOwner()->getId()) &&
-                !(App::$auth->getUser()->getEnrollments()->contains($course))) {
+                !(CourseEnrollmentService::isEnrolled(App::$auth->getUser(), $course))) {
                 return false;
             }
         }
         return true;
+    }
+
+    /**
+     * Enroll the authenticated user to the course.
+     * @param Course $course
+     * @return never
+     */
+    public function enroll(Course $course): never
+    {
+        $user = App::$auth->getUser();
+
+        if (CourseEnrollmentService::isEnrolled($user, $course)) {
+            App::$session->setFlash(ISession::ERROR_KEY, ['Inscription' => 'Vous êtes déjà inscrit à ce cours.']);
+            redirect(url('course.show', ['courseId' => $course->getId()]));
+        }
+        else {
+            $user->createEnrollment($course);
+
+            // Create his progress for each chapter (set to 'to do').
+            $chapters = $course->getChapters();
+            foreach ($chapters as $chapter) {
+                $chapterProgress = new ChapterProgress();
+                $chapterProgress->setChapter($chapter);
+                $chapterProgress->setStatus(ChapterProgressStatus::ToDo);
+                $user->addChapterProgress($chapterProgress);
+            }
+
+            UserService::Update($user);
+            redirect(url('chapter.show', ['courseId' => $course->getId()]));
+        }
+    }
+
+    /**
+     * Unenroll the authenticated user from the course.
+     * @param Course $course
+     * @return never
+     */
+    public function unenroll(Course $course): never
+    {
+        $user = App::$auth->getUser();
+
+        if (CourseEnrollmentService::isEnrolled($user, $course)) {
+//            $user->removeEnrollment(CourseEnrollmentService::FindByUserAndCourse($user, $course));
+            CourseEnrollmentService::Delete(CourseEnrollmentService::FindByUserAndCourse($user, $course), false);
+
+            $chaptersProgress = ChapterProgressService::FindByUserAndCourse($user, $course);
+
+            foreach ($chaptersProgress as $chapterProgress) {
+//                $user->removeChapterProgress($chapterProgress);
+                ChapterProgressService::Delete($chapterProgress, false);
+            }
+
+            Service::Flush();
+        }
+
+        redirect(url('course.show', ['courseId' => $course->getId()]));
     }
 }
