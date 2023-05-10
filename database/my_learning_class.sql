@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 10, 2023 at 06:36 AM
+-- Generation Time: May 10, 2023 at 02:40 PM
 -- Server version: 10.3.38-MariaDB-0ubuntu0.20.04.1
 -- PHP Version: 8.2.5
 
@@ -62,8 +62,8 @@ CREATE TABLE `CHAPTER_PROGRESS` (
 
 CREATE TABLE `COURSE` (
   `idCourse` int(10) UNSIGNED NOT NULL,
-  `title` varchar(200) NOT NULL,
-  `description` text NOT NULL,
+  `title` varchar(150) NOT NULL,
+  `description` varchar(250) NOT NULL,
   `visibility` enum('1','2','3') NOT NULL COMMENT '1: draft   2: public   3: private',
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,

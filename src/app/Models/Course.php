@@ -31,10 +31,10 @@ class Course implements IModel
     #[Id, GeneratedValue]
     private int $id;
 
-    #[Column(length: 200)]
+    #[Column(length: 150)]
     private string $title;
 
-    #[Column(type: 'text')]
+    #[Column(length: 250)]
     private string $description;
 
     #[Column(enumType: CourseVisibility::class)]
