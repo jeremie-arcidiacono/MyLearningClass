@@ -58,6 +58,7 @@ class ExceptionHandler implements IExceptionHandler
         }
         elseif ($error instanceof ForbiddenHttpException) {
             // User is not allowed to access this page or to perform this action
+//            App::$session->setFlash(ISession::ERROR_KEY, $error->getMessage()); The flash message is not displayed with driver file or hybrid
             redirect(url('home'));
         }
         elseif ($error instanceof UserMustBeGuestHttpException) {

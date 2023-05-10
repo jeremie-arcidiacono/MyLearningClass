@@ -148,13 +148,21 @@ class CourseController
                 return false;
             }
         }
-        elseif ($course->getVisibility() !== CourseVisibility::Public) {
-            // The course is not public, so the user must be enrolled or be a teacher.
+        elseif ($course->getVisibility() === CourseVisibility::Private) {
+            // The course is private, so the user must be enrolled or be a teacher.
             if (!(App::$auth->getUser()->getId() === $course->getOwner()->getId()) &&
                 !(CourseEnrollmentService::isEnrolled(App::$auth->getUser(), $course))) {
                 return false;
             }
         }
+        elseif ($course->getVisibility() === CourseVisibility::Draft) {
+            // The course is a draft, so the user must be the owner.
+            if (!(App::$auth->getUser()->getId() === $course->getOwner()->getId())) {
+                return false;
+            }
+        }
+
+        // The user can see the course.
         return true;
     }
 
@@ -162,12 +170,16 @@ class CourseController
      * Enroll the authenticated user to the course.
      * @param Course $course
      * @return never
+     * @throws ForbiddenHttpException If the course is not public.
      */
     public function enroll(Course $course): never
     {
         $user = App::$auth->getUser();
 
-        if (CourseEnrollmentService::isEnrolled($user, $course)) {
+        if ($course->getVisibility() !== CourseVisibility::Public) {
+            throw new ForbiddenHttpException('Vous ne pouvez pas vous inscrire à ce cours.');
+        }
+        elseif (CourseEnrollmentService::isEnrolled($user, $course)) {
             App::$session->setFlash(ISession::ERROR_KEY, ['Inscription' => 'Vous êtes déjà inscrit à ce cours.']);
             redirect(url('course.show', ['courseId' => $course->getId()]));
         }
@@ -192,6 +204,8 @@ class CourseController
      * Unenroll the authenticated user from the course.
      * @param Course $course
      * @return never
+     * @throws ForbiddenHttpException If the user has not the permission to unenroll.
+     * @throws \Exception If the user is not enrolled.
      */
     public function unenroll(Course $course): never
     {
