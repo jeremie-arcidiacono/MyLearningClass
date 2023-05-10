@@ -43,6 +43,9 @@ Router::group(['exceptionHandler' => App\Exceptions\ExceptionHandler::class, 'me
             ->where(['courseId' => '[0-9]+', 'chapterId' => '[0-9]+'])->name('chapter.video');
         Router::get('/cours/{courseId}/chapitres/{chapterId}/ressource', [App\Controllers\ChapterController::class, 'downloadRessource'])
             ->where(['courseId' => '[0-9]+', 'chapterId' => '[0-9]+'])->name('chapter.ressource');
+        Router::put('/cours/{courseId}/chapitres/{chapterId}/progression', [App\Controllers\ChapterController::class, 'updateProgression'])
+            ->where(['courseId' => '[0-9]+', 'chapterId' => '[0-9]+'])->name('chapter.updateProgression');
+
     });
 });
 

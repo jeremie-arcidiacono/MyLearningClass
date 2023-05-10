@@ -10,11 +10,15 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\App;
+use App\Contracts\ISession;
+use App\Enums\ChapterProgressStatus;
 use App\Exceptions\ForbiddenHttpException;
 use App\Models\Chapter;
 use App\Models\Course;
+use App\Services\ChapterProgressService;
 use App\Services\ChapterService;
 use App\Services\CourseEnrollmentService;
+use App\Validator;
 
 /**
  * Manage the chapters of a course.
@@ -33,7 +37,7 @@ class ChapterController
     public function show(Course $course, int $chapterPosition = 1): string
     {
         $user = App::$auth->getUser();
-        if (!CourseEnrollmentService::isEnrolled($user, $course) && $user->getId() !== $course->getOwner()->getId()) {
+        if (!CourseEnrollmentService::isEnrolled($user, $course)) {
             throw new ForbiddenHttpException('Vous ne pouvez pas accéder à ce cours.');
         }
 
@@ -115,5 +119,45 @@ class ChapterController
             ->header('Content-Disposition: attachment; filename="' . $chapter->getRessource()->getFilename() . '"')
             ->header('Cache-Control: private, max-age=86400')
             ->render($filePath);
+    }
+
+    /**
+     * Update the chapter progression of the authenticated user.
+     * @param Course $course
+     * @param Chapter $chapter
+     * @return string
+     * @throws ForbiddenHttpException
+     */
+    public function updateProgression(Course $course, Chapter $chapter): never
+    {
+        $user = App::$auth->getUser();
+        if (!CourseEnrollmentService::isEnrolled($user, $course)) {
+            throw new ForbiddenHttpException('Vous ne pouvez pas accéder à ce cours.');
+        }
+
+        if (!$course->getChapters()->contains($chapter)) {
+            throw new ForbiddenHttpException('Vous ne pouvez pas accéder à ce chapitre.');
+        }
+
+        $inputs = getAllInputs();
+
+        $validatedInputs = new Validator(
+            $inputs,
+            [
+                'chapterProgressState' => ['required', 'enum:' . ChapterProgressStatus::class],
+            ]
+        );
+
+        if (!$validatedInputs->isValid()) {
+            App::$session->setFlash(ISession::ERROR_KEY, ['Le nouveau statut de progression du chapitre est invalide.']);
+        }
+        else {
+            $chapterProgressStatus = ChapterProgressStatus::from($inputs['chapterProgressState']);
+            $chapterProgress = ChapterProgressService::Find($user, $chapter);
+            $chapterProgress->setStatus($chapterProgressStatus);
+            ChapterProgressService::Update($chapterProgress);
+        }
+        
+        redirect(url('chapter.show', ['courseId' => $course->getId(), 'chapter' => $chapter->getPosition()]));
     }
 }
