@@ -212,12 +212,68 @@ class CourseController
         $chaptersProgress = ChapterProgressService::FindByUserAndCourse($user, $course);
 
         foreach ($chaptersProgress as $chapterProgress) {
-//                $user->removeChapterProgress($chapterProgress);
             ChapterProgressService::Delete($chapterProgress, false);
         }
 
         Service::Flush();
 
         redirect(url('course.show', ['courseId' => $course->getId()]));
+    }
+
+    /**
+     * Add the course to the authenticated user's bookmarks.
+     * @param Course $course
+     * @return never
+     * @throws ForbiddenHttpException If the course is not public.
+     */
+    public function bookmark(Course $course): never
+    {
+        if ($course->getVisibility() !== CourseVisibility::Public) {
+            throw new ForbiddenHttpException('Vous ne pouvez pas ajouter ce cours à vos favoris car il n\'est pas public.');
+        }
+
+        $user = App::$auth->getUser();
+
+        if ($user->getBookmarkedCourses()->contains($course)) {
+            App::$session->setFlash(ISession::ERROR_KEY, ['Favoris' => 'Ce cours est déjà dans vos favoris.']);
+        }
+        else {
+            $user->addBookmarkedCourse($course);
+            UserService::Update($user);
+        }
+
+        if (isset(getAllInputs()['redirect']) &&
+            getAllInputs()['redirect'] !== '') {
+            redirect(unescape(getAllInputs()['redirect']));
+        }
+        else {
+            redirect(url('course.show', ['courseId' => $course->getId()]));
+        }
+    }
+
+    /**
+     * Remove the course from the authenticated user's bookmarks.
+     * @param Course $course
+     * @return never
+     * @throws ForbiddenHttpException
+     */
+    public function unbookmark(Course $course): never
+    {
+        $user = App::$auth->getUser();
+
+        if (!$user->getBookmarkedCourses()->contains($course)) {
+            throw new ForbiddenHttpException('Vous ne pouvez pas supprimer ce cours de vos favoris car il n\'est pas dans vos favoris.');
+        }
+
+        $user->removeBookmarkedCourse($course);
+        UserService::Update($user);
+
+        if (isset(getAllInputs()['redirect']) &&
+            getAllInputs()['redirect'] !== '') {
+            redirect(unescape(getAllInputs()['redirect']));
+        }
+        else {
+            redirect(url('course.show', ['courseId' => $course->getId()]));
+        }
     }
 }

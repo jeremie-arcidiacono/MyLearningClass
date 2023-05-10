@@ -31,21 +31,34 @@ Router::group(['exceptionHandler' => App\Exceptions\ExceptionHandler::class, 'me
         'course.banner'
     );
 
+    // Only for authenticated users
     Router::group(['middleware' => App\Middleware\AuthenticateMiddleware::class], function () {
-        Router::post('/cours/{courseId}/inscription', [App\Controllers\CourseController::class, 'enroll'])
-            ->where(['courseId' => '[0-9]+'])->name('course.enroll');
-        Router::delete('/cours/{courseId}/desinscription', [App\Controllers\CourseController::class, 'unenroll'])
-            ->where(['courseId' => '[0-9]+'])->name('course.unenroll');
+        Router::group(['prefix' => '/cours'], function () {
+            Router::post('/{courseId}/inscription', [App\Controllers\CourseController::class, 'enroll'])
+                ->where(['courseId' => '[0-9]+'])->name('course.enroll');
+            Router::delete('/{courseId}/desinscription', [App\Controllers\CourseController::class, 'unenroll'])
+                ->where(['courseId' => '[0-9]+'])->name('course.unenroll');
 
-        Router::get('/cours/{courseId}/lesson/{chapter?}', [App\Controllers\ChapterController::class, 'show'])
-            ->where(['courseId' => '[0-9]+', 'chapter' => '[0-9]+'])->name('chapter.show');
-        Router::get('/cours/{courseId}/chapitres/{chapterId}/video', [App\Controllers\ChapterController::class, 'renderVideo'])
-            ->where(['courseId' => '[0-9]+', 'chapterId' => '[0-9]+'])->name('chapter.video');
-        Router::get('/cours/{courseId}/chapitres/{chapterId}/ressource', [App\Controllers\ChapterController::class, 'downloadRessource'])
-            ->where(['courseId' => '[0-9]+', 'chapterId' => '[0-9]+'])->name('chapter.ressource');
-        Router::put('/cours/{courseId}/chapitres/{chapterId}/progression', [App\Controllers\ChapterController::class, 'updateProgression'])
-            ->where(['courseId' => '[0-9]+', 'chapterId' => '[0-9]+'])->name('chapter.updateProgression');
+            Router::get('/{courseId}/lesson/{chapter?}', [App\Controllers\ChapterController::class, 'show'])
+                ->where(['courseId' => '[0-9]+', 'chapter' => '[0-9]+'])->name('chapter.show');
+            Router::get('/{courseId}/chapitres/{chapterId}/video', [App\Controllers\ChapterController::class, 'renderVideo'])
+                ->where(['courseId' => '[0-9]+', 'chapterId' => '[0-9]+'])->name('chapter.video');
+            Router::get('/{courseId}/chapitres/{chapterId}/ressource', [App\Controllers\ChapterController::class, 'downloadRessource'])
+                ->where(['courseId' => '[0-9]+', 'chapterId' => '[0-9]+'])->name('chapter.ressource');
+            Router::put('/{courseId}/chapitres/{chapterId}/progression', [App\Controllers\ChapterController::class, 'updateProgression'])
+                ->where(['courseId' => '[0-9]+', 'chapterId' => '[0-9]+'])->name('chapter.updateProgression');
 
+            Router::post('/{courseId}/favoris', [App\Controllers\CourseController::class, 'bookmark'])
+                ->where(['courseId' => '[0-9]+'])->name('course.bookmark');
+            Router::delete('/{courseId}/favoris', [App\Controllers\CourseController::class, 'unbookmark'])
+                ->where(['courseId' => '[0-9]+'])->name('course.unbookmark');
+        });
+
+        Router::group(['prefix' => '/dashboard'], function () {
+            Router::redirect('/', '/dashboard/inscriptions', 301)->name('dashboard.index');
+            Router::get('/inscriptions', [App\Controllers\DashboardController::class, 'enrolledCourse'])->name('dashboard.enrolledCourse');
+            Router::get('/favoris', [App\Controllers\DashboardController::class, 'bookmarkedCourse'])->name('dashboard.bookmarkedCourse');
+        });
     });
 });
 

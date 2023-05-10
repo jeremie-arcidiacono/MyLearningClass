@@ -15,7 +15,7 @@ Need to provide :
     */
 @endphp
 
-@component('layouts.app', ['title' => 'Accueil', 'stickyHeader' => false])
+@component('layouts.app', ['title' => 'Detail du cours', 'stickyHeader' => false])
 
     <!-- Start breadcrumb Area -->
     <div class="rbt-breadcrumb-default rbt-breadcrumb-style-3">
@@ -31,9 +31,16 @@ Need to provide :
                             <li>
                                 <div class="icon-right"><i class="feather-chevron-right"></i></div>
                             </li>
+                            <li class="rbt-breadcrumb-item"><a href="{{ url('course.index') }}">Tous les cours</a></li>
+                            <li>
+                                <div class="icon-right"><i class="feather-chevron-right"></i></div>
+                            </li>
                             <li class="rbt-breadcrumb-item active">Détail du cours</li>
                         </ul>
-                        <h2 class="title">{{ $course->getTitle() }}</h2>
+                        @component('components.bookmark-course-action-button', ['course' => $course])
+                        @endcomponent
+                        <h2 class="title">
+                            {{ $course->getTitle() }}</h2>
                         <p class="description">{{ $course->getDescription() }}</p>
 
                         <div class="d-flex align-items-center mb--20 flex-wrap rbt-course-details-feature">
@@ -155,7 +162,7 @@ Need to provide :
                                     pour vous inscrire à ce cours</span>
                                 @endif
 
-                                <div class="rbt-widget-details has-show-more mt--10">
+                                <div class="rbt-widget-details mt--10">
                                     <ul class="has-show-more-inner-content rbt-course-details-list-wrapper">
                                         <li><span>Catégorie</span><span class="rbt-feature-value rbt-badge-5">
                                                 {{ $course->getCategory()->getLabel() }}</span>
@@ -175,7 +182,6 @@ Need to provide :
                                         </li>
                                     </ul>
                                 </div>
-
                             </div>
                         </div>
                     </div>

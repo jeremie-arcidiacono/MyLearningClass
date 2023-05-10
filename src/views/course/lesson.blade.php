@@ -21,7 +21,7 @@ Need to provide :
     $chapterProgressStatus = ChapterProgressService::Find($auth->getUser(), $chapter)->getStatus();
 @endphp
 
-@component('layouts.app', ['title' => 'Accueil', 'stickyHeader' => false])
+@component('layouts.app', ['title' => 'Étudier un cours', 'stickyHeader' => false])
     <div class="rbt-lesson-area bg-color-white">
         <div class="rbt-lesson-content-wrapper">
             <div class="rbt-lesson-leftsidebar">

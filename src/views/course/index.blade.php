@@ -13,7 +13,7 @@ Description : The page to display a list of courses with a grid layout.
     */
 @endphp
 
-@component('layouts.app', ['title' => 'Accueil', 'stickyHeader' => true])
+@component('layouts.app', ['title' => 'Tous les cours', 'stickyHeader' => true])
     <div class="rbt-page-banner-wrapper">
         <div class="rbt-banner-image"></div>
         <div class="rbt-banner-content">

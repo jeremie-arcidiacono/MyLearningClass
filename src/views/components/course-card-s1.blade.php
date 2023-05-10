@@ -12,7 +12,10 @@ Need to provide :
 @endphp
 
 @php
-    /** @var \App\Models\Course $course */
+    /**
+    * @var \App\Models\Course $course
+    * @var \App\Auth $auth
+    */
 
 @endphp
 
@@ -36,9 +39,8 @@ Need to provide :
             <div class="rbt-category">
                 <a href="#">{{ $course->getCategory()->getLabel() }}</a>
             </div>
-            <div class="rbt-bookmark-btn">
-                <a class="rbt-round-btn fs-2" title="Bookmark" href="#"><i class="feather-bookmark"></i></a>
-            </div>
+            @component('components.bookmark-course-action-button', ['course' => $course])
+            @endcomponent
         </div>
 
         <h4 class="rbt-card-title"><a
@@ -62,3 +64,4 @@ Need to provide :
         </div>
     </div>
 </div>
+

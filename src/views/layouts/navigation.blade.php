@@ -943,7 +943,7 @@
 
                         <div class="rbt-btn-wrapper d-none d-xl-block">
                             <a class="rbt-btn rbt-marquee-btn marquee-auto btn-border-gradient radius-round btn-sm hover-transform-none"
-                               href="#">
+                               href="{{ url('dashboard.index') }}">
                                 <span data-text="Dashboard">Dashboard</span>
                             </a>
                         </div>
