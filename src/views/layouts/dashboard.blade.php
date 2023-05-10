@@ -39,17 +39,19 @@ Need to provide :
                                     <span class="sub-title color-white">{{ $user->getRole()->getLabel() }}</span>
                                 </div>
                             </div>
-                            <div class="rbt-tutor-information-right">
-                                <div class="tutor-btn">
-                                    <a class="rbt-btn btn-md hover-icon-reverse" href="">
+                            @if($auth->can(\App\Enums\Action::Create,new \App\Models\Course()))
+                                <div class="rbt-tutor-information-right">
+                                    <div class="tutor-btn">
+                                        <a class="rbt-btn btn-md hover-icon-reverse" href="{{ url('course.create') }}">
                                         <span class="icon-reverse-wrapper">
-                        <span class="btn-text">Créer un nouveau cours</span>
+                                            <span class="btn-text">Créer un nouveau cours</span>
                                         <span class="btn-icon"><i class="feather-arrow-right"></i></span>
                                         <span class="btn-icon"><i class="feather-arrow-right"></i></span>
                                         </span>
-                                    </a>
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
                         </div>
                         <!-- End Tutor Information  -->
                     </div>

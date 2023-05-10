@@ -290,4 +290,20 @@ class CourseController
             redirect(url('course.show', ['courseId' => $course->getId()]));
         }
     }
+
+    /**
+     * @return never
+     */
+    public function create(): string
+    {
+        $categories = CourseCategoryService::FindAll();
+
+        return App::$templateEngine->run(
+            'course.create',
+            [
+                'categories' => $categories,
+            ]
+        );
+    }
+
 }

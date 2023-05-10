@@ -52,6 +52,8 @@ Router::group(['exceptionHandler' => App\Exceptions\ExceptionHandler::class, 'me
                 ->where(['courseId' => '[0-9]+'])->name('course.bookmark');
             Router::delete('/{courseId}/favoris', [App\Controllers\CourseController::class, 'unbookmark'])
                 ->where(['courseId' => '[0-9]+'])->name('course.unbookmark');
+
+            Router::get('/creation', [App\Controllers\CourseController::class, 'create'])->name('course.create');
         });
 
         Router::group(['prefix' => '/dashboard'], function () {
