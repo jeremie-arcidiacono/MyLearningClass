@@ -101,7 +101,7 @@ Need to provide :
                 <div class="col-lg-12">
                     <div class="section-title text-center">
                         <span class="subtitle bg-secondary-opacity">Cours populaires</span>
-                        <h2 class="title">Découvrez notre grand <br/> catalogue de cours.</h2>
+                        <h2 class="title">Découvrez notre grand <br> catalogue de cours.</h2>
                     </div>
                 </div>
             </div>

@@ -835,8 +835,8 @@
                                         <hr class="mt--10 mb--10">
                                         <ul class="user-list-wrapper">
                                             <li>
-                                                <form method="POST" action="{{ url('auth.logout') }}" id="logout-form">
-                                                    <a onclick="document.getElementById('logout-form').submit();">
+                                                <form method="POST" action="{{ url('auth.logout') }}" id="logout-form1">
+                                                    <a onclick="document.getElementById('logout-form1').submit();">
                                                         <i class="feather-log-out"></i>
                                                         <span>Déconnexion</span>
                                                     </a>
@@ -1701,9 +1701,9 @@
                 </div>
             </div>
         @else
-            <form method="POST" action="{{ url('auth.logout') }}" id="logout-form">
+            <form method="POST" action="{{ url('auth.logout') }}" id="logout-form2">
                 <a class="rbt-btn-link" href="javascript:void(0);"
-                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                   onclick="document.getElementById('logout-form2').submit();">
                     <i class="feather-log-out"></i>
                     <span>Déconnexion</span>
                 </a>
