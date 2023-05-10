@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\App;
+use App\Enums\ChapterProgressStatus;
 use App\Models\Chapter;
 use App\Models\ChapterProgress;
 use App\Models\Course;
@@ -49,7 +50,7 @@ class ChapterProgressService extends Service
      * Get all chapter progresses of a user on a course
      * @param User $user
      * @param Course $course
-     * @return array|null
+     * @return ChapterProgress[]|null
      */
     public static function FindByUserAndCourse(User $user, Course $course): ?array
     {
@@ -61,6 +62,28 @@ class ChapterProgressService extends Service
         } catch (ORMException $e) {
             return null;
         }
+    }
+
+    /**
+     * Get the percentage of a user's progress on a course
+     * @param User $user
+     * @param Course $course
+     * @return int|null
+     */
+    public static function GetProgressPercentage(User $user, Course $course): ?int
+    {
+        $chapterProgresses = static::FindByUserAndCourse($user, $course);
+        if ($chapterProgresses === null) {
+            return null;
+        }
+        $total = count($chapterProgresses);
+        $done = 0;
+        foreach ($chapterProgresses as $chapterProgress) {
+            if ($chapterProgress->getStatus() === ChapterProgressStatus::Done) {
+                $done++;
+            }
+        }
+        return (int)($done / $total * 100);
     }
 
     /**

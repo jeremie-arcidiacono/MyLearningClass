@@ -53,6 +53,7 @@ Need to provide :
         @if($showDescription)
             <p class="rbt-card-text">{{ $course->getDescription() }}</p>
         @endif
+        
         <div class="rbt-card-bottom">
             <div class="rbt-author-meta">
                 <div class="rbt-author-info">

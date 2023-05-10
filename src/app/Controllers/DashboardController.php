@@ -9,11 +9,44 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\App;
+use App\Enums\ChapterProgressStatus;
 use App\Enums\CourseVisibility;
 use App\Models\Course;
+use App\Services\ChapterProgressService;
 
 class DashboardController
 {
+    public function enrolledCourse()
+    {
+        $enrollments = App::$auth->getUser()->getEnrollments();
+        $enrolledCourses = [];
+        $completedCourses = [];
+        foreach ($enrollments as $enrollment) {
+            $course = $enrollment->getCourse();
+
+            $chaptersProgress = ChapterProgressService::FindByUserAndCourse(App::$auth->getUser(), $course);
+
+            $isFinished = true;
+            foreach ($chaptersProgress as $chapterProgress) {
+                if ($chapterProgress->getStatus() !== ChapterProgressStatus::Done) {
+                    $isFinished = false;
+                    break;
+                }
+            }
+
+            if ($isFinished) {
+                $completedCourses[] = $course;
+            }
+            else {
+                $enrolledCourses[] = $course;
+            }
+        }
+
+        return App::$templateEngine->run('dashboard.enrolled-course', [
+            'enrolledCourses' => $enrolledCourses,
+            'completedCourses' => $completedCourses,
+        ]);
+    }
 
     public function bookmarkedCourse()
     {
