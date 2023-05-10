@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 09, 2023 at 08:16 AM
+-- Generation Time: May 10, 2023 at 06:36 AM
 -- Server version: 10.3.38-MariaDB-0ubuntu0.20.04.1
 -- PHP Version: 8.2.5
 
@@ -145,7 +145,7 @@ CREATE TABLE `PERMISSION` (
 --
 
 INSERT INTO `PERMISSION` (`codePermission`, `action`, `ressource`) VALUES
-(1, 'delete_own', 'enrollment'),
+(1, 'delete_own', 'courseEnrollment'),
 (2, 'create', 'course'),
 (3, 'update_own', 'course'),
 (4, 'delete_own', 'course'),
@@ -191,6 +191,7 @@ CREATE TABLE `ROLE_HAS_PERMISSION` (
 
 INSERT INTO `ROLE_HAS_PERMISSION` (`codeRole`, `codePermission`) VALUES
 (1, 1),
+(2, 1),
 (2, 2),
 (2, 3),
 (2, 4),

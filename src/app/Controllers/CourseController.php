@@ -11,6 +11,7 @@ namespace App\Controllers;
 
 use App\App;
 use App\Contracts\ISession;
+use App\Enums\Action;
 use App\Enums\ChapterProgressStatus;
 use App\Enums\CourseVisibility;
 use App\Exceptions\ForbiddenHttpException;
@@ -196,19 +197,26 @@ class CourseController
     {
         $user = App::$auth->getUser();
 
-        if (CourseEnrollmentService::isEnrolled($user, $course)) {
-//            $user->removeEnrollment(CourseEnrollmentService::FindByUserAndCourse($user, $course));
-            CourseEnrollmentService::Delete(CourseEnrollmentService::FindByUserAndCourse($user, $course), false);
-
-            $chaptersProgress = ChapterProgressService::FindByUserAndCourse($user, $course);
-
-            foreach ($chaptersProgress as $chapterProgress) {
-//                $user->removeChapterProgress($chapterProgress);
-                ChapterProgressService::Delete($chapterProgress, false);
-            }
-
-            Service::Flush();
+        if (!CourseEnrollmentService::isEnrolled($user, $course)) {
+            throw new \Exception('Vous n\'êtes pas inscrit à ce cours.');
         }
+
+        $enrollment = CourseEnrollmentService::FindByUserAndCourse($user, $course);
+
+        if (!App::$auth->can(Action::Delete, $enrollment)) {
+            throw new ForbiddenHttpException('Vous n\'avez pas la permission de supprimer cette inscription.');
+        }
+
+        CourseEnrollmentService::Delete(CourseEnrollmentService::FindByUserAndCourse($user, $course), false);
+
+        $chaptersProgress = ChapterProgressService::FindByUserAndCourse($user, $course);
+
+        foreach ($chaptersProgress as $chapterProgress) {
+//                $user->removeChapterProgress($chapterProgress);
+            ChapterProgressService::Delete($chapterProgress, false);
+        }
+
+        Service::Flush();
 
         redirect(url('course.show', ['courseId' => $course->getId()]));
     }

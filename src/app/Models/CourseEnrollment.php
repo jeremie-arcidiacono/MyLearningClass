@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Contracts\IModel;
+use App\Models\Traits\HasAnOwner;
 use App\Models\Traits\HasCreatedAt;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
@@ -28,6 +29,10 @@ use Doctrine\ORM\Mapping\Table;
 #[HasLifecycleCallbacks]
 class CourseEnrollment implements IModel
 {
+    use HasAnOwner;
+
+    // The student is the owner of the enrollment (this is important for the permission system)
+
     use HasCreatedAt;
 
     #[ManyToOne(targetEntity: User::class, inversedBy: 'enrollments')]
@@ -74,5 +79,24 @@ class CourseEnrollment implements IModel
     {
         $this->course = $course;
         return $this;
+    }
+
+    /**
+     * Get the owner of the model (alias of getStudent method).
+     * @return User
+     */
+    public function getOwner(): User
+    {
+        return $this->getStudent();
+    }
+
+    /**
+     * Set the owner of the model (alias of setStudent method).
+     * @param User $owner
+     * @return CourseEnrollment
+     */
+    public function setOwner(User $owner): CourseEnrollment
+    {
+        return $this->setStudent($owner);
     }
 }
