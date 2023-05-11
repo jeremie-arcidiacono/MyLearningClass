@@ -106,7 +106,9 @@ Need to provide :
             <div class="rbt-lesson-rightsidebar overflow-hidden lesson-video">
                 <div class="lesson-top-bar">
                     <div class="lesson-top-left">
-                        <h5>{{ $course->getTitle() }}</h5>
+                        <a href="{{ url('course.show', ['courseId' => $course->getId()]) }}">
+                            <h5>{{ $course->getTitle() }}</h5>
+                        </a>
                     </div>
                     <div class="lesson-top-right">
                     </div>

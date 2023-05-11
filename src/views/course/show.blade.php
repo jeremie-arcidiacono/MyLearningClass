@@ -59,7 +59,7 @@ Need to provide :
 
                         <ul class="rbt-meta">
                             <li><i class="feather-calendar"></i>Dernière mise à jour
-                                {{ $course->getUpdatedAt()->format('m/Y') }}
+                                {{ $course->getUpdatedAt()->format('d/m/Y') }}
                             </li>
                         </ul>
 
