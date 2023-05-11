@@ -20,9 +20,11 @@ Need to provide :
 @endphp
 
 <div class="rbt-card variation-01 rbt-hover">
-    <div class="rbt-card-img">
+    <div class="rbt-card-img"
+         style="width: 100%; height: 0; padding-bottom: 76%; position: relative; overflow: hidden">
         <a href="{{ url('course.show', ['courseId' => $course->getId()]) }}">
-            <img src="{{ url('course.banner', ['courseId' => $course->getId()]) }}" alt="Card image">
+            <img src="{{ url('course.banner', ['courseId' => $course->getId()]) }}" alt="Card image"
+                 style="position: absolute; width: 100%; height: 100%; object-fit: cover">
             @if(isset($badge) && $badge !== '')
                 <div class="rbt-badge-3 bg-white">
                     {{-- foreach word in $badge --}}
@@ -53,7 +55,7 @@ Need to provide :
         @if($showDescription)
             <p class="rbt-card-text">{{ $course->getDescription() }}</p>
         @endif
-        
+
         <div class="rbt-card-bottom">
             <div class="rbt-author-meta">
                 <div class="rbt-author-info">

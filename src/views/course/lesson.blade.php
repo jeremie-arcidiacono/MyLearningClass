@@ -31,13 +31,13 @@ Need to provide :
                     </div>
 
 
-                    <div class="rbt-accordion-style rbt-accordion-02 for-right-content accordion">
+                    <div class="rbt-accordion-style rbt-accordion-02 for-right-content">
 
 
                         <div class="accordion" id="accordionExampleb2">
 
                             <div class="accordion-item card">
-                                <div id="collapseTwo1" class="accordion-collapse collapse show">
+                                <div id="collapseTwo1" class="show">
                                     <div class="accordion-body card-body">
                                         <ul class="rbt-course-main-content liststyle">
                                             @foreach($course->getChapters() as $currentLoopChapter)
