@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 10, 2023 at 02:40 PM
+-- Generation Time: May 11, 2023 at 11:46 AM
 -- Server version: 10.3.38-MariaDB-0ubuntu0.20.04.1
 -- PHP Version: 8.2.5
 
@@ -203,7 +203,7 @@ CREATE TABLE `COURSE` (
 --
 
 INSERT INTO `COURSE` (`idCourse`, `title`, `description`, `visibility`, `createdAt`, `updatedAt`, `codeCourseCategory`, `idUser`, `mediaBanner`) VALUES
-(1, 'Fondamentaux d\'HTML et CSS', 'Apprenez les notions fondamentales d\'HTML et CSS pour créer des sites web réactifs et interactifs.', '2', '2023-05-09 06:15:19', '2023-05-09 06:15:19', 1, 1, 'img1.jpg'),
+(1, 'Fondamentaux d\'HTML et CSS', 'Apprenez les notions fondamentales d\'HTML et CSS pour créer des sites web réactifs et interactifs.', '1', '2023-05-09 06:15:19', '2023-05-09 06:15:19', 1, 1, 'img1.jpg'),
 (2, 'Bases de JavaScript', 'Maîtrisez les bases de JavaScript et apprenez à créer des applications web dynamiques.', '2', '2023-05-09 06:15:19', '2023-05-09 06:15:19', 1, 2, 'img2.jpg'),
 (3, 'Essentiels de React JS', 'Explorez les concepts et fonctionnalités clés de React JS, l\'une des bibliothèques frontales les plus populaires.', '2', '2023-05-09 06:15:19', '2023-05-09 06:15:19', 1, 3, 'img3.jpg'),
 (4, 'Fondamentaux d\'Angular', 'Découvrez les concepts clés d\'Angular, un framework puissant pour la création d\'applications web modernes.', '2', '2023-05-09 06:15:19', '2023-05-09 06:15:19', 1, 4, 'img4.jpg'),
@@ -407,33 +407,34 @@ CREATE TABLE `MEDIA` (
   `filename` varchar(30) NOT NULL COMMENT 'The name of the file of the video stored in the server ',
   `name` varchar(100) NOT NULL COMMENT ' 	The original name of the video, before renaming the file to make it unique ',
   `mimeType` varchar(15) NOT NULL,
-  `duration` int(6) UNSIGNED DEFAULT NULL COMMENT 'Only for video : the duration of the video in seconds '
+  `duration` int(6) UNSIGNED DEFAULT NULL COMMENT 'Only for video : the duration of the video in seconds ',
+  `createdAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `MEDIA`
 --
 
-INSERT INTO `MEDIA` (`filename`, `name`, `mimeType`, `duration`) VALUES
-('img1.jpg', 'my-course-image.jpg', 'image/jpeg', NULL),
-('img10.jpg', 'my-course-image.jpg', 'image/jpeg', NULL),
-('img11.jpg', 'my-course-image.jpg', 'image/jpeg', NULL),
-('img12.jpg', 'my-course-image.jpg', 'image/jpeg', NULL),
-('img13.jpg', 'my-course-image.jpg', 'image/jpeg', NULL),
-('img14.jpg', 'my-course-image.jpg', 'image/jpeg', NULL),
-('img15.jpg', 'my-course-image.jpg', 'image/jpeg', NULL),
-('img16.jpg', 'my-course-image.jpg', 'image/jpeg', NULL),
-('img17.jpg', 'my-course-image.jpg', 'image/jpeg', NULL),
-('img2.jpg', 'my-course-image.jpg', 'image/jpeg', NULL),
-('img3.jpg', 'my-course-image.jpg', 'image/jpeg', NULL),
-('img4.jpg', 'my-course-image.jpg', 'image/jpeg', NULL),
-('img5.jpg', 'my-course-image.jpg', 'image/jpeg', NULL),
-('img6.jpg', 'my-course-image.jpg', 'image/jpeg', NULL),
-('img7.jpg', 'my-course-image.jpg', 'image/jpeg', NULL),
-('img8.jpg', 'my-course-image.jpg', 'image/jpeg', NULL),
-('img9.jpg', 'my-course-image.jpg', 'image/jpeg', NULL),
-('pdf01.pdf', 'course-soluce.pdf', 'application/pdf', NULL),
-('vid01.mp4', 'a-chapter-video', 'video/mp4', 5);
+INSERT INTO `MEDIA` (`filename`, `name`, `mimeType`, `duration`, `createdAt`) VALUES
+('img1.jpg', 'my-course-image.jpg', 'image/jpeg', NULL, '2023-05-11 08:56:07'),
+('img10.jpg', 'my-course-image.jpg', 'image/jpeg', NULL, '2023-05-11 08:56:07'),
+('img11.jpg', 'my-course-image.jpg', 'image/jpeg', NULL, '2023-05-11 08:56:07'),
+('img12.jpg', 'my-course-image.jpg', 'image/jpeg', NULL, '2023-05-11 08:56:07'),
+('img13.jpg', 'my-course-image.jpg', 'image/jpeg', NULL, '2023-05-11 08:56:07'),
+('img14.jpg', 'my-course-image.jpg', 'image/jpeg', NULL, '2023-05-11 08:56:07'),
+('img15.jpg', 'my-course-image.jpg', 'image/jpeg', NULL, '2023-05-11 08:56:07'),
+('img16.jpg', 'my-course-image.jpg', 'image/jpeg', NULL, '2023-05-11 08:56:07'),
+('img17.jpg', 'my-course-image.jpg', 'image/jpeg', NULL, '2023-05-11 08:56:07'),
+('img2.jpg', 'my-course-image.jpg', 'image/jpeg', NULL, '2023-05-11 08:56:07'),
+('img3.jpg', 'my-course-image.jpg', 'image/jpeg', NULL, '2023-05-11 08:56:07'),
+('img4.jpg', 'my-course-image.jpg', 'image/jpeg', NULL, '2023-05-11 08:56:07'),
+('img5.jpg', 'my-course-image.jpg', 'image/jpeg', NULL, '2023-05-11 08:56:07'),
+('img6.jpg', 'my-course-image.jpg', 'image/jpeg', NULL, '2023-05-11 08:56:07'),
+('img7.jpg', 'my-course-image.jpg', 'image/jpeg', NULL, '2023-05-11 08:56:07'),
+('img8.jpg', 'my-course-image.jpg', 'image/jpeg', NULL, '2023-05-11 08:56:07'),
+('img9.jpg', 'my-course-image.jpg', 'image/jpeg', NULL, '2023-05-11 08:56:07'),
+('pdf01.pdf', 'course-soluce.pdf', 'application/pdf', NULL, '2023-05-11 08:56:07'),
+('vid01.mp4', 'a-chapter-video', 'video/mp4', 5, '2023-05-11 08:56:07');
 
 -- --------------------------------------------------------
 

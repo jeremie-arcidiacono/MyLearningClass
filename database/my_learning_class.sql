@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 10, 2023 at 02:40 PM
+-- Generation Time: May 11, 2023 at 11:46 AM
 -- Server version: 10.3.38-MariaDB-0ubuntu0.20.04.1
 -- PHP Version: 8.2.5
 
@@ -125,7 +125,8 @@ CREATE TABLE `MEDIA` (
   `filename` varchar(30) NOT NULL COMMENT 'The name of the file of the video stored in the server ',
   `name` varchar(100) NOT NULL COMMENT ' 	The original name of the video, before renaming the file to make it unique ',
   `mimeType` varchar(15) NOT NULL,
-  `duration` int(6) UNSIGNED DEFAULT NULL COMMENT 'Only for video : the duration of the video in seconds '
+  `duration` int(6) UNSIGNED DEFAULT NULL COMMENT 'Only for video : the duration of the video in seconds ',
+  `createdAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------

@@ -11,14 +11,18 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Contracts\IModel;
-use Doctrine\ORM\Mapping\{Column, Entity, Id, Table};
+use App\Models\Traits\HasCreatedAt;
+use Doctrine\ORM\Mapping\{Column, Entity, HasLifecycleCallbacks, Id, Table};
 
 /**
  * Entity representing a role (alias for a group of permissions)
  */
 #[Entity, Table(name: 'MEDIA')]
+#[HasLifecycleCallbacks]
 class Media implements IModel
 {
+    use HasCreatedAt;
+
     #[Column(length: 30)]
     #[Id]
     private string $filename;
