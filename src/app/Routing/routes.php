@@ -55,6 +55,12 @@ Router::group(['exceptionHandler' => App\Exceptions\ExceptionHandler::class, 'me
 
             Router::get('/creation', [App\Controllers\CourseController::class, 'create'])->name('course.create');
             Router::post('/creation', [App\Controllers\CourseController::class, 'store'])->name('course.store');
+            Router::get('/{courseId}/configuration', [App\Controllers\CourseController::class, 'edit'])
+                ->where(['courseId' => '[0-9]+'])->name('course.edit');
+            Router::put('/{courseId}/configuration', [App\Controllers\CourseController::class, 'update'])
+                ->where(['courseId' => '[0-9]+'])->name('course.update');
+            Router::delete('/{courseId}', [App\Controllers\CourseController::class, 'destroy'])
+                ->where(['courseId' => '[0-9]+'])->name('course.destroy');
         });
 
         Router::group(['prefix' => '/dashboard'], function () {

@@ -18,13 +18,16 @@ use App\Exceptions\ForbiddenHttpException;
 use App\Models\ChapterProgress;
 use App\Models\Course;
 use App\Models\CourseCategory;
+use App\Models\Media;
 use App\Services\ChapterProgressService;
 use App\Services\CourseCategoryService;
 use App\Services\CourseEnrollmentService;
 use App\Services\CourseService;
+use App\Services\MediaService;
 use App\Services\Service;
 use App\Services\UserService;
 use App\Validator;
+use Doctrine\ORM\Exception\ORMException;
 
 /**
  *  Manage the courses.
@@ -131,7 +134,12 @@ class CourseController
         App::$response->httpCode(200)
             ->header("Content-Type: $mime")
             ->header('Content-Length:' . filesize($filePath))
-            ->header('Cache-Control: private, max-age=86400')
+            //->header('Cache-Control: private, max-age=86400')
+//            ->header('Cache-Control: private, max-age=0, stale-while-revalidate=3600')
+            //  the client serve the cached image for 1 hour while it revalidates the image with the server in the background.
+
+            // To do : remake the cache control (temporary disabled to ensure the image is updated when the user change it)
+            ->header('Cache-Control: no-cache, no-store, must-revalidate')
             ->render($filePath);
     }
 
@@ -378,4 +386,153 @@ class CourseController
         redirect(url('course.edit', ['courseId' => $course->getId()]));
     }
 
+    /**
+     * @return never
+     */
+    public function edit(Course $course): string
+    {
+        if (!App::$auth->can(Action::Update, $course)) {
+            throw new ForbiddenHttpException('Vous n\'avez pas la permission de modifier ce cours.');
+        }
+
+        $categories = CourseCategoryService::FindAll();
+        $enrollments = $course->getEnrollments();
+
+        return App::$templateEngine->run(
+            'course.config',
+            [
+                'course' => $course,
+                'categories' => $categories,
+                'enrollments' => $enrollments,
+            ]
+        );
+    }
+
+    /**
+     * @param Course $course
+     * @return void
+     */
+    public function update(Course $course): never
+    {
+        if (!App::$auth->can(Action::Update, $course)) {
+            throw new ForbiddenHttpException('Vous n\'avez pas la permission de modifier ce cours.');
+        }
+
+        $inputs = getAllInputs();
+
+        $rules = [
+            'titre' => ['string', 'lenmin:5', 'lenmax:150'],
+            'description' => ['string', 'lenmin:5', 'lenmax:250'],
+            'categorie' => ['integer', 'exists:' . CourseCategory::class],
+            'visibilite' => ['integer', 'enum:' . CourseVisibility::class],
+        ];
+
+        $validator = new Validator($inputs, $rules, App::$db);
+
+        if (!$validator->isValid()) {
+            // The inputs are not valid
+            flashInputs();
+
+            App::$session->setFlash(ISession::ERROR_KEY, $validator->getErrors());
+            App::$templateEngine->run('course.config', ['course' => $course, 'categories' => CourseCategoryService::FindAll(),]);
+        }
+
+        if (isset($inputs['titre'])) {
+            $course->setTitle($inputs['titre']);
+        }
+
+        if (isset($inputs['description'])) {
+            $course->setDescription($inputs['description']);
+        }
+
+        if (isset($inputs['categorie'])) {
+            $course->setCategory(CourseCategoryService::Find((int)$inputs['categorie']));
+        }
+
+        // Check if the image need to be replaced
+        $file = App::$request->getInputHandler()->file('createinputfile');
+        if ($file->getSize() > 0) {
+            if ($file->hasError() || !in_array(strtolower($file->getMime()), App::$config->get('models.course.bannerAllowedMimeTypes', []))) {
+                // The image is not valid or has an invalid format
+                flashInputs();
+
+                App::$session->setFlash(ISession::ERROR_KEY, ['Image' => "Le fichier n'est pas une image valide avec un format valide"]);
+                App::$templateEngine->run('course.config', ['course' => $course, 'categories' => CourseCategoryService::FindAll(),]);
+            }
+
+            $media = (new Media())
+                ->setName($file->getFilename())
+                ->setMimeType($file->getMime())
+                ->setFilename(uniqid(more_entropy: true) . '.' . $file->getExtension());
+
+            if (!$file->move(self::COURSE_BANNER_IMG_PATH . '/' . $media->getFilename())) {
+                // The image can't be saved as a file on the server
+                flashInputs();
+
+                App::$session->setFlash(ISession::ERROR_KEY, ['Image' => "Une erreur est survenue lors de l'upload de l'image"]);
+                App::$templateEngine->run('course.config', ['course' => $course, 'categories' => CourseCategoryService::FindAll(),]);
+            }
+
+            $oldMedia = $course->getBanner();
+
+            // The new image is valid, we can delete the old one
+            unlink(self::COURSE_BANNER_IMG_PATH . '/' . $oldMedia->getFilename());
+
+            $course->setBanner($media);
+
+            MediaService::Delete($oldMedia, false);
+        }
+
+        // Change the visibility of the course
+        if (isset($inputs['visibilite'])) {
+            $newVisibility = CourseVisibility::from($inputs['visibilite']);
+            if ($newVisibility === CourseVisibility::Public && $course->getChapters()->count() < 1) {
+                App::$session->setFlash(ISession::ERROR_KEY, ['visibilite' => "Vous ne pouvez pas rendre un cours public s'il n'a pas de chapitre"]);
+                App::$templateEngine->run('course.config', ['course' => $course, 'categories' => CourseCategoryService::FindAll(),]);
+            }
+
+            if ($newVisibility === CourseVisibility::Draft && $course->getEnrollments()->count() > 0) {
+                App::$session->setFlash(ISession::ERROR_KEY, ['visibilite' => "Vous ne pouvez pas rendre un cours 'brouillon s'il a des inscriptions"]);
+                App::$templateEngine->run('course.config', ['course' => $course, 'categories' => CourseCategoryService::FindAll(),]);
+            }
+
+            $course->setVisibility($newVisibility);
+        }
+
+
+        CourseService::Update($course);
+
+        redirect(url('course.edit', ['courseId' => $course->getId()]));
+    }
+
+    /**
+     * @param Course $course
+     * @return never
+     */
+    public function destroy(Course $course): never
+    {
+        if (!App::$auth->can(Action::Delete, $course)) {
+            throw new ForbiddenHttpException('Vous n\'avez pas la permission de supprimer ce cours.');
+        }
+
+        if ($course->getEnrollments()->count() > 0) {
+            App::$session->setFlash(ISession::ERROR_KEY, ['course' => 'Vous ne pouvez pas supprimer un cours qui a des inscriptions']);
+            App::$templateEngine->run('course.config', ['course' => $course, 'categories' => CourseCategoryService::FindAll(),]);
+        }
+
+        // Delete the banner
+        $banner = $course->getBanner();
+        CourseService::Delete($course, false);
+        unlink(self::COURSE_BANNER_IMG_PATH . '/' . $banner->getFilename());
+
+        // Delete the chapter media
+        $chapters = $course->getChapters();
+        foreach ($chapters as $chapter) {
+            unlink(ChapterController::CHAPTER_MEDIA_PATH . '/' . $chapter->getMedia()->getFilename());
+        }
+
+        MediaService::Delete($banner); // Remove chapter by cascade
+
+        redirect(url('dashboard.index'));
+    }
 }
