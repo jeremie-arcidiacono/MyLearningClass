@@ -13,4 +13,8 @@ return [
     'course' => [
         'bannerAllowedMimeTypes' => ['image/jpeg', 'image/png'],
     ],
+    'chapter' => [
+        'videoAllowedMimeTypes' => ['video/mp4', 'video/webm', 'video/ogg'],
+        'ressourceAllowedMimeTypes' => ['application/pdf'],
+    ],
 ];

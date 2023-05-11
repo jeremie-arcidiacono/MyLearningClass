@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 11, 2023 at 11:46 AM
+-- Generation Time: May 11, 2023 at 02:46 PM
 -- Server version: 10.3.38-MariaDB-0ubuntu0.20.04.1
 -- PHP Version: 8.2.5
 
@@ -32,7 +32,7 @@ USE `my_learning_class`;
 
 CREATE TABLE `CHAPTER` (
   `idChapter` int(12) UNSIGNED NOT NULL,
-  `title` varchar(200) NOT NULL,
+  `title` varchar(100) NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   `idCourse` int(10) UNSIGNED NOT NULL,

@@ -347,7 +347,7 @@ class CourseController
             flashInputs();
 
             App::$session->setFlash(ISession::ERROR_KEY, $validator->getErrors());
-            App::$templateEngine->run('course.create', ['categories' => CourseCategoryService::FindAll(),]);
+            return App::$templateEngine->run('course.create', ['categories' => CourseCategoryService::FindAll(),]);
         }
 
         $file = App::$request->getInputHandler()->file('createinputfile');
@@ -356,7 +356,7 @@ class CourseController
             flashInputs();
 
             App::$session->setFlash(ISession::ERROR_KEY, ['Image' => "Le fichier n'est pas une image valide avec un format valide"]);
-            App::$templateEngine->run('course.create', ['categories' => CourseCategoryService::FindAll(),]);
+            return App::$templateEngine->run('course.create', ['categories' => CourseCategoryService::FindAll(),]);
         }
 
         $media = (new Media())
@@ -369,7 +369,7 @@ class CourseController
             flashInputs();
 
             App::$session->setFlash(ISession::ERROR_KEY, ['Image' => "Une erreur est survenue lors de l'upload de l'image"]);
-            App::$templateEngine->run('course.create', ['categories' => CourseCategoryService::FindAll(),]);
+            return App::$templateEngine->run('course.create', ['categories' => CourseCategoryService::FindAll(),]);
         }
 
         // All is good, we can persist the course and the media in the database
@@ -412,7 +412,7 @@ class CourseController
      * @param Course $course
      * @return void
      */
-    public function update(Course $course): never
+    public function update(Course $course): string
     {
         if (!App::$auth->can(Action::Update, $course)) {
             throw new ForbiddenHttpException('Vous n\'avez pas la permission de modifier ce cours.');
@@ -434,7 +434,7 @@ class CourseController
             flashInputs();
 
             App::$session->setFlash(ISession::ERROR_KEY, $validator->getErrors());
-            App::$templateEngine->run('course.config', ['course' => $course, 'categories' => CourseCategoryService::FindAll(),]);
+            return App::$templateEngine->run('course.config', ['course' => $course, 'categories' => CourseCategoryService::FindAll(),]);
         }
 
         if (isset($inputs['titre'])) {
@@ -457,7 +457,7 @@ class CourseController
                 flashInputs();
 
                 App::$session->setFlash(ISession::ERROR_KEY, ['Image' => "Le fichier n'est pas une image valide avec un format valide"]);
-                App::$templateEngine->run('course.config', ['course' => $course, 'categories' => CourseCategoryService::FindAll(),]);
+                return App::$templateEngine->run('course.config', ['course' => $course, 'categories' => CourseCategoryService::FindAll(),]);
             }
 
             $media = (new Media())
@@ -470,7 +470,7 @@ class CourseController
                 flashInputs();
 
                 App::$session->setFlash(ISession::ERROR_KEY, ['Image' => "Une erreur est survenue lors de l'upload de l'image"]);
-                App::$templateEngine->run('course.config', ['course' => $course, 'categories' => CourseCategoryService::FindAll(),]);
+                return App::$templateEngine->run('course.config', ['course' => $course, 'categories' => CourseCategoryService::FindAll(),]);
             }
 
             $oldMedia = $course->getBanner();
@@ -487,13 +487,17 @@ class CourseController
         if (isset($inputs['visibilite'])) {
             $newVisibility = CourseVisibility::from($inputs['visibilite']);
             if ($newVisibility === CourseVisibility::Public && $course->getChapters()->count() < 1) {
+                flashInputs();
+
                 App::$session->setFlash(ISession::ERROR_KEY, ['visibilite' => "Vous ne pouvez pas rendre un cours public s'il n'a pas de chapitre"]);
-                App::$templateEngine->run('course.config', ['course' => $course, 'categories' => CourseCategoryService::FindAll(),]);
+                return App::$templateEngine->run('course.config', ['course' => $course, 'categories' => CourseCategoryService::FindAll(),]);
             }
 
             if ($newVisibility === CourseVisibility::Draft && $course->getEnrollments()->count() > 0) {
+                flashInputs();
+
                 App::$session->setFlash(ISession::ERROR_KEY, ['visibilite' => "Vous ne pouvez pas rendre un cours 'brouillon s'il a des inscriptions"]);
-                App::$templateEngine->run('course.config', ['course' => $course, 'categories' => CourseCategoryService::FindAll(),]);
+                return App::$templateEngine->run('course.config', ['course' => $course, 'categories' => CourseCategoryService::FindAll(),]);
             }
 
             $course->setVisibility($newVisibility);
@@ -509,7 +513,7 @@ class CourseController
      * @param Course $course
      * @return never
      */
-    public function destroy(Course $course): never
+    public function destroy(Course $course): string
     {
         if (!App::$auth->can(Action::Delete, $course)) {
             throw new ForbiddenHttpException('Vous n\'avez pas la permission de supprimer ce cours.');
@@ -517,7 +521,7 @@ class CourseController
 
         if ($course->getEnrollments()->count() > 0) {
             App::$session->setFlash(ISession::ERROR_KEY, ['course' => 'Vous ne pouvez pas supprimer un cours qui a des inscriptions']);
-            App::$templateEngine->run('course.config', ['course' => $course, 'categories' => CourseCategoryService::FindAll(),]);
+            return App::$templateEngine->run('course.config', ['course' => $course, 'categories' => CourseCategoryService::FindAll(),]);
         }
 
         // Delete the banner

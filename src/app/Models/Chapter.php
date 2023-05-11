@@ -26,7 +26,7 @@ class Chapter implements IModel
     #[Id, GeneratedValue]
     private int $id;
 
-    #[Column(length: 200)]
+    #[Column(length: 100)]
     private string $title;
 
     #[Column(length: 3, options: ['unsigned' => true])]
@@ -87,7 +87,7 @@ class Chapter implements IModel
         $this->position = $position;
         return $this;
     }
-    
+
 
     /**
      * @return Media|null

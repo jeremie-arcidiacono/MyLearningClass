@@ -61,6 +61,12 @@ Router::group(['exceptionHandler' => App\Exceptions\ExceptionHandler::class, 'me
                 ->where(['courseId' => '[0-9]+'])->name('course.update');
             Router::delete('/{courseId}', [App\Controllers\CourseController::class, 'destroy'])
                 ->where(['courseId' => '[0-9]+'])->name('course.destroy');
+
+            Router::post('/{courseId}/configuration/chapitre', [App\Controllers\ChapterController::class, 'store'])->name('chapter.store');
+            Router::put('/{courseId}/configuration/chapitre/{chapterId}', [App\Controllers\ChapterController::class, 'update'])
+                ->where(['courseId' => '[0-9]+', 'chapterId' => '[0-9]+'])->name('chapter.update');
+            Router::delete('/{courseId}/configuration/chapitre/{chapterId}', [App\Controllers\ChapterController::class, 'destroy'])
+                ->where(['courseId' => '[0-9]+', 'chapterId' => '[0-9]+'])->name('chapter.destroy');
         });
 
         Router::group(['prefix' => '/dashboard'], function () {

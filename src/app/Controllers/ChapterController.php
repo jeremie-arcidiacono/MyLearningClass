@@ -11,10 +11,12 @@ namespace App\Controllers;
 
 use App\App;
 use App\Contracts\ISession;
+use App\Enums\Action;
 use App\Enums\ChapterProgressStatus;
 use App\Exceptions\ForbiddenHttpException;
 use App\Models\Chapter;
 use App\Models\Course;
+use App\Models\Media;
 use App\Services\ChapterProgressService;
 use App\Services\ChapterService;
 use App\Services\CourseEnrollmentService;
@@ -157,7 +159,81 @@ class ChapterController
             $chapterProgress->setStatus($chapterProgressStatus);
             ChapterProgressService::Update($chapterProgress);
         }
-        
+
         redirect(url('chapter.show', ['courseId' => $course->getId(), 'chapter' => $chapter->getPosition()]));
+    }
+
+    public function store(Course $course): string
+    {
+        if (!App::$auth->can(Action::Update, $course)) { // The action of adding a chapter is considered as an update of the course.
+            throw new ForbiddenHttpException('Vous ne pouvez pas créer de chapitre.');
+        }
+
+        $inputs = getAllInputs();
+
+        $rules = [
+            'titre' => ['required', 'lenmin:5', 'lenmax:100'],
+        ];
+
+        $validatedInputs = new Validator($inputs, $rules);
+
+        if (!$validatedInputs->isValid()) {
+            App::$session->setFlash(ISession::ERROR_KEY, $validatedInputs->getErrors());
+            return App::$templateEngine->run('course.config', ['course' => $course]);
+        }
+
+        // Check the video
+        $fileVideo = App::$request->getInputHandler()->file('video');
+        if ($fileVideo->hasError() || !in_array(strtolower($fileVideo->getMime()), App::$config->get('models.chapter.videoAllowedMimeTypes', []))) {
+            // The video is invalid
+
+            App::$session->setFlash(ISession::ERROR_KEY, ['Video' => "Le fichier n'est pas une vidéo valide avec un format valide"]);
+            return App::$templateEngine->run('course.config', ['course' => $course]);
+        }
+
+        $media = (new Media())
+            ->setName($fileVideo->getFilename())
+            ->setMimeType($fileVideo->getMime())
+            ->setFilename(uniqid(more_entropy: true) . '.' . $fileVideo->getExtension());
+
+        if (!$fileVideo->move(self::CHAPTER_MEDIA_PATH . '/' . $media->getFilename())) {
+            // The video can't be saved as a file on the server
+
+            App::$session->setFlash(ISession::ERROR_KEY, ['Video' => "Une erreur est survenue lors de l'upload de la vidéo"]);
+            return App::$templateEngine->run('course.config', ['course' => $course]);
+        }
+
+
+        // Check the ressource
+        $fileRessource = App::$request->getInputHandler()->file('ressource');
+        if ($fileRessource->hasError() || !in_array(strtolower($fileRessource->getMime()), App::$config->get('models.chapter.ressourceAllowedMimeTypes', []))) {
+            // The ressource is invalid
+
+            App::$session->setFlash(ISession::ERROR_KEY, ['Ressource' => "Le fichier n'est pas une document valide avec un format valide"]);
+            return App::$templateEngine->run('course.config', ['course' => $course]);
+        }
+
+        $ressource = (new Media())
+            ->setName($fileRessource->getFilename())
+            ->setMimeType($fileRessource->getMime())
+            ->setFilename(uniqid(more_entropy: true) . '.' . $fileRessource->getExtension());
+
+        if (!$fileRessource->move(self::CHAPTER_MEDIA_PATH . '/' . $ressource->getFilename())) {
+            // The ressource can't be saved as a file on the server
+
+            App::$session->setFlash(ISession::ERROR_KEY, ['Ressource' => "Une erreur est survenue lors de l'upload du document"]);
+            return App::$templateEngine->run('course.config', ['course' => $course]);
+        }
+
+        $chapter = (new Chapter())
+            ->setTitle($inputs['titre'])
+            ->setVideo($media)
+            ->setRessource($ressource)
+            ->setCourse($course)
+            ->setPosition($course->getChapters()->count() + 1);
+
+        ChapterService::Create($chapter);
+
+        redirect(url('course.edit', ['courseId' => $course->getId()]));
     }
 }
