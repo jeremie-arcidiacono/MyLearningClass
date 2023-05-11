@@ -61,6 +61,7 @@ class Course implements IModel
     #[ManyToMany(targetEntity: User::class, mappedBy: 'bookmarkedCourses', cascade: ['persist', 'remove'])]
     private Collection $bookmarkedBy;
 
+
     public function __construct()
     {
         $this->chapters = new ArrayCollection();
@@ -171,11 +172,20 @@ class Course implements IModel
 
 
     /**
+     * Get the chapters of the course ordered by position.
      * @return ArrayCollection|Collection
      */
     public function getChapters(): ArrayCollection|Collection
     {
-        return $this->chapters;
+        // We don't do the sort in the setter because doctrine doesn't call it when he hydrates the entity
+        $iterator = $this->chapters->getIterator();
+
+        // Order by chapter position ASC
+        $iterator->uasort(function (Chapter $a, Chapter $b) {
+            return ($a->getPosition() < $b->getPosition()) ? -1 : 1;
+        });
+
+        return new ArrayCollection(iterator_to_array($iterator));
     }
 
     /**

@@ -11,6 +11,7 @@ Need to provide :
 @php
     /**
     * @var \App\Models\Course $course
+    * @var \App\Models\Chapter[] $chapters The chapters of the course (ordered by position)
     * @var \App\Models\Chapter $chapter
     */
 @endphp
