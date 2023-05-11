@@ -296,6 +296,10 @@ class CourseController
      */
     public function create(): string
     {
+        if (!App::$auth->can(Action::Create, new Course())) {
+            throw new ForbiddenHttpException('Vous n\'avez pas la permission de créer un cours.');
+        }
+
         $categories = CourseCategoryService::FindAll();
 
         return App::$templateEngine->run(
@@ -304,6 +308,74 @@ class CourseController
                 'categories' => $categories,
             ]
         );
+    }
+
+    /**
+     * Create and store a new course.
+     * @return string
+     * @throws ForbiddenHttpException
+     * @throws ORMException
+     */
+    public function store(): string
+    {
+        if (!App::$auth->can(Action::Create, new Course())) {
+            throw new ForbiddenHttpException('Vous n\'avez pas la permission de créer un cours.');
+        }
+
+        $inputs = getAllInputs();
+        $inputs = array_map('trim', $inputs); // Trim all inputs
+
+
+        $rules = [
+            'titre' => ['required', 'string', 'lenmin:5', 'lenmax:150'],
+            'description' => ['required', 'string', 'lenmin:5', 'lenmax:250'],
+            'categorie' => ['required', 'integer', 'exists:' . CourseCategory::class],
+        ];
+
+        $validator = new Validator($inputs, $rules, App::$db);
+
+        if (!$validator->isValid()) {
+            // The inputs are not valid
+            flashInputs();
+
+            App::$session->setFlash(ISession::ERROR_KEY, $validator->getErrors());
+            App::$templateEngine->run('course.create', ['categories' => CourseCategoryService::FindAll(),]);
+        }
+
+        $file = App::$request->getInputHandler()->file('createinputfile');
+        if ($file->hasError() || !in_array(strtolower($file->getMime()), App::$config->get('models.course.bannerAllowedMimeTypes', []))) {
+            // The image is not valid or has an invalid format
+            flashInputs();
+
+            App::$session->setFlash(ISession::ERROR_KEY, ['Image' => "Le fichier n'est pas une image valide avec un format valide"]);
+            App::$templateEngine->run('course.create', ['categories' => CourseCategoryService::FindAll(),]);
+        }
+
+        $media = (new Media())
+            ->setName($file->getFilename())
+            ->setMimeType($file->getMime())
+            ->setFilename(uniqid(more_entropy: true) . '.' . $file->getExtension());
+
+        if (!$file->move(self::COURSE_BANNER_IMG_PATH . '/' . $media->getFilename())) {
+            // The image can't be saved as a file on the server
+            flashInputs();
+
+            App::$session->setFlash(ISession::ERROR_KEY, ['Image' => "Une erreur est survenue lors de l'upload de l'image"]);
+            App::$templateEngine->run('course.create', ['categories' => CourseCategoryService::FindAll(),]);
+        }
+
+        // All is good, we can persist the course and the media in the database
+        $course = (new Course())
+            ->setTitle($inputs['titre'])
+            ->setDescription($inputs['description'])
+            ->setCategory(CourseCategoryService::Find((int)$inputs['categorie']))
+            ->setBanner($media)
+            ->setOwner(App::$auth->getUser())
+            ->setVisibility(CourseVisibility::Draft);
+
+        CourseService::Create($course);
+
+        redirect(url('course.edit', ['courseId' => $course->getId()]));
     }
 
 }

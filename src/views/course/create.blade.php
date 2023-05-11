@@ -24,7 +24,7 @@ Description : The page is a form to create a new course (without chapters).
                                 <div class="course-field mb--15">
                                     <label for="titre" class="fs-3">Titre du cours</label>
                                     <input id="titre" name="titre" type="text" placeholder="Nouveau cours"
-                                           maxlength="150"
+                                           maxlength="150" minlength="5" required
                                            value="{{ $old['titre'] }}">
                                     <small class="d-block mt_dec--5"><i class="feather-info"></i> Le titre doit
                                         comporter
@@ -33,8 +33,8 @@ Description : The page is a form to create a new course (without chapters).
 
                                 <div class="course-field mb--15">
                                     <label for="description" class="fs-3">Description</label>
-                                    <textarea id="description" name="description" rows="10" maxlength="250">{{
-                                $old['description'] }}</textarea>
+                                    <textarea id="description" name="description" rows="4" maxlength="250" required>
+                                        {{ $old['description'] }}</textarea>
                                     <small class="d-block mt_dec--5"><i class="feather-info"></i> La description doit
                                         comporter au maximum 250 caractères.</small>
                                 </div>
@@ -61,7 +61,13 @@ Description : The page is a form to create a new course (without chapters).
                                                 <!-- actual upload which is hidden -->
                                                 <input name="createinputfile" id="createinputfile"
                                                        type="file" class="inputfile"
-                                                       accept="image/jpeg,image/png">
+                                                       accept="@php
+                                                           $output = '';
+                                                           foreach ($config->get('models.course.bannerAllowedMimeTypes', []) as $mime) {
+                                                                  $output .= $mime . ',';
+                                                           }
+                                                           echo rtrim($output, ',');
+                                                       @endphp" required>
                                                 <img id="createfileImage"
                                                      src="/assets/images/others/thumbnail-placeholder.svg"
                                                      alt="file image">
@@ -87,14 +93,14 @@ Description : The page is a form to create a new course (without chapters).
 
                         <div class="mt--10 row g-5 d-flex justify-content-center">
                             <div class="col-lg-8">
-                                <a class="rbt-btn btn-gradient hover-icon-reverse w-100 text-center"
-                                   href="javascript:void(0)" onclick="this.closest('form').submit()">
+                                <button class="rbt-btn btn-gradient hover-icon-reverse w-100 text-center"
+                                        type="submit">
                                     <span class="icon-reverse-wrapper">
                                         <span class="btn-text">Créer le cours</span>
                                     <span class="btn-icon"><i class="feather-arrow-right"></i></span>
                                     <span class="btn-icon"><i class="feather-arrow-right"></i></span>
                                     </span>
-                                </a>
+                                </button>
                             </div>
                         </div>
                     </form>
