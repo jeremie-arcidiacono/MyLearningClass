@@ -67,6 +67,7 @@ Router::group(['exceptionHandler' => App\Exceptions\ExceptionHandler::class, 'me
             Router::redirect('/', '/dashboard/inscriptions', 301)->name('dashboard.index');
             Router::get('/inscriptions', [App\Controllers\DashboardController::class, 'enrolledCourse'])->name('dashboard.enrolledCourse');
             Router::get('/favoris', [App\Controllers\DashboardController::class, 'bookmarkedCourse'])->name('dashboard.bookmarkedCourse');
+            Router::get('/cours', [App\Controllers\DashboardController::class, 'createdCourse'])->name('dashboard.createdCourse');
         });
     });
 });

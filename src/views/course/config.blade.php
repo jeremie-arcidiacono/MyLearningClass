@@ -319,7 +319,7 @@ Description : The page is a detailed view of a course that the teacher has creat
                             <div class="section-title">
                                 <h4 class="rbt-title-style-3">Étudiants inscrits</h4>
                             </div>
-                            @if($enrollments->isEmpty())
+                            @if(empty($enrollments))
                                 <i class="feather-info"></i>  Aucun étudiant inscrit
                             @else
                                 <div class="rbt-dashboard-table table-responsive mobile-table-750">

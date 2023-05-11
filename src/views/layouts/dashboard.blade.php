@@ -100,12 +100,14 @@ Need to provide :
 
                                                 <nav class="mainmenu-nav">
                                                     <ul class="dashboard-mainmenu rbt-default-sidebar-list">
-                                                        @component('components.dashboard-nav-link',[
-                                                            'targetRouteName' => 'dashboard.createdCourse',
-                                                            'iconName' => 'feather-monitor',
-                                                        ])
-                                                            Cours créés
-                                                        @endcomponent
+                                                        @if($auth->can(\App\Enums\Action::Create,new \App\Models\Course()))
+                                                            @component('components.dashboard-nav-link',[
+                                                                'targetRouteName' => 'dashboard.createdCourse',
+                                                                'iconName' => 'feather-monitor',
+                                                            ])
+                                                                Cours créés
+                                                            @endcomponent
+                                                        @endif
                                                     </ul>
                                                 </nav>
                                             @endif

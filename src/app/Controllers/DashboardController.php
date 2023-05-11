@@ -11,6 +11,7 @@ namespace App\Controllers;
 use App\App;
 use App\Enums\ChapterProgressStatus;
 use App\Enums\CourseVisibility;
+use App\Exceptions\ForbiddenHttpException;
 use App\Models\Course;
 use App\Services\ChapterProgressService;
 
@@ -67,6 +68,22 @@ class DashboardController
             'dashboard.bookmarked-course',
             [
                 'bookmarkedCourses' => $bookmarkedCourses,
+            ]
+        );
+    }
+
+    public function createdCourse()
+    {
+        if (!App::$auth->can(\App\Enums\Action::Create, new \App\Models\Course())) {
+            throw new ForbiddenHttpException('Vous n\'avez pas la permission de créer un cours.');
+        }
+
+        $createdCourses = App::$auth->getUser()->getCreatedCourses();
+
+        return App::$templateEngine->run(
+            'dashboard.created-course',
+            [
+                'createdCourses' => $createdCourses,
             ]
         );
     }
