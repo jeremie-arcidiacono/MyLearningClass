@@ -20,4 +20,9 @@ return [
             'nbItemsPerPage' => 9,
         ],
     ],
+    'user' => [
+        'index' => [
+            'nbItemsPerPage' => 20,
+        ],
+    ],
 ];

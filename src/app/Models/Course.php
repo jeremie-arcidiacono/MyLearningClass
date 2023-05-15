@@ -58,7 +58,7 @@ class Course implements IModel
     #[OneToMany(mappedBy: 'course', targetEntity: CourseEnrollment::class, cascade: ['persist', 'remove'])]
     private Collection $enrollments;
 
-    #[ManyToMany(targetEntity: User::class, mappedBy: 'bookmarkedCourses', cascade: ['persist', 'remove'])]
+    #[ManyToMany(targetEntity: User::class, mappedBy: 'bookmarkedCourses')]
     private Collection $bookmarkedBy;
 
 

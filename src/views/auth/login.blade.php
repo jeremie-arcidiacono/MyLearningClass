@@ -14,14 +14,14 @@ Description : The login page
                         <form action="{{ url('auth.login')}}" method="post" class="max-width-auto">
                             @customCsrf
 
-                            @component('components.form-input', [
+                            @component('components.form-input-s1', [
                                 'name' => 'email',
                                 'type' => 'email',
                             ])
                                 Adresse e-mail *
                             @endcomponent
 
-                            @component('components.form-input', [
+                            @component('components.form-input-s1', [
                                 'name' => 'motDePasse',
                                 'type' => 'password',
                                 'sticky' => false,

@@ -121,6 +121,22 @@ Need to provide :
 
                                                 <nav class="mainmenu-nav">
                                                     <ul class="dashboard-mainmenu rbt-default-sidebar-list">
+                                                        @if($auth->can(\App\Enums\Action::Read,new \App\Models\User()))
+                                                            @component('components.dashboard-nav-link',[
+                                                                'targetRouteName' => 'user.index',
+                                                                'iconName' => 'fas fa-users',
+                                                            ])
+                                                                Utilisateurs
+                                                            @endcomponent
+                                                        @endif
+                                                        @if($auth->can(\App\Enums\Action::Create,new \App\Models\User()))
+                                                            @component('components.dashboard-nav-link',[
+                                                                'targetRouteName' => 'user.create',
+                                                                'iconName' => 'fas fa-user-plus',
+                                                            ])
+                                                                Créer un utilisateur
+                                                            @endcomponent
+                                                        @endif
                                                     </ul>
                                                 </nav>
                                             @endif

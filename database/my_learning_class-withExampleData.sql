@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 11, 2023 at 02:46 PM
+-- Generation Time: May 15, 2023 at 11:37 AM
 -- Server version: 10.3.38-MariaDB-0ubuntu0.20.04.1
--- PHP Version: 8.2.5
+-- PHP Version: 8.2.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -144,7 +144,10 @@ INSERT INTO `CHAPTER` (`idChapter`, `title`, `createdAt`, `updatedAt`, `idCourse
 (96, 'Cassandra et Couchbase', '2023-05-09 06:15:19', '2023-05-09 06:15:19', 32, NULL, NULL, 3),
 (97, 'React Native - Introduction', '2023-05-09 06:15:19', '2023-05-09 06:15:19', 33, NULL, 'pdf01.pdf', 1),
 (98, 'Composants mobiles et styles', '2023-05-09 06:15:19', '2023-05-09 06:15:19', 33, 'vid01.mp4', 'pdf01.pdf', 2),
-(99, 'API et gestion d\'état avec Redux', '2023-05-09 06:15:19', '2023-05-09 06:15:19', 33, 'vid01.mp4', NULL, 3);
+(99, 'API et gestion d\'état avec Redux', '2023-05-09 06:15:19', '2023-05-09 06:15:19', 33, 'vid01.mp4', NULL, 3),
+(100, 'Le css', '2023-05-15 14:55:29', '2023-05-15 14:55:29', 34, '645f88c175ffa8.99218604.mp4', '645f88c17605d2.25552653.pdf', 1),
+(101, 'Les animations CSS', '2023-05-15 14:57:41', '2023-05-15 14:57:41', 1, '645f89456a3219.62703784.mp4', '645f89456a35c0.47923076.pdf', 4),
+(102, 'Les headers HTML', '2023-05-15 16:16:24', '2023-05-15 16:16:24', 1, '645f9bb80476d8.03473487.mp4', NULL, 5);
 
 -- --------------------------------------------------------
 
@@ -164,18 +167,22 @@ CREATE TABLE `CHAPTER_PROGRESS` (
 --
 
 INSERT INTO `CHAPTER_PROGRESS` (`idUser`, `idChapter`, `status`, `createdAt`) VALUES
+(1, 1, '1', '2023-05-15 15:01:17'),
+(1, 2, '1', '2023-05-15 15:01:17'),
+(1, 3, '1', '2023-05-15 15:01:17'),
 (1, 25, '1', '2023-05-09 15:17:19'),
 (1, 26, '1', '2023-05-09 15:17:19'),
 (1, 27, '1', '2023-05-09 15:17:19'),
 (1, 91, '1', '2023-05-09 15:56:41'),
 (1, 92, '1', '2023-05-09 15:56:41'),
 (1, 93, '1', '2023-05-09 15:56:41'),
-(1, 94, '1', '2023-05-09 11:14:09'),
-(1, 95, '1', '2023-05-09 11:14:09'),
-(1, 96, '1', '2023-05-09 11:14:09'),
+(1, 94, '3', '2023-05-09 11:14:09'),
+(1, 95, '3', '2023-05-09 11:14:09'),
+(1, 96, '3', '2023-05-09 11:14:09'),
 (1, 97, '1', '2023-05-09 13:31:30'),
 (1, 98, '1', '2023-05-09 13:31:30'),
 (1, 99, '1', '2023-05-09 13:31:30'),
+(1, 101, '1', '2023-05-15 15:01:17'),
 (18, 85, '1', '2023-05-10 08:32:54'),
 (18, 86, '1', '2023-05-10 08:32:54'),
 (18, 87, '1', '2023-05-10 08:32:54');
@@ -203,7 +210,7 @@ CREATE TABLE `COURSE` (
 --
 
 INSERT INTO `COURSE` (`idCourse`, `title`, `description`, `visibility`, `createdAt`, `updatedAt`, `codeCourseCategory`, `idUser`, `mediaBanner`) VALUES
-(1, 'Fondamentaux d\'HTML et CSS', 'Apprenez les notions fondamentales d\'HTML et CSS pour créer des sites web réactifs et interactifs.', '1', '2023-05-09 06:15:19', '2023-05-09 06:15:19', 1, 1, 'img1.jpg'),
+(1, 'Fondamentaux d\'HTML et CSS', 'Apprenez les notions fondamentales d\'HTML et CSS pour créer des sites web réactifs et interactifs.', '2', '2023-05-09 06:15:19', '2023-05-15 15:01:11', 1, 1, 'img1.jpg'),
 (2, 'Bases de JavaScript', 'Maîtrisez les bases de JavaScript et apprenez à créer des applications web dynamiques.', '2', '2023-05-09 06:15:19', '2023-05-09 06:15:19', 1, 2, 'img2.jpg'),
 (3, 'Essentiels de React JS', 'Explorez les concepts et fonctionnalités clés de React JS, l\'une des bibliothèques frontales les plus populaires.', '2', '2023-05-09 06:15:19', '2023-05-09 06:15:19', 1, 3, 'img3.jpg'),
 (4, 'Fondamentaux d\'Angular', 'Découvrez les concepts clés d\'Angular, un framework puissant pour la création d\'applications web modernes.', '2', '2023-05-09 06:15:19', '2023-05-09 06:15:19', 1, 4, 'img4.jpg'),
@@ -230,12 +237,13 @@ INSERT INTO `COURSE` (`idCourse`, `title`, `description`, `visibility`, `created
 (25, 'PHP pour le développement web', 'Apprenez les bases de PHP, un langage de script largement utilisé pour créer des applications web dynamiques.', '2', '2023-05-09 06:15:19', '2023-05-09 06:15:19', 2, 7, 'img9.jpg'),
 (26, 'Maîtriser Laravel', 'Découvrez les concepts clés de Laravel, un framework PHP puissant pour créer des applications web modernes.', '2', '2023-05-09 06:15:19', '2023-05-09 06:15:19', 2, 8, 'img10.jpg'),
 (27, 'Développement web avec Python', 'Explorez l\'utilisation de Python dans le développement web et apprenez à créer des sites web dynamiques avec Django et Flask.', '2', '2023-05-09 06:15:19', '2023-05-09 06:15:19', 2, 9, 'img11.jpg'),
-(28, 'Cours accéléré de Ruby on Rails', 'Apprenez Ruby on Rails, un framework d\'application web full-stack pour créer des applications puissantes et évolutives.', '2', '2023-05-09 06:15:19', '2023-05-09 06:15:19', 2, 1, 'img12.jpg'),
+(28, 'Cours accéléré de Ruby on Rails', 'Apprenez Ruby on Rails, un framework d\'application web full-stack pour créer des applications puissantes et évolutives.', '3', '2023-05-09 06:15:19', '2023-05-15 15:00:06', 2, 1, 'img12.jpg'),
 (29, 'Développement web avec Java', 'Apprenez les concepts essentiels de Java pour le développement web et créez des applications web dynamiques avec Spring et Hibernate.', '2', '2023-05-09 06:15:19', '2023-05-09 06:15:19', 2, 2, 'img13.jpg'),
 (30, 'Essentiels d\'ASP.NET Core', 'Découvrez les concepts clés d\'ASP.NET Core, un framework puissant pour créer des applicationsweb modernes en utilisant C#.', '2', '2023-05-09 06:15:19', '2023-05-09 06:15:19', 2, 3, 'img14.jpg'),
 (31, 'Conception de bases de données et SQL', 'Apprenez les bases de la conception de bases de données, de la normalisation et du SQL pour gérer des bases de données relationnelles.', '2', '2023-05-09 06:15:19', '2023-05-09 06:15:19', 2, 4, 'img15.jpg'),
 (32, 'Bases de données NoSQL', 'Découvrez le monde des bases de données NoSQL, telles que MongoDB, et apprenez à stocker et gérer des données non structurées.', '2', '2023-05-09 06:15:19', '2023-05-09 06:15:19', 2, 5, 'img16.jpg'),
-(33, 'Développement d\'applications mobiles avec React Native', 'Apprenez à créer des applications mobiles multiplateformes en utilisant React Native.', '2', '2023-05-09 06:15:19', '2023-05-09 06:15:19', 3, 6, 'img17.jpg');
+(33, 'Développement d\'applications mobiles avec React Native', 'Apprenez à créer des applications mobiles multiplateformes en utilisant React Native.', '2', '2023-05-09 06:15:19', '2023-05-09 06:15:19', 3, 6, 'img17.jpg'),
+(34, 'Privé Privé Privé Privé Privé Privé Privé Privé Privé ', '###############################', '3', '2023-05-11 07:50:39', '2023-05-15 16:26:13', 3, 1, 'img7.jpg');
 
 -- --------------------------------------------------------
 
@@ -255,6 +263,7 @@ CREATE TABLE `COURSE_BOOKMARK` (
 INSERT INTO `COURSE_BOOKMARK` (`idUser`, `idCourse`) VALUES
 (1, 1),
 (1, 5),
+(1, 29),
 (2, 2),
 (2, 3),
 (2, 6),
@@ -351,6 +360,7 @@ CREATE TABLE `COURSE_ENROLLMENT` (
 --
 
 INSERT INTO `COURSE_ENROLLMENT` (`idUser`, `idCourse`, `createdAt`) VALUES
+(1, 1, '2023-05-15 15:01:17'),
 (1, 9, '2023-05-09 15:17:19'),
 (1, 31, '2023-05-09 15:56:41'),
 (1, 32, '2023-05-09 11:14:09'),
@@ -416,6 +426,11 @@ CREATE TABLE `MEDIA` (
 --
 
 INSERT INTO `MEDIA` (`filename`, `name`, `mimeType`, `duration`, `createdAt`) VALUES
+('645f88c175ffa8.99218604.mp4', 'vid02.mp4', 'video/mp4', NULL, '2023-05-15 14:55:29'),
+('645f88c17605d2.25552653.pdf', 'CSS cheatsheat.pdf', 'application/pdf', NULL, '2023-05-15 14:55:29'),
+('645f89456a3219.62703784.mp4', 'vid02.mp4', 'video/mp4', NULL, '2023-05-15 14:57:41'),
+('645f89456a35c0.47923076.pdf', 'CSS cheatsheat.pdf', 'application/pdf', NULL, '2023-05-15 14:57:41'),
+('645f9bb80476d8.03473487.mp4', 'shoot_2.mp4', 'video/mp4', 6, '2023-05-15 16:16:24'),
 ('img1.jpg', 'my-course-image.jpg', 'image/jpeg', NULL, '2023-05-11 08:56:07'),
 ('img10.jpg', 'my-course-image.jpg', 'image/jpeg', NULL, '2023-05-11 08:56:07'),
 ('img11.jpg', 'my-course-image.jpg', 'image/jpeg', NULL, '2023-05-11 08:56:07'),
@@ -459,7 +474,8 @@ INSERT INTO `PERMISSION` (`codePermission`, `action`, `ressource`) VALUES
 (4, 'delete_own', 'course'),
 (5, 'delete_any', 'course'),
 (6, 'create', 'user'),
-(7, 'delete_any', 'user');
+(7, 'delete_any', 'user'),
+(8, 'read', 'user');
 
 -- --------------------------------------------------------
 
@@ -503,11 +519,13 @@ INSERT INTO `ROLE_HAS_PERMISSION` (`codeRole`, `codePermission`) VALUES
 (2, 2),
 (2, 3),
 (2, 4),
+(3, 1),
 (3, 2),
 (3, 3),
 (3, 5),
 (3, 6),
-(3, 7);
+(3, 7),
+(3, 8);
 
 -- --------------------------------------------------------
 
@@ -557,7 +575,7 @@ CREATE TABLE `USER` (
 --
 
 INSERT INTO `USER` (`idUser`, `firstname`, `lastname`, `email`, `password`, `createdAt`, `updatedAt`, `codeRole`) VALUES
-(1, 'Jere', 'Arci', 'existant@example.com', '$2y$10$ihh8mY4latiYOGDG5H5tge2qOYnJKVHeROTJzV.sfvwwvNWtlUwFe', '2023-05-09 06:15:19', '2023-05-09 06:15:19', 2),
+(1, 'Jere', 'Arci', 'existant@example.com', '$2y$10$ihh8mY4latiYOGDG5H5tge2qOYnJKVHeROTJzV.sfvwwvNWtlUwFe', '2023-05-09 06:15:19', '2023-05-15 16:17:49', 3),
 (2, 'Jean', 'Dupont', 'jean.dupont@example.com', '$2y$10$ihh8mY4latiYOGDG5H5tge2qOYnJKVHeROTJzV.sfvwwvNWtlUwFe', '2023-05-09 06:15:19', '2023-05-09 06:15:19', 2),
 (3, 'Marie', 'Martin', 'marie.martin@example.com', '$2y$10$ihh8mY4latiYOGDG5H5tge2qOYnJKVHeROTJzV.sfvwwvNWtlUwFe', '2023-05-09 06:15:19', '2023-05-09 06:15:19', 2),
 (4, 'Nicolas', 'Durand', 'nicolas.durand@example.com', '$2y$10$ihh8mY4latiYOGDG5H5tge2qOYnJKVHeROTJzV.sfvwwvNWtlUwFe', '2023-05-09 06:15:19', '2023-05-09 06:15:19', 2),
@@ -599,7 +617,6 @@ INSERT INTO `USER` (`idUser`, `firstname`, `lastname`, `email`, `password`, `cre
 ALTER TABLE `CHAPTER`
   ADD PRIMARY KEY (`idChapter`),
   ADD KEY `idCourse` (`idCourse`),
-  ADD KEY `idNextChapter` (`position`),
   ADD KEY `mediaVideo` (`mediaVideo`),
   ADD KEY `mediaRessource` (`mediaRessource`);
 
@@ -694,13 +711,13 @@ ALTER TABLE `USER`
 -- AUTO_INCREMENT for table `CHAPTER`
 --
 ALTER TABLE `CHAPTER`
-  MODIFY `idChapter` int(12) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `idChapter` int(12) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
 
 --
 -- AUTO_INCREMENT for table `COURSE`
 --
 ALTER TABLE `COURSE`
-  MODIFY `idCourse` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `idCourse` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `SESSION_DATA`
@@ -712,7 +729,7 @@ ALTER TABLE `SESSION_DATA`
 -- AUTO_INCREMENT for table `USER`
 --
 ALTER TABLE `USER`
-  MODIFY `idUser` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `idUser` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- Constraints for dumped tables
@@ -722,7 +739,7 @@ ALTER TABLE `USER`
 -- Constraints for table `CHAPTER`
 --
 ALTER TABLE `CHAPTER`
-  ADD CONSTRAINT `CHAPTER_ibfk_1` FOREIGN KEY (`idCourse`) REFERENCES `COURSE` (`idCourse`),
+  ADD CONSTRAINT `CHAPTER_ibfk_1` FOREIGN KEY (`idCourse`) REFERENCES `COURSE` (`idCourse`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `CHAPTER_ibfk_3` FOREIGN KEY (`mediaVideo`) REFERENCES `MEDIA` (`filename`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `CHAPTER_ibfk_4` FOREIGN KEY (`mediaRessource`) REFERENCES `MEDIA` (`filename`) ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -730,30 +747,30 @@ ALTER TABLE `CHAPTER`
 -- Constraints for table `CHAPTER_PROGRESS`
 --
 ALTER TABLE `CHAPTER_PROGRESS`
-  ADD CONSTRAINT `CHAPTER_PROGRESS_ibfk_1` FOREIGN KEY (`idChapter`) REFERENCES `CHAPTER` (`idChapter`),
-  ADD CONSTRAINT `CHAPTER_PROGRESS_ibfk_2` FOREIGN KEY (`idUser`) REFERENCES `USER` (`idUser`);
+  ADD CONSTRAINT `CHAPTER_PROGRESS_ibfk_1` FOREIGN KEY (`idChapter`) REFERENCES `CHAPTER` (`idChapter`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `CHAPTER_PROGRESS_ibfk_2` FOREIGN KEY (`idUser`) REFERENCES `USER` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `COURSE`
 --
 ALTER TABLE `COURSE`
-  ADD CONSTRAINT `COURSE_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `USER` (`idUser`),
+  ADD CONSTRAINT `COURSE_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `USER` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `COURSE_ibfk_2` FOREIGN KEY (`codeCourseCategory`) REFERENCES `COURSE_CATEGORY` (`codeCourseCategory`),
-  ADD CONSTRAINT `COURSE_ibfk_3` FOREIGN KEY (`mediaBanner`) REFERENCES `MEDIA` (`filename`);
+  ADD CONSTRAINT `COURSE_ibfk_3` FOREIGN KEY (`mediaBanner`) REFERENCES `MEDIA` (`filename`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `COURSE_BOOKMARK`
 --
 ALTER TABLE `COURSE_BOOKMARK`
-  ADD CONSTRAINT `COURSE_BOOKMARK_ibfk_1` FOREIGN KEY (`idCourse`) REFERENCES `COURSE` (`idCourse`),
-  ADD CONSTRAINT `COURSE_BOOKMARK_ibfk_2` FOREIGN KEY (`idUser`) REFERENCES `USER` (`idUser`);
+  ADD CONSTRAINT `COURSE_BOOKMARK_ibfk_1` FOREIGN KEY (`idCourse`) REFERENCES `COURSE` (`idCourse`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `COURSE_BOOKMARK_ibfk_2` FOREIGN KEY (`idUser`) REFERENCES `USER` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `COURSE_ENROLLMENT`
 --
 ALTER TABLE `COURSE_ENROLLMENT`
-  ADD CONSTRAINT `COURSE_ENROLLMENT_ibfk_1` FOREIGN KEY (`idCourse`) REFERENCES `COURSE` (`idCourse`),
-  ADD CONSTRAINT `COURSE_ENROLLMENT_ibfk_2` FOREIGN KEY (`idUser`) REFERENCES `USER` (`idUser`);
+  ADD CONSTRAINT `COURSE_ENROLLMENT_ibfk_1` FOREIGN KEY (`idCourse`) REFERENCES `COURSE` (`idCourse`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `COURSE_ENROLLMENT_ibfk_2` FOREIGN KEY (`idUser`) REFERENCES `USER` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `ROLE_HAS_PERMISSION`

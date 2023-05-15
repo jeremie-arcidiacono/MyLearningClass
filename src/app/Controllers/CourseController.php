@@ -15,6 +15,7 @@ use App\Enums\Action;
 use App\Enums\ChapterProgressStatus;
 use App\Enums\CourseVisibility;
 use App\Exceptions\ForbiddenHttpException;
+use App\Models\Chapter;
 use App\Models\ChapterProgress;
 use App\Models\Course;
 use App\Models\CourseCategory;
@@ -300,7 +301,8 @@ class CourseController
     }
 
     /**
-     * @return never
+     * @return string
+     * @throws ForbiddenHttpException
      */
     public function create(): string
     {
@@ -387,7 +389,9 @@ class CourseController
     }
 
     /**
-     * @return never
+     * @param Course $course
+     * @return string
+     * @throws ForbiddenHttpException
      */
     public function edit(Course $course): string
     {
@@ -402,15 +406,15 @@ class CourseController
             'course.config',
             [
                 'course' => $course,
-                'categories' => $categories,
-                'enrollments' => $enrollments,
+                'categories' => $categories
             ]
         );
     }
 
     /**
      * @param Course $course
-     * @return void
+     * @return string
+     * @throws ForbiddenHttpException
      */
     public function update(Course $course): string
     {
@@ -511,7 +515,8 @@ class CourseController
 
     /**
      * @param Course $course
-     * @return never
+     * @return string
+     * @throws ForbiddenHttpException
      */
     public function destroy(Course $course): string
     {

@@ -1,5 +1,5 @@
 {{--
-A customisable form input component.
+A customisable form input component (style 1 : bootstrap style).
 
 Need to provide :
     - $name : the name of the input
@@ -36,7 +36,7 @@ Need to provide :
             name="{{ $name }}"
             id="{{ $name }}"
             value="{{ $value }}"
-            {{--            {!! $required ? 'required' : '' !!}--}}
+            {!! $required ? 'required' : '' !!}
             {!! $otherAttributes ?? '' !!}
             class="{{ $invalidClass }}">
     <label for="{{ $name }}">{!! $slot !!}</label>

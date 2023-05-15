@@ -14,28 +14,28 @@ Description : The registration page
                         <form action="{{ url('auth.register')}}" method="post" class="max-width-auto">
                             @customCsrf
 
-                            @component('components.form-input', [
+                            @component('components.form-input-s1', [
                                 'name' => 'email',
                                 'type' => 'email',
                             ])
                                 Adresse e-mail *
                             @endcomponent
 
-                            @component('components.form-input', [
+                            @component('components.form-input-s1', [
                                 'name' => 'prenom',
                                 'otherAttributes' => 'minlength="2"',
                             ])
                                 Prénom *
                             @endcomponent
 
-                            @component('components.form-input', [
+                            @component('components.form-input-s1', [
                                 'name' => 'nom',
                                 'otherAttributes' => 'minlength="2"',
                             ])
                                 Nom *
                             @endcomponent
 
-                            @component('components.form-input', [
+                            @component('components.form-input-s1', [
                                 'name' => 'motDePasse',
                                 'type' => 'password',
                                 'sticky' => false,
@@ -44,7 +44,7 @@ Description : The registration page
                                 Mot de passe *
                             @endcomponent
 
-                            @component('components.form-input', [
+                            @component('components.form-input-s1', [
                                 'name' => 'motDePasseConfirmation',
                                 'type' => 'password',
                                 'sticky' => false,

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 11, 2023 at 02:46 PM
+-- Generation Time: May 15, 2023 at 11:36 AM
 -- Server version: 10.3.38-MariaDB-0ubuntu0.20.04.1
--- PHP Version: 8.2.5
+-- PHP Version: 8.2.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -152,7 +152,8 @@ INSERT INTO `PERMISSION` (`codePermission`, `action`, `ressource`) VALUES
 (4, 'delete_own', 'course'),
 (5, 'delete_any', 'course'),
 (6, 'create', 'user'),
-(7, 'delete_any', 'user');
+(7, 'delete_any', 'user'),
+(8, 'read', 'user');
 
 -- --------------------------------------------------------
 
@@ -196,11 +197,13 @@ INSERT INTO `ROLE_HAS_PERMISSION` (`codeRole`, `codePermission`) VALUES
 (2, 2),
 (2, 3),
 (2, 4),
+(3, 1),
 (3, 2),
 (3, 3),
 (3, 5),
 (3, 6),
-(3, 7);
+(3, 7),
+(3, 8);
 
 -- --------------------------------------------------------
 
@@ -255,7 +258,6 @@ CREATE TABLE `USER` (
 ALTER TABLE `CHAPTER`
   ADD PRIMARY KEY (`idChapter`),
   ADD KEY `idCourse` (`idCourse`),
-  ADD KEY `idNextChapter` (`position`),
   ADD KEY `mediaVideo` (`mediaVideo`),
   ADD KEY `mediaRessource` (`mediaRessource`);
 
@@ -378,7 +380,7 @@ ALTER TABLE `USER`
 -- Constraints for table `CHAPTER`
 --
 ALTER TABLE `CHAPTER`
-  ADD CONSTRAINT `CHAPTER_ibfk_1` FOREIGN KEY (`idCourse`) REFERENCES `COURSE` (`idCourse`),
+  ADD CONSTRAINT `CHAPTER_ibfk_1` FOREIGN KEY (`idCourse`) REFERENCES `COURSE` (`idCourse`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `CHAPTER_ibfk_3` FOREIGN KEY (`mediaVideo`) REFERENCES `MEDIA` (`filename`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `CHAPTER_ibfk_4` FOREIGN KEY (`mediaRessource`) REFERENCES `MEDIA` (`filename`) ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -386,30 +388,30 @@ ALTER TABLE `CHAPTER`
 -- Constraints for table `CHAPTER_PROGRESS`
 --
 ALTER TABLE `CHAPTER_PROGRESS`
-  ADD CONSTRAINT `CHAPTER_PROGRESS_ibfk_1` FOREIGN KEY (`idChapter`) REFERENCES `CHAPTER` (`idChapter`),
-  ADD CONSTRAINT `CHAPTER_PROGRESS_ibfk_2` FOREIGN KEY (`idUser`) REFERENCES `USER` (`idUser`);
+  ADD CONSTRAINT `CHAPTER_PROGRESS_ibfk_1` FOREIGN KEY (`idChapter`) REFERENCES `CHAPTER` (`idChapter`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `CHAPTER_PROGRESS_ibfk_2` FOREIGN KEY (`idUser`) REFERENCES `USER` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `COURSE`
 --
 ALTER TABLE `COURSE`
-  ADD CONSTRAINT `COURSE_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `USER` (`idUser`),
+  ADD CONSTRAINT `COURSE_ibfk_1` FOREIGN KEY (`idUser`) REFERENCES `USER` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `COURSE_ibfk_2` FOREIGN KEY (`codeCourseCategory`) REFERENCES `COURSE_CATEGORY` (`codeCourseCategory`),
-  ADD CONSTRAINT `COURSE_ibfk_3` FOREIGN KEY (`mediaBanner`) REFERENCES `MEDIA` (`filename`);
+  ADD CONSTRAINT `COURSE_ibfk_3` FOREIGN KEY (`mediaBanner`) REFERENCES `MEDIA` (`filename`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `COURSE_BOOKMARK`
 --
 ALTER TABLE `COURSE_BOOKMARK`
-  ADD CONSTRAINT `COURSE_BOOKMARK_ibfk_1` FOREIGN KEY (`idCourse`) REFERENCES `COURSE` (`idCourse`),
-  ADD CONSTRAINT `COURSE_BOOKMARK_ibfk_2` FOREIGN KEY (`idUser`) REFERENCES `USER` (`idUser`);
+  ADD CONSTRAINT `COURSE_BOOKMARK_ibfk_1` FOREIGN KEY (`idCourse`) REFERENCES `COURSE` (`idCourse`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `COURSE_BOOKMARK_ibfk_2` FOREIGN KEY (`idUser`) REFERENCES `USER` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `COURSE_ENROLLMENT`
 --
 ALTER TABLE `COURSE_ENROLLMENT`
-  ADD CONSTRAINT `COURSE_ENROLLMENT_ibfk_1` FOREIGN KEY (`idCourse`) REFERENCES `COURSE` (`idCourse`),
-  ADD CONSTRAINT `COURSE_ENROLLMENT_ibfk_2` FOREIGN KEY (`idUser`) REFERENCES `USER` (`idUser`);
+  ADD CONSTRAINT `COURSE_ENROLLMENT_ibfk_1` FOREIGN KEY (`idCourse`) REFERENCES `COURSE` (`idCourse`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `COURSE_ENROLLMENT_ibfk_2` FOREIGN KEY (`idUser`) REFERENCES `USER` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `ROLE_HAS_PERMISSION`
