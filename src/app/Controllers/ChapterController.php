@@ -156,8 +156,17 @@ class ChapterController
         else {
             $chapterProgressStatus = ChapterProgressStatus::from($inputs['chapterProgressState']);
             $chapterProgress = ChapterProgressService::Find($user, $chapter);
-            $chapterProgress->setStatus($chapterProgressStatus);
-            ChapterProgressService::Update($chapterProgress);
+            if ($chapterProgress === null) {
+                $chapterProgress = new ChapterProgress();
+                $chapterProgress->setChapter($chapter);
+                $chapterProgress->setStudent($user);
+                $chapterProgress->setStatus($chapterProgressStatus);
+                ChapterProgressService::Create($chapterProgress);
+            }
+            else {
+                $chapterProgress->setStatus($chapterProgressStatus);
+                ChapterProgressService::Update($chapterProgress);
+            }
         }
 
         redirect(url('chapter.show', ['courseId' => $course->getId(), 'chapter' => $chapter->getPosition()]));

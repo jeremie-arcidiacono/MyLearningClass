@@ -18,7 +18,7 @@ Need to provide :
     use \App\Enums\ChapterProgressStatus;
     use App\Services\ChapterProgressService;
 
-    $chapterProgressStatus = ChapterProgressService::Find($auth->getUser(), $chapter)->getStatus();
+    $chapterProgressStatus = ChapterProgressService::Find($auth->getUser(), $chapter)?->getStatus() ?? ChapterProgressStatus::ToDo;
 @endphp
 
 @component('layouts.app', ['title' => 'Étudier un cours', 'stickyHeader' => false])
@@ -70,7 +70,8 @@ Need to provide :
                                                                 $currentLoopChapterProgress = \App\Services\ChapterProgressService::Find
                                                                 ($auth->getUser(), $currentLoopChapter);
 
-                                                            $currentLoopChapterProgressStatus = $currentLoopChapterProgress->getStatus();
+                                                            $currentLoopChapterProgressStatus =
+                                                            $currentLoopChapterProgress?->getStatus() ?? ChapterProgressStatus::ToDo;
                                                             @endphp
                                                             @if($currentLoopChapterProgressStatus == ChapterProgressStatus::Done)
                                                                 <span class="rbt-check">
@@ -116,7 +117,13 @@ Need to provide :
                 <div class="inner">
                     @if($chapter->getVideo() != null)
                         <div class="plyr__video-embed rbtplayer">
-                            <video controls crossorigin playsinline>
+                            <video controls crossorigin playsinline
+                                   style="width: -moz-available;
+                                          width: -webkit-fill-available;
+                                          height: -moz-available;
+                                          height: -webkit-fill-available;
+                                          max-width: 100%;
+                                          max-height: 100%;">
                                 <source src="{{ url('chapter.video',
                                                     ['courseId' => $course->getId(),
                                                     'chapterId' => $chapter->getId()]) }}"
