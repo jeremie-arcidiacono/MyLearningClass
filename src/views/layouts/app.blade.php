@@ -124,7 +124,7 @@ Need to provide :
 <script src="/assets/js/main.js"></script>
 
 {{-- Custom JS by page --}}
-@stack('scripts')
+@stack('scripts*')
 
 </body>
 

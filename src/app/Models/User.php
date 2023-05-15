@@ -170,10 +170,12 @@ class User implements IModel
 
     /**
      * @param Role $role
+     * @return User
      */
-    public function setRole(Role $role): void
+    public function setRole(Role $role): User
     {
         $this->role = $role;
+        return $this;
     }
 
 

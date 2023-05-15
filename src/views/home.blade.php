@@ -77,7 +77,7 @@ Need to provide :
                                     <div class="swiper-slide">
                                         @component('components.course-card-s1', [
                                             'course' => $course,
-                                            'badge' => 'Top course',
+                                            'badge' => 'Top cours',
                                             'showDescription' => false])
                                         @endcomponent
                                     </div>

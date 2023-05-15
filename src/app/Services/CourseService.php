@@ -133,9 +133,13 @@ class CourseService extends Service
         CourseCategory|null $category = null,
     ): Paginator {
         $qb = App::$db->getRepository(static::getModel())->createQueryBuilder('c');
-        $qb->select('c', 'category', 'user')
+        $qb->select('c', 'category', 'user', 'chapters', 'enrollments', 'bookmarkedBy')
+            // Eager loading
             ->leftJoin('c.category', 'category')
-            ->leftJoin('c.owner', 'user');
+            ->leftJoin('c.owner', 'user')
+            ->leftJoin('c.chapters', 'chapters')
+            ->leftJoin('c.enrollments', 'enrollments')
+            ->leftJoin('c.bookmarkedBy', 'bookmarkedBy');
         $qb->where('c.visibility = ' . CourseVisibility::Public->value);
         $qb->orderBy('c.updatedAt', 'DESC');
         $qb->addOrderBy('c.id', 'DESC');

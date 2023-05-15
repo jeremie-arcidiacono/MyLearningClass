@@ -29,9 +29,8 @@ use Doctrine\ORM\Mapping\Table;
 #[HasLifecycleCallbacks]
 class CourseEnrollment implements IModel
 {
-    use HasAnOwner;
-
     // The student is the owner of the enrollment (this is important for the permission system)
+    use HasAnOwner;
 
     use HasCreatedAt;
 

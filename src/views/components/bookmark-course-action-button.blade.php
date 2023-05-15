@@ -32,7 +32,7 @@ Need to provide :
 @endif
 
 
-@push('scripts')
+@pushonce('scripts_bookmark_course_action_button')
     <script>
         // Add the redirection to this page after bookmarking the course
         window.addEventListener('load', function () {
@@ -41,4 +41,4 @@ Need to provide :
             });
         });
     </script>
-@endpush
+@endpushonce
