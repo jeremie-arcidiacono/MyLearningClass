@@ -36,16 +36,16 @@ class Validator
      */
     public function __construct(private array $data, private readonly array $rules, private readonly EntityManager|null $em = null)
     {
-        // Make sure the data inside the array is not escaped
-        $this->data = array_map(
-            function ($value) {
-                if (is_string($value)) {
-                    return html_entity_decode($value, ENT_QUOTES, 'UTF-8');
-                }
-                return $value;
-            }
-            , $this->data
-        );
+        // Make sure the data inside the array is not escaped (to not have problems with the rules like length)
+//        $this->data = array_map(
+//            function ($value) {
+//                if (is_string($value)) {
+//                    return html_entity_decode($value, ENT_QUOTES, 'UTF-8');
+//                }
+//                return $value;
+//            }
+//            , $this->data
+//        );
 
         $this->errors = [];
         $this->processRules();
@@ -705,7 +705,7 @@ class Validator
         }
 
         if (!$entity) {
-            $this->errors[$field][] = "Le champs {$this->humanFriendly($field)} n'existe pas";
+            $this->errors[$field][] = "La valeur du champs {$this->humanFriendly($field)} n'existe pas. Saisissez une valeur valide";
             return false;
         }
         return true;
@@ -750,7 +750,7 @@ class Validator
                 if (is_array($ignored)) { // If $ignored is an array, we check if the entity is in the array
                     foreach ($entities as $entity) {
                         if (!in_array($entity->getId(), $ignored)) {
-                            $this->errors[$field][] = "Le champs {$this->humanFriendly($field)} n'est pas unique";
+                            $this->errors[$field][] = "La valeur du champs {$this->humanFriendly($field)} existe déjà. La valeur doit être unique";
                             return false;
                         }
                     }
@@ -758,14 +758,14 @@ class Validator
                 else { // If $ignored is not an array, we check if the entity is the same as the one represented by $ignored
                     foreach ($entities as $entity) {
                         if ($entity->getId() != $ignored) {
-                            $this->errors[$field][] = "Le champs {$this->humanFriendly($field)} n'est pas unique";
+                            $this->errors[$field][] = "La valeur du champs {$this->humanFriendly($field)} existe déjà. La valeur doit être unique";
                             return false;
                         }
                     }
                 }
             }
             else { // If $ignored is null, we directly return false because the entity exists
-                $this->errors[$field][] = "Le champs {$this->humanFriendly($field)} n'est pas unique";
+                $this->errors[$field][] = "La valeur du champs {$this->humanFriendly($field)} existe déjà. La valeur doit être unique";
                 return false;
             }
         }
