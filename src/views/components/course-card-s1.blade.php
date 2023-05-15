@@ -41,8 +41,7 @@ Need to provide :
             <div class="rbt-category">
                 <a href="#">{{ $course->getCategory()->getLabel() }}</a>
             </div>
-            @component('components.bookmark-course-action-button', ['course' => $course])
-            @endcomponent
+            {{--            @component('components.bookmark-course-action-button', ['course' => $course])@endcomponent--}}
         </div>
 
         <h4 class="rbt-card-title"><a

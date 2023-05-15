@@ -37,9 +37,32 @@ Need to provide :
                                 <div class="icon-right"><i class="feather-chevron-right"></i></div>
                             </li>
                             <li class="rbt-breadcrumb-item active">Détail du cours</li>
-                        </ul>
-                        @component('components.bookmark-course-action-button', ['course' => $course])
-                        @endcomponent
+                        </ul>@if($auth->check())
+                            <div class="rbt-bookmark-btn">
+                                @if($auth->getUser()->getBookmarkedCourses()->contains($course))
+                                    <form action="{{ url('course.unbookmark', ['courseId' => $course->getId()]) }}"
+                                          method="post">
+                                        @method('DELETE')
+                                        @customCsrf
+                                        <input type="hidden" name="redirect">
+                                        <a class="rbt-round-btn fs-2" title="Favoris"
+                                           href="javascript:void(0)" onclick="$(this).closest('form').submit()">
+                                            <i class="fas fa-bookmark"></i>
+                                        </a>
+                                    </form>
+                                @else
+                                    <form action="{{ url('course.bookmark', ['courseId' => $course->getId()]) }}"
+                                          method="post">
+                                        @customCsrf
+                                        <input type="hidden" name="redirect">
+                                        <a class="rbt-round-btn fs-2" title="Favoris"
+                                           href="javascript:void(0)" onclick="$(this).closest('form').submit()">
+                                            <i class="far fa-bookmark"></i>
+                                        </a>
+                                    </form>
+                                @endif
+                            </div>
+                        @endif
                         <h2 class="title">
                             {{ $course->getTitle() }}</h2>
                         <p class="description">{{ $course->getDescription() }}</p>
@@ -196,4 +219,15 @@ Need to provide :
             <hr class="rbt-separator m-0">
         </div>
     </div>
+
+    @pushonce('scripts_bookmark_course_action_button')
+        <script>
+            // Add the redirection to this page after bookmarking the course
+            window.addEventListener('load', function () {
+                document.getElementsByName('redirect').forEach(function (input) {
+                    input.value = window.location.href;
+                });
+            });
+        </script>
+    @endpushonce
 @endcomponent
