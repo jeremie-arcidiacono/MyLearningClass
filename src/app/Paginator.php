@@ -22,6 +22,7 @@ use Doctrine\ORM\QueryBuilder;
 class Paginator extends \Doctrine\ORM\Tools\Pagination\Paginator
 {
     private int $totalPage;
+    private int $totalItems;
 
     /**
      * @param Query|QueryBuilder $query A Doctrine ORM query or query builder.
@@ -41,8 +42,13 @@ class Paginator extends \Doctrine\ORM\Tools\Pagination\Paginator
         // Replace the SELECT part with a COUNT eg: SELECT u FROM User u => SELECT COUNT(u) FROM User u
         $selected = $maxPageQuery->getDQLPart('select'); // Get the SELECT part of the query
         $maxPageQuery->select('COUNT(' . $selected[0]->getParts()[0] . ')'); // Replace the SELECT part with a COUNT
+
+        // Remove the eager loading part of the query (to avoid a bug with the COUNT)
+        $maxPageQuery->resetDQLPart('join'); // To do : find a better way to do this, it's not well tested
+
+        $count = $maxPageQuery->getQuery()->getSingleScalarResult();
         try {
-            $this->totalPage = (int)ceil($maxPageQuery->getQuery()->getSingleScalarResult() / $this->perPage);
+            $this->totalPage = (int)ceil($count / $this->perPage);
         } catch (\Exception $e) {
             throw new \Exception('Paginator cannot determine the total number of pages. Please check your query.', 500, $e);
         }
@@ -57,6 +63,7 @@ class Paginator extends \Doctrine\ORM\Tools\Pagination\Paginator
         $query->setFirstResult(max(($this->currentPage - 1) * $perPage, 0))
             ->setMaxResults($perPage);
 
+        $this->totalItems = (int)$count;
         parent::__construct($query, $fetchJoinCollection);
     }
 
@@ -85,5 +92,14 @@ class Paginator extends \Doctrine\ORM\Tools\Pagination\Paginator
     public function getPerPage(): int
     {
         return $this->perPage;
+    }
+
+    /**
+     * Get the total number of items that match the query (without pagination)
+     * @return int
+     */
+    public function getTotalItems(): int
+    {
+        return $this->totalItems;
     }
 }

@@ -80,7 +80,7 @@ class CourseController
         return App::$templateEngine->run(
             'course.index',
             [
-                'nbCourseAvailable' => CourseService::getNbCoursesAvailable(),
+                'nbCourseAvailable' => $coursesPaginator->getTotalItems(),
                 'courses' => $courses,
                 'currentPage' => $coursesPaginator->getCurrentPage(),
                 'totalPages' => $coursesPaginator->getTotalPage(),
