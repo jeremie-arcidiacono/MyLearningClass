@@ -10,9 +10,11 @@ Description : The page is a detailed view of a course that the teacher has creat
     /**
     * @var \App\Models\Course $course
     * @var \App\Models\CourseCategory[] $categories
-    * @var \App\Models\CourseEnrollment[] $enrollments
+    * @var \App\Models\CourseEnrollment $enrollment
     * @var \App\Models\Chapter $chapter
     */
+
+    $enrollments = $course->getEnrollments();
 @endphp
 
 @component('layouts.app', ['title' => 'Votre cours', 'stickyHeader' => false])
@@ -32,7 +34,7 @@ Description : The page is a detailed view of a course that the teacher has creat
                                 </p>
                                 @if($course->getVisibility() == \App\Enums\CourseVisibility::Draft)
                                     <p class="fs-3 mb--0">
-                                        Votre cours est en mode brouillon. Il n'est pas visible par les
+                                        Votre cours est en mode <b>brouillon</b>. Il n'est pas visible par les
                                         étudiants.
                                     </p>
                                     <button class="rbt-btn btn-sm rbt-switch-btn rbt-switch-y mb--10
@@ -44,7 +46,7 @@ Description : The page is a detailed view of a course that the teacher has creat
                                     </button>
                                 @elseif($course->getVisibility() == \App\Enums\CourseVisibility::Public)
                                     <p class="fs-3 mb--0">
-                                        Votre cours est en mode public. Il est visible par les étudiants.
+                                        Votre cours est en mode <b>public</b>. Il est visible par les étudiants.
                                     </p>
                                     <button class="rbt-btn btn-sm rbt-switch-btn rbt-switch-x mb--10"
                                             type="submit"
@@ -54,7 +56,7 @@ Description : The page is a detailed view of a course that the teacher has creat
                                     </button>
                                 @else
                                     <p class="fs-3 mb--0">
-                                        Votre cours est en mode privé. Il n'est visible que par les étudiants
+                                        Votre cours est en mode <b>privé</b>. Il n'est visible que par les étudiants
                                         déjà inscrits.
                                     </p>
                                     <button class="rbt-btn btn-sm rbt-switch-btn rbt-switch-y mb--10"
@@ -115,16 +117,6 @@ Description : The page is a detailed view of a course that the teacher has creat
                                         <div class="card-body">
                                             <!-- Start Course Field Wrapper  -->
                                             <div class="rbt-course-field-wrapper rbt-default-form">
-                                                <div class="course-field mb--15">
-                                                    <label for="titre" class="fs-3">Titre du cours</label>
-                                                    <input id="titre" name="titre" type="text"
-                                                           placeholder="Nouveau cours"
-                                                           maxlength="150"
-                                                           value="{{ $old['titre'] ?? $course->getTitle() }}">
-                                                    <small class="d-block mt_dec--5"><i class="feather-info"></i> Le
-                                                        titre doit comporter 150 caractères maximum.</small>
-                                                </div>
-
                                                 <div class="course-field mb--15">
                                                     <label for="titre" class="fs-3">Titre du cours</label>
                                                     <input id="titre" name="titre" type="text"
@@ -200,7 +192,6 @@ Description : The page is a detailed view of a course that the teacher has creat
                                         <div class="mb--20 row g-5 d-flex justify-content-center">
                                             <div class="col-lg-8">
                                                 <button class="rbt-btn btn-gradient hover-icon-reverse w-100 text-center"
-                                                        href="javascript:void(0)"
                                                         onclick="this.closest('form').submit()">
                                                     <span class="icon-reverse-wrapper">
                                                         <span class="btn-text">Enregistrer les modifications</span>
@@ -238,7 +229,7 @@ Description : The page is a detailed view of a course that the teacher has creat
                                                 <tr>
                                                     <th>#</th>
                                                     <th>Titre</th>
-                                                    <th>Video</th>
+                                                    <th>Vidéo</th>
                                                     <th>Ressource</th>
                                                     <th>Actions</th>
                                                 </tr>
@@ -275,16 +266,26 @@ Description : The page is a detailed view of a course that the teacher has creat
                                                         </td>
                                                         <td>
                                                             <div class="d-flex justify-content-center">
-                                                                <a href="{{ url('course.chapter.edit', ['id' => $chapter->getId()]) }}"
-                                                                   class="btn btn-sm btn-icon btn-light"
-                                                                   data-bs-toggle="tooltip" title="Modifier">
+
+                                                                <a href="javascript:void(0)"
+                                                                   class="btn btn-icon btn-light"
+                                                                   data-bs-toggle="tooltip" title="Modifier"
+                                                                   onclick='openEditModal(
+                                                                       "{{ url('chapter.update',['courseId' => $course->getId(), 'chapterId' => $chapter->getId()]) }}",
+                                                                       "{{ $chapter->getTitle() }}"
+                                                                   )'>
                                                                     <i class="feather-edit"></i>
                                                                 </a>
-                                                                <a href="{{ url('course.chapter.delete', ['id' => $chapter->getId()]) }}"
-                                                                   class="btn btn-sm btn-icon btn-light"
-                                                                   data-bs-toggle="tooltip" title="Supprimer">
-                                                                    <i class="feather-trash-2"></i>
-                                                                </a>
+                                                                <form action="{{ url('chapter.destroy', ['courseId' => $course->getId(), 'chapterId' => $chapter->getId()]) }}"
+                                                                      method="post">
+                                                                    @customCsrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit"
+                                                                            class="btn btn-icon btn-light"
+                                                                            data-bs-toggle="tooltip" title="Supprimer">
+                                                                        <i class="feather-trash-2"></i>
+                                                                    </button>
+                                                                </form>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -296,7 +297,7 @@ Description : The page is a detailed view of a course that the teacher has creat
                                         <button class="rbt-btn btn-md btn-gradient hover-icon-reverse" type="button"
                                                 data-bs-toggle="modal" data-bs-target="#modalAddChapter">
                                                 <span class="icon-reverse-wrapper">
-                                                    <span class="btn-text">Add New Topic</span>
+                                                    <span class="btn-text">Ajouter un nouveau chapitre</span>
                                                 <span class="btn-icon"><i class="feather-plus-circle"></i></span>
                                                 <span class="btn-icon"><i class="feather-plus-circle"></i></span>
                                                 </span>
@@ -317,7 +318,7 @@ Description : The page is a detailed view of a course that the teacher has creat
                     <div class="rbt-dashboard-content bg-color-white rbt-shadow-box">
                         <div class="content">
                             <div class="section-title">
-                                <h4 class="rbt-title-style-3">Étudiants inscrits</h4>
+                                <h4 class="rbt-title-style-3">Étudiants inscrits : {{count($enrollments)}}</h4>
                             </div>
                             @if(empty($enrollments))
                                 <i class="feather-info"></i>  Aucun étudiant inscrit
@@ -367,11 +368,12 @@ Description : The page is a detailed view of a course that the teacher has creat
                         <div class="inner rbt-default-form">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <h5 class="modal-title mb--20" id="modalAddChapterLabel">Ajouter un chapitre</h5>
+                                    <h5 class="modal-title mb--20" id="modalAddChapterLabel">Ajouter un
+                                        chapitre</h5>
                                     <div class="course-field mb--20">
-                                        <label for="titre">Titre du chapitre</label>
-                                        <input id="titre" name="titre" type="text" maxlength="100" minlength="5"
-                                               required>
+                                        <label for="titreChapitre">Titre du chapitre</label>
+                                        <input id="titreChapitre" name="titreChapitre" type="text" maxlength="100"
+                                               minlength="5" required>
                                         <small><i class="feather-info"></i>Maximum 100 caractères</small>
                                     </div>
                                     <div class="course-field mb--20 d-flex justify-content-between">
@@ -398,8 +400,7 @@ Description : The page is a detailed view of a course that the teacher has creat
                                                        @endphp">
                                         </div>
                                     </div>
-                                    <small><i class="feather-info"></i>Un chapitre ne peut pas contenir
-                                        qu'un
+                                    <small><i class="feather-info"></i>Un chapitre ne peut pas contenir qu'un
                                         titre</small>
                                 </div>
                             </div>
@@ -421,5 +422,95 @@ Description : The page is a detailed view of a course that the teacher has creat
             </div>
         </div>
     </div>
-@endcomponent
 
+    {{-- Modal for chapter edition --}}
+    <div class="rbt-default-modal modal fade" id="modalEditChapter" tabindex="-1"
+         aria-labelledby="modalEditChapterLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form action="" method="post"
+                      enctype="multipart/form-data">
+                    @method('PUT')
+                    @customCsrf
+                    <div class="modal-header">
+                        <button type="button" class="rbt-round-btn" data-bs-dismiss="modal" aria-label="Close">
+                            <i class="feather-x"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="inner rbt-default-form">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h5 class="modal-title mb--20" id="modalEditChapterLabel">Modifier le chapitre</h5>
+                                    <div class="course-field mb--20">
+                                        <label for="titreChapitreEdition">Titre du chapitre</label>
+                                        <input id="titreChapitreEdition" name="titreChapitreEdition" type="text"
+                                               maxlength="100" minlength="5" required>
+                                        <small><i class="feather-info"></i>Maximum 100 caractères</small>
+                                    </div>
+                                    <div class="course-field mb--20 d-flex justify-content-between">
+                                        <div class="col-4">
+                                            <label for="videoEdition">Ajouter une vidéo (l'ancienne sera
+                                                supprimée)</label>
+                                            <input id="videoEdition" name="videoEdition" type="file" class="height-auto"
+                                                   accept="@php
+                                                           $output = '';
+                                                           foreach (\App\App::$config->get('models.chapter.videoAllowedMimeTypes', []) as $mime) {
+                                                                  $output .= $mime . ',';
+                                                           }
+                                                           echo rtrim($output, ',');
+                                                       @endphp">
+                                        </div>
+                                        <div class="col-4">
+                                            <label for="ressourceEdition">Ajouter une ressource (l'ancienne sera
+                                                supprimée)</label>
+                                            <input id="ressourceEdition" name="ressourceEdition" type="file"
+                                                   class="height-auto"
+                                                   accept="@php
+                                                           $output = '';
+                                                           foreach (\App\App::$config->get('models.chapter.ressourceAllowedMimeTypes', []) as $mime) {
+                                                                  $output .= $mime . ',';
+                                                           }
+                                                           echo rtrim($output, ',');
+                                                       @endphp">
+                                        </div>
+                                    </div>
+                                    <small><i class="feather-info"></i>Un chapitre ne peut pas contenir qu'un
+                                        titre</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="top-circle-shape"></div>
+                        <div class="modal-footer pt--30">
+
+                            <button class="rbt-btn icon-hover btn-md radius-round-10" type="submit">
+                                <span class="btn-text">Modifier</span>
+                                <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                            </button>
+                            <button type="button" class="rbt-btn btn-border btn-md radius-round-10"
+                                    data-bs-dismiss="modal">
+                                Annuler
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    @push('scripts')
+        <script>
+            /**
+             * Open the modal for chapter edition
+             * @param {string} url The submit url for the form
+             * @param {string} titre The chapter title
+             */
+            function openEditModal(url, titre) {
+                $('#modalEditChapter form').attr('action', url);
+                $('#modalEditChapter #titreChapitreEdition').val(titre);
+                $('#modalEditChapter').modal('show');
+            }
+        </script>
+    @endpush
+@endcomponent

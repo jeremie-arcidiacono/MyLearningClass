@@ -532,7 +532,17 @@ class CourseController
         // Delete the chapter media
         $chapters = $course->getChapters();
         foreach ($chapters as $chapter) {
-            unlink(ChapterController::CHAPTER_MEDIA_PATH . '/' . $chapter->getMedia()->getFilename());
+            /** @var Chapter $chapter */
+
+            if ($chapter->getVideo() !== null) {
+                unlink(ChapterController::CHAPTER_MEDIA_PATH . '/' . $chapter->getVideo()->getFilename());
+                MediaService::Delete($chapter->getVideo(), false);
+            }
+
+            if ($chapter->getRessource() !== null) {
+                unlink(ChapterController::CHAPTER_MEDIA_PATH . '/' . $chapter->getRessource()->getFilename());
+                MediaService::Delete($chapter->getRessource(), false);
+            }
         }
 
         MediaService::Delete($banner); // Remove chapter by cascade
