@@ -27,20 +27,21 @@ Router::group(['exceptionHandler' => App\Exceptions\ExceptionHandler::class, 'me
 
     Router::get('/cours', [App\Controllers\CourseController::class, 'index'])->name('course.index');
     Router::get('/cours/{courseId}', [App\Controllers\CourseController::class, 'show'])->where(['courseId' => '[0-9]+'])->name('course.show');
-    Router::get('/cours/{courseId}/banner', [App\Controllers\CourseController::class, 'renderBannerImg'])->where(['courseId' => '[0-9]+'])->name(
-        'course.banner'
-    );
+    Router::get('/cours/{courseId}/banner', [App\Controllers\CourseController::class, 'renderBannerImg'])
+        ->where(['courseId' => '[0-9]+'])->name('course.banner');
 
     // Only for authenticated users
     Router::group(['middleware' => App\Middleware\AuthenticateMiddleware::class], function () {
         Router::group(['prefix' => '/cours'], function () {
+            // Enrollment in a course
             Router::post('/{courseId}/inscription', [App\Controllers\CourseController::class, 'enroll'])
-                ->where(['courseId' => '[0-9]+'])->name('course.enroll');
+                ->where(['courseId' => '[0-9]+'])->name('course.enrollment.store');
             Router::delete('/{courseId}/desinscription', [App\Controllers\CourseController::class, 'unenroll'])
-                ->where(['courseId' => '[0-9]+'])->name('course.unenroll');
+                ->where(['courseId' => '[0-9]+'])->name('course.enrollment.destroy');
 
+            // Study of a course (only for enrolled users)
             Router::get('/{courseId}/lesson/{chapter?}', [App\Controllers\ChapterController::class, 'show'])
-                ->where(['courseId' => '[0-9]+', 'chapter' => '[0-9]+'])->name('chapter.show');
+                ->where(['courseId' => '[0-9]+', 'chapter' => '[0-9]+'])->name('chapter.show'); // chapter is the position of the chapter in the course
             Router::get('/{courseId}/chapitres/{chapterId}/video', [App\Controllers\ChapterController::class, 'renderVideo'])
                 ->where(['courseId' => '[0-9]+', 'chapterId' => '[0-9]+'])->name('chapter.video');
             Router::get('/{courseId}/chapitres/{chapterId}/ressource', [App\Controllers\ChapterController::class, 'downloadRessource'])
@@ -48,11 +49,13 @@ Router::group(['exceptionHandler' => App\Exceptions\ExceptionHandler::class, 'me
             Router::put('/{courseId}/chapitres/{chapterId}/progression', [App\Controllers\ChapterController::class, 'updateProgression'])
                 ->where(['courseId' => '[0-9]+', 'chapterId' => '[0-9]+'])->name('chapter.updateProgression');
 
+            // Bookmarks
             Router::post('/{courseId}/favoris', [App\Controllers\CourseController::class, 'bookmark'])
                 ->where(['courseId' => '[0-9]+'])->name('course.bookmark');
             Router::delete('/{courseId}/favoris', [App\Controllers\CourseController::class, 'unbookmark'])
                 ->where(['courseId' => '[0-9]+'])->name('course.unbookmark');
 
+            // Course create, update, delete (only for teachers)
             Router::get('/creation', [App\Controllers\CourseController::class, 'create'])->name('course.create');
             Router::post('/creation', [App\Controllers\CourseController::class, 'store'])->name('course.store');
             Router::get('/{courseId}/configuration', [App\Controllers\CourseController::class, 'edit'])
@@ -62,6 +65,10 @@ Router::group(['exceptionHandler' => App\Exceptions\ExceptionHandler::class, 'me
             Router::delete('/{courseId}', [App\Controllers\CourseController::class, 'destroy'])
                 ->where(['courseId' => '[0-9]+'])->name('course.destroy');
 
+            // Chapter create, update, delete (only for teachers)
+            Router::get('/{courseId}/configuration/chapitre', function ($courseId) {
+                redirect("/cours/$courseId/configuration");
+            })->where(['courseId' => '[0-9]+']);
             Router::post('/{courseId}/configuration/chapitre', [App\Controllers\ChapterController::class, 'store'])->name('chapter.store');
             Router::put('/{courseId}/configuration/chapitre/{chapterId}', [App\Controllers\ChapterController::class, 'update'])
                 ->where(['courseId' => '[0-9]+', 'chapterId' => '[0-9]+'])->name('chapter.update');
@@ -69,11 +76,19 @@ Router::group(['exceptionHandler' => App\Exceptions\ExceptionHandler::class, 'me
                 ->where(['courseId' => '[0-9]+', 'chapterId' => '[0-9]+'])->name('chapter.destroy');
         });
 
+        // Dashboard routes
         Router::group(['prefix' => '/dashboard'], function () {
             Router::redirect('/', '/dashboard/inscriptions', 301)->name('dashboard.index');
-            Router::get('/inscriptions', [App\Controllers\DashboardController::class, 'enrolledCourse'])->name('dashboard.enrolledCourse');
-            Router::get('/favoris', [App\Controllers\DashboardController::class, 'bookmarkedCourse'])->name('dashboard.bookmarkedCourse');
-            Router::get('/cours', [App\Controllers\DashboardController::class, 'createdCourse'])->name('dashboard.createdCourse');
+            Router::get('/inscriptions', [App\Controllers\DashboardController::class, 'enrolledCourse'])->name('course.enrollment.index');
+            Router::get('/favoris', [App\Controllers\DashboardController::class, 'bookmarkedCourse'])->name('course.bookmark.index');
+            Router::get('/cours', [App\Controllers\DashboardController::class, 'createdCourse'])->name('user.createdCourse');
+
+            // Users create, read, delete (only for admins)
+            Router::get('/utilisateurs', [App\Controllers\UserController::class, 'index'])->name('user.index');
+            Router::get('/utilisateurs/creation', [App\Controllers\UserController::class, 'create'])->name('user.create');
+            Router::post('/utilisateurs/creation', [App\Controllers\UserController::class, 'store'])->name('user.store');
+            Router::delete('/utilisateurs/{userId}', [App\Controllers\UserController::class, 'destroy'])
+                ->where(['userId' => '[0-9]+'])->name('user.destroy');
         });
     });
 });

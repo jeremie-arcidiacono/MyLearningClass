@@ -133,7 +133,7 @@ Need to provide :
                                             <span class="btn-icon"><i class="feather-arrow-right"></i></span>
                                         </a>
 
-                                        <form action="{{ url('course.unenroll', ['courseId' => $course->getId()]) }}"
+                                        <form action="{{ url('course.enrollment.destroy', ['courseId' => $course->getId()]) }}"
                                               method="POST">
                                             @method('DELETE')
                                             @customCsrf
@@ -143,7 +143,7 @@ Need to provide :
                                             </a>
                                         </form>
                                     @else
-                                        <form action="{{ url('course.enroll', ['courseId' => $course->getId()])
+                                        <form action="{{ url('course.enrollment.store', ['courseId' => $course->getId()])
                                                  }}"
                                               method="POST">
                                             @customCsrf
@@ -190,9 +190,6 @@ Need to provide :
             </div>
         </div>
     </div>
-
-
-
 
     <div class="rbt-separator-mid">
         <div class="container">

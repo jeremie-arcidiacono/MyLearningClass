@@ -78,14 +78,14 @@ Need to provide :
                                                     @endcomponent
 
                                                     @component('components.dashboard-nav-link',[
-                                                        'targetRouteName' => 'dashboard.enrolledCourse',
+                                                        'targetRouteName' => 'course.enrollment.index',
                                                         'iconName' => 'feather-book-open',
                                                     ])
                                                         Cours suivis
                                                     @endcomponent
 
                                                     @component('components.dashboard-nav-link',[
-                                                        'targetRouteName' => 'dashboard.bookmarkedCourse',
+                                                        'targetRouteName' => 'course.bookmark.index',
                                                         'iconName' => 'feather-bookmark',
                                                     ])
                                                         Favoris
@@ -93,7 +93,8 @@ Need to provide :
                                                 </ul>
                                             </nav>
 
-                                            @if($auth->getUser()->getRole()->getName() === 'teacher')
+                                            @if($auth->getUser()->getRole()->getName() === 'teacher' ||
+                                                $auth->getUser()->getRole()->getName() === 'admin')
                                                 <div class="section-title mt--40 mb--20">
                                                     <h6 class="rbt-title-style-2">Enseignant</h6>
                                                 </div>
@@ -102,7 +103,7 @@ Need to provide :
                                                     <ul class="dashboard-mainmenu rbt-default-sidebar-list">
                                                         @if($auth->can(\App\Enums\Action::Create,new \App\Models\Course()))
                                                             @component('components.dashboard-nav-link',[
-                                                                'targetRouteName' => 'dashboard.createdCourse',
+                                                                'targetRouteName' => 'user.createdCourse',
                                                                 'iconName' => 'feather-monitor',
                                                             ])
                                                                 Cours créés
