@@ -25,9 +25,9 @@ Description : The page to display the list of courses the user added to his book
                     </div>
                 @endforeach
 
-                @empty($bookmarkedCourses)
+                @if($bookmarkedCourses->count() < 1)
                     <h5 class="text-center">Vous n'avez pas encore de cours favoris.</h5>
-                @endempty
+                @endif
             </div>
         </div>
     </div>

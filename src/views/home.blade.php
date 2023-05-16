@@ -72,7 +72,7 @@ Need to provide :
                         <div class="banner-card pb--60 mb--50 swiper rbt-dot-bottom-center banner-swiper-active">
                             <div class="swiper-wrapper">
 
-                                {{-- Start Single Card  --}}
+                                {{-- Start swiper course card  --}}
                                 @foreach($topCourses as $course)
                                     <div class="swiper-slide">
                                         @component('components.course-card-s1', [
@@ -82,8 +82,7 @@ Need to provide :
                                         @endcomponent
                                     </div>
                                 @endforeach
-                                {{-- End Single Card  --}}
-
+                                {{-- End swiper course card --}}
                             </div>
                             <div class="rbt-swiper-pagination"></div>
                         </div>
@@ -114,6 +113,9 @@ Need to provide :
                     </div>
                 @endforeach
 
+                @empty($topCourses)
+                    <h3 class="text-center">Aucun cours à afficher</h3>
+                @endempty
             </div>
             {{-- End Card Area --}}
 

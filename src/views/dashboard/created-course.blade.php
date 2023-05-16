@@ -67,9 +67,9 @@ Description : The page to display the list of courses the user created.
 
                 </table>
 
-                @empty($createdCourses)
+                @if($createdCourses->count() < 1)
                     <h5 class="text-center">Vous n'avez pas encore créé de cours</h5>
-                @endempty
+                @endif
             </div>
         </div>
     </div>

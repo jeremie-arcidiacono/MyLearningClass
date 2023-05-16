@@ -60,7 +60,7 @@ class DashboardController
          */
         foreach ($bookmarkedCourses as $key => $course) {
             if ($course->getVisibility() !== CourseVisibility::Public) {
-                unset($bookmarkedCourses[$key]);
+                $bookmarkedCourses->remove($key);
             }
         }
 

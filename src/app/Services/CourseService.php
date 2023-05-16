@@ -103,6 +103,7 @@ class CourseService extends Service
             $nbRows = App::$db->getRepository(static::getModel())->createQueryBuilder('c')->select('count(c.id)')->getQuery()->getSingleScalarResult();
 
             $offset = rand(0, $nbRows - $limit - 1);
+            $offset = max(0, $offset); // To be sure that the offset is not negative (when the number of courses is less than the limit)
 
             $qb = App::$db->getRepository(static::getModel())->createQueryBuilder('c');
             $qb->select('c', 'category', 'user')
@@ -113,7 +114,7 @@ class CourseService extends Service
             $qb->setMaxResults($limit);
             $result = $qb->getQuery()->getResult();
 
-            shuffle($result); // To be sure there is no order
+            shuffle($result); // To be sure that there is no order
             return $result;
         } catch (ORMException $e) {
             return [];
