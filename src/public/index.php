@@ -22,14 +22,15 @@ require_once __DIR__ . '/../config/constants.php';
 // The error would typically be a database connection error or a missing .env file
 try {
     $app = new App();
-} catch (Exception $e) {
+} catch (Exception $error) {
+    error_log($error->getFile() . ' : ' . $error->getLine() . ' => ' . $error->getMessage() . PHP_EOL . $error->getTraceAsString());
     http_response_code(500);
 
     // Check if the .env file has been loaded despite the exception
     if (isset($_ENV['APP_DEBUG']) &&
         ($_ENV['APP_DEBUG'] == 'true' || $_ENV['APP_DEBUG'] == '1')) {
         // We are in debug mode, so we can display the error message
-        echo $e->getMessage();
+        echo $error->getMessage();
         exit;
     }
 

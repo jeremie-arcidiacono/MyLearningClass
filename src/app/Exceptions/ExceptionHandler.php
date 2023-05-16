@@ -58,8 +58,11 @@ class ExceptionHandler implements IExceptionHandler
         }
         elseif ($error instanceof ForbiddenHttpException) {
             // User is not allowed to access this page or to perform this action
-//            App::$session->setFlash(ISession::ERROR_KEY, $error->getMessage()); The flash message is not displayed with driver file or hybrid
-            redirect(url('home'));
+            http_response_code(403);
+            echo App::$templateEngine->run('errors.403', [
+                'message' => $error->getMessage(),
+            ]);
+            exit();
         }
         elseif ($error instanceof UserMustBeGuestHttpException) {
             // User must be a guest to access this page (not logged in)
@@ -73,7 +76,9 @@ class ExceptionHandler implements IExceptionHandler
         }
 
         // Handle unknown exceptions
+        error_log($error->getFile() . ' : ' . $error->getLine() . ' => ' . $error->getMessage() . PHP_EOL . $error->getTraceAsString());
         http_response_code($error->getCode() ?: 500);
+
         if (App::isDebugEnabled()) {
             App::$clockwork->requestProcessed();
             throw $error;
