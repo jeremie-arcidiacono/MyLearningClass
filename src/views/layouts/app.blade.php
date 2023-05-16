@@ -61,21 +61,51 @@ Need to provide :
 <main class="rbt-main-wrapper">
     {{-- Errors section --}}
     @if($autoDisplayErrors ?? true)
-        <div class="">
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999;">
             @foreach($errors as $errorsOfField)
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <div class="alert alert-danger alert-dismissible fade show alert-container-custom" role="alert">
                     @if(is_array($errorsOfField) )
                         @foreach($errorsOfField as $error)
-                            <p>{{ $error }}</p>
+                            <p class="mb--0">{{ $error }}</p>
                         @endforeach
                     @else
-                        <p>{{ $errorsOfField }}</p>
+                        <p class="mb--0">{{ $errorsOfField }}</p>
                     @endif
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-animated progress-bar-custom bg-danger"
+                             style="width: 0"></div>
+                    </div>
                 </div>
             @endforeach
         </div>
+
+        @push('scripts_errorAlertAutoClose')
+            <script>
+                // Animate the progress bars and remove the alert containers when the progress bar is full
+                const progressBars = document.getElementsByClassName('progress-bar-custom');
+                let width = 0;
+                const interval = setInterval(increaseWidth, 100); // The progress bar will be full in 10 seconds
+
+                function increaseWidth() {
+                    width += 1;
+                    for (let i = 0; i < progressBars.length; i++) {
+                        progressBars[i].style.width = width + '%';
+                    }
+
+                    // Progress bar is full: start removing the alert containers
+                    if (width >= 100) {
+                        clearInterval(interval);
+                        const alertContainers = Array.from(document.getElementsByClassName('alert-container-custom'));
+                        for (let j = 0; j < alertContainers.length; j++) {
+                            alertContainers[j].remove();
+                        }
+                    }
+                }
+            </script>
+        @endpush
     @endif
+    {{-- End errors section --
 
     {{-- Main content section --}}
     {!! $slot !!}
