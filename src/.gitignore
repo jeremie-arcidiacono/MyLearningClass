@@ -3,6 +3,6 @@ composer.phar
 .env
 
 .idea/
-vendor/
+/vendor/
 
 .phpunit.result.cache
