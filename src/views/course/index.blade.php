@@ -17,12 +17,12 @@ Description : The page to display a list of courses with a grid layout.
     <div class="rbt-page-banner-wrapper">
         <div class="rbt-banner-image"></div>
         <div class="rbt-banner-content">
-            <!-- Start Banner Content Top  -->
+            {{-- Start Banner Content Top  --}}
             <div class="rbt-banner-content-top">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12">
-                            <!-- Start Breadcrumb Area  -->
+                            {{-- Start Breadcrumb Area  --}}
                             <ul class="page-list">
                                 <li class="rbt-breadcrumb-item"><a href="{{ url('home') }}">Home</a></li>
                                 <li>
@@ -30,41 +30,27 @@ Description : The page to display a list of courses with a grid layout.
                                 </li>
                                 <li class="rbt-breadcrumb-item active">Tous les cours</li>
                             </ul>
-                            <!-- End Breadcrumb Area  -->
+                            {{-- End Breadcrumb Area  --}}
 
                             <div class=" title-wrapper">
                                 <h1 class="title mb--0">Tous les cours</h1>
-                                <a href="#" class="rbt-badge-2">
-                                    <div class="image">🎉</div>{{ $nbCourseAvailable  }} Courses
-                                </a>
                             </div>
                             <p class="description">Visualisez tous les cours disponibles sur la plateforme.</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- End Banner Content Top  -->
+            {{-- End Banner Content Top  --}}
             <div class="rbt-course-top-wrapper mt--40">
                 <div class="container">
                     <div class="row g-5 align-items-center">
                         <div class="col-xl-5 col-lg-12 col-md-12">
                             <div class="rbt-sorting-list d-flex flex-wrap align-items-center">
-                                <div class="rbt-short-item switch-layout-container">
-                                    <ul class="course-switch-layout">
-                                        <li class="course-switch-item">
-                                            <button class="rbt-grid-view active" title="Grid Layout"><i
-                                                        class="feather-grid"></i> <span class="text">Grid</span>
-                                            </button>
-                                        </li>
-                                        <li class="course-switch-item">
-                                            <button class="rbt-list-view" title="List Layout"><i
-                                                        class="feather-list"></i> <span class="text">List</span>
-                                            </button>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="rbt-short-item">
-                                    <span class="course-index">Page {{$currentPage}} sur {{$totalPages}} </span>
+                                <a href="javascript:void(0)" class="rbt-badge-2">
+                                    <div class="image">🎉</div>{{ $nbCourseAvailable  }} Courses
+                                </a>
+                                <div class="rbt-short-item ml--25">
+                                    <span class="course-index ">Page {{$currentPage}} sur {{$totalPages}} </span>
                                 </div>
                             </div>
                         </div>
@@ -169,7 +155,7 @@ Description : The page to display a list of courses with a grid layout.
                 form.submit();
             }
 
-            // Script to set the page to 1 when the user click on "submit filters"
+            // Script to set the page to 1 when the user clicks on "submit filters"
             function applyNewFilters() {
                 const form = document.getElementById('filtersForm');
                 const pageInput = document.getElementById('page');

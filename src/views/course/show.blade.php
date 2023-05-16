@@ -18,7 +18,7 @@ Need to provide :
 
 @component('layouts.app', ['title' => 'Detail du cours', 'stickyHeader' => false])
 
-    <!-- Start breadcrumb Area -->
+    {{-- Start breadcrumb Area --}}
     <div class="rbt-breadcrumb-default rbt-breadcrumb-style-3">
         <div class="breadcrumb-inner">
             <img src="/assets/images/bg/bg-image-10.jpg" alt="Education Images">
@@ -91,7 +91,7 @@ Need to provide :
             </div>
         </div>
     </div>
-    <!-- End Breadcrumb Area -->
+    {{-- End Breadcrumb Area --}}
 
     <div class="rbt-course-details-area ptb--60">
         <div class="container">
@@ -104,7 +104,7 @@ Need to provide :
                                  alt="Card image">
                         </div>
 
-                        <!-- Start Course Content  -->
+                        {{-- Start Course Content  --}}
                         <div class="course-content rbt-shadow-box coursecontent-wrapper mt--30" id="coursecontent">
                             <div class="rbt-course-feature-inner">
                                 <div class="section-title">
@@ -139,7 +139,7 @@ Need to provide :
                                 </ul>
                             </div>
                         </div>
-                        <!-- End Course Content  -->
+                        {{-- End Course Content  --}}
                     </div>
                 </div>
 

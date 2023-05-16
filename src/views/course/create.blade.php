@@ -19,7 +19,7 @@ Description : The page is a form to create a new course (without chapters).
                     <form action="{{ url('course.store') }}" method="post" enctype="multipart/form-data">
                         @customCsrf
                         <div class="card-body">
-                            <!-- Start Course Field Wrapper  -->
+                            {{-- Start Course Field Wrapper  --}}
                             <div class="rbt-course-field-wrapper rbt-default-form">
                                 <div class="course-field mb--15">
                                     <label for="titre" class="fs-3">Titre du cours</label>
@@ -34,7 +34,7 @@ Description : The page is a form to create a new course (without chapters).
                                 <div class="course-field mb--15">
                                     <label for="description" class="fs-3">Description</label>
                                     <textarea id="description" name="description" rows="4" maxlength="250" required>
-                                        {{ $old['description'] }}</textarea>
+                {{ $old['description'] }}</textarea>
                                     <small class="d-block mt_dec--5"><i class="feather-info"></i> La description doit
                                         comporter au maximum 250 caractères.</small>
                                 </div>
@@ -58,20 +58,20 @@ Description : The page is a form to create a new course (without chapters).
                                     <div class="rbt-create-course-thumbnail upload-area">
                                         <div class="upload-area">
                                             <div class="brows-file-wrapper" data-black-overlay="9">
-                                                <!-- actual upload which is hidden -->
+                                                {{-- actual upload which is hidden --}}
                                                 <input name="createinputfile" id="createinputfile"
                                                        type="file" class="inputfile"
                                                        accept="@php
-                                                           $output = '';
-                                                           foreach ($config->get('models.course.bannerAllowedMimeTypes', []) as $mime) {
-                                                                  $output .= $mime . ',';
-                                                           }
-                                                           echo rtrim($output, ',');
-                                                       @endphp" required>
+                                   $output = '';
+                                   foreach ($config->get('models.course.bannerAllowedMimeTypes', []) as $mime) {
+                                          $output .= $mime . ',';
+                                   }
+                                   echo rtrim($output, ',');
+                               @endphp" required>
                                                 <img id="createfileImage"
                                                      src="/assets/images/others/thumbnail-placeholder.svg"
                                                      alt="file image">
-                                                <!-- our custom upload button -->
+                                                {{-- our custom upload button --}}
                                                 <label class="d-flex" for="createinputfile"
                                                        title="Aucun fichier choisi">
                                                     <i class="feather-upload"></i>
@@ -88,18 +88,18 @@ Description : The page is a form to create a new course (without chapters).
 
 
                             </div>
-                            <!-- End Course Field Wrapper  -->
+                            {{-- End Course Field Wrapper  --}}
                         </div>
 
                         <div class="mt--10 row g-5 d-flex justify-content-center">
                             <div class="col-lg-8">
                                 <button class="rbt-btn btn-gradient hover-icon-reverse w-100 text-center"
                                         type="submit">
-                                    <span class="icon-reverse-wrapper">
-                                        <span class="btn-text">Créer le cours</span>
-                                    <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                                    <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                                    </span>
+            <span class="icon-reverse-wrapper">
+                <span class="btn-text">Créer le cours</span>
+            <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+            <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+            </span>
                                 </button>
                             </div>
                         </div>

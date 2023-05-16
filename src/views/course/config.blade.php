@@ -115,7 +115,7 @@ Description : The page is a detailed view of a course that the teacher has creat
                                         @method('PUT')
                                         @customCsrf
                                         <div class="card-body">
-                                            <!-- Start Course Field Wrapper  -->
+                                            {{-- Start Course Field Wrapper  --}}
                                             <div class="rbt-course-field-wrapper rbt-default-form">
                                                 <div class="course-field mb--15">
                                                     <label for="titre" class="fs-3">Titre du cours</label>
@@ -160,14 +160,14 @@ Description : The page is a detailed view of a course that the teacher has creat
                                                     <div class="rbt-create-course-thumbnail upload-area">
                                                         <div class="upload-area">
                                                             <div class="brows-file-wrapper" data-black-overlay="9">
-                                                                <!-- actual upload which is hidden -->
+                                                                {{-- actual upload which is hidden --}}
                                                                 <input name="createinputfile" id="createinputfile"
                                                                        type="file" class="inputfile"
                                                                        accept="image/jpeg,image/png">
                                                                 <img id="createfileImage"
                                                                      src="/assets/images/others/thumbnail-placeholder.svg"
                                                                      alt="file image">
-                                                                <!-- our custom upload button -->
+                                                                {{-- our custom upload button --}}
                                                                 <label class="d-flex" for="createinputfile"
                                                                        title="Aucun fichier choisi">
                                                                     <i class="feather-upload"></i>
@@ -186,7 +186,7 @@ Description : The page is a detailed view of a course that the teacher has creat
 
 
                                             </div>
-                                            <!-- End Course Field Wrapper  -->
+                                            {{-- End Course Field Wrapper  --}}
                                         </div>
 
                                         <div class="mb--20 row g-5 d-flex justify-content-center">
@@ -356,11 +356,13 @@ Description : The page is a detailed view of a course that the teacher has creat
          aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <form action="{{ url('chapter.store', ['courseId' => $course->getId()]) }}" method="post"
+                <form action="{{ url('chapter.store', ['courseId' => $course->getId()]) }}"
+                      method="post"
                       enctype="multipart/form-data">
                     @customCsrf
                     <div class="modal-header">
-                        <button type="button" class="rbt-round-btn" data-bs-dismiss="modal" aria-label="Close">
+                        <button type="button" class="rbt-round-btn"
+                                data-bs-dismiss="modal" aria-label="Close">
                             <i class="feather-x"></i>
                         </button>
                     </div>
@@ -368,18 +370,26 @@ Description : The page is a detailed view of a course that the teacher has creat
                         <div class="inner rbt-default-form">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <h5 class="modal-title mb--20" id="modalAddChapterLabel">Ajouter un
+                                    <h5 class="modal-title mb--20"
+                                        id="modalAddChapterLabel">Ajouter un
                                         chapitre</h5>
                                     <div class="course-field mb--20">
-                                        <label for="titreChapitre">Titre du chapitre</label>
-                                        <input id="titreChapitre" name="titreChapitre" type="text" maxlength="100"
+                                        <label for="titreChapitre">Titre du
+                                            chapitre</label>
+                                        <input id="titreChapitre"
+                                               name="titreChapitre" type="text"
+                                               maxlength="100"
                                                minlength="5" required>
-                                        <small><i class="feather-info"></i>Maximum 100 caractères</small>
+                                        <small><i class="feather-info"></i>Maximum
+                                            100 caractères</small>
                                     </div>
                                     <div class="course-field mb--20 d-flex justify-content-between">
                                         <div class="col-4">
-                                            <label for="video">Ajouter une vidéo</label>
-                                            <input id="video" name="video" type="file" class="height-auto"
+                                            <label for="video">Ajouter une
+                                                vidéo</label>
+                                            <input id="video" name="video"
+                                                   type="file"
+                                                   class="height-auto"
                                                    accept="@php
                                                            $output = '';
                                                            foreach (\App\App::$config->get('models.chapter.videoAllowedMimeTypes', []) as $mime) {
@@ -389,8 +399,11 @@ Description : The page is a detailed view of a course that the teacher has creat
                                                        @endphp">
                                         </div>
                                         <div class="col-4">
-                                            <label for="ressource">Ajouter une ressource</label>
-                                            <input id="ressource" name="ressource" type="file" class="height-auto"
+                                            <label for="ressource">Ajouter une
+                                                ressource</label>
+                                            <input id="ressource"
+                                                   name="ressource" type="file"
+                                                   class="height-auto"
                                                    accept="@php
                                                            $output = '';
                                                            foreach (\App\App::$config->get('models.chapter.ressourceAllowedMimeTypes', []) as $mime) {
@@ -400,7 +413,8 @@ Description : The page is a detailed view of a course that the teacher has creat
                                                        @endphp">
                                         </div>
                                     </div>
-                                    <small><i class="feather-info"></i>Un chapitre ne peut pas contenir qu'un
+                                    <small><i class="feather-info"></i>Un
+                                        chapitre ne peut pas contenir qu'un
                                         titre</small>
                                 </div>
                             </div>
@@ -408,11 +422,14 @@ Description : The page is a detailed view of a course that the teacher has creat
                         <div class="top-circle-shape"></div>
                         <div class="modal-footer pt--30">
 
-                            <button class="rbt-btn icon-hover btn-md radius-round-10" type="submit">
+                            <button class="rbt-btn icon-hover btn-md radius-round-10"
+                                    type="submit">
                                 <span class="btn-text">Créer</span>
-                                <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                                <span class="btn-icon"><i
+                                            class="feather-arrow-right"></i></span>
                             </button>
-                            <button type="button" class="rbt-btn btn-border btn-md radius-round-10"
+                            <button type="button"
+                                    class="rbt-btn btn-border btn-md radius-round-10"
                                     data-bs-dismiss="modal">
                                 Annuler
                             </button>
@@ -424,7 +441,8 @@ Description : The page is a detailed view of a course that the teacher has creat
     </div>
 
     {{-- Modal for chapter edition --}}
-    <div class="rbt-default-modal modal fade" id="modalEditChapter" tabindex="-1"
+    <div class="rbt-default-modal modal fade" id="modalEditChapter"
+         tabindex="-1"
          aria-labelledby="modalEditChapterLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -434,7 +452,8 @@ Description : The page is a detailed view of a course that the teacher has creat
                     @method('PUT')
                     @customCsrf
                     <div class="modal-header">
-                        <button type="button" class="rbt-round-btn" data-bs-dismiss="modal" aria-label="Close">
+                        <button type="button" class="rbt-round-btn"
+                                data-bs-dismiss="modal" aria-label="Close">
                             <i class="feather-x"></i>
                         </button>
                     </div>
@@ -442,18 +461,29 @@ Description : The page is a detailed view of a course that the teacher has creat
                         <div class="inner rbt-default-form">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <h5 class="modal-title mb--20" id="modalEditChapterLabel">Modifier le chapitre</h5>
+                                    <h5 class="modal-title mb--20"
+                                        id="modalEditChapterLabel">Modifier le
+                                        chapitre</h5>
                                     <div class="course-field mb--20">
-                                        <label for="titreChapitreEdition">Titre du chapitre</label>
-                                        <input id="titreChapitreEdition" name="titreChapitreEdition" type="text"
-                                               maxlength="100" minlength="5" required>
-                                        <small><i class="feather-info"></i>Maximum 100 caractères</small>
+                                        <label for="titreChapitreEdition">Titre
+                                            du chapitre</label>
+                                        <input id="titreChapitreEdition"
+                                               name="titreChapitreEdition"
+                                               type="text"
+                                               maxlength="100" minlength="5"
+                                               required>
+                                        <small><i class="feather-info"></i>Maximum
+                                            100 caractères</small>
                                     </div>
                                     <div class="course-field mb--20 d-flex justify-content-between">
                                         <div class="col-4">
-                                            <label for="videoEdition">Ajouter une vidéo (l'ancienne sera
+                                            <label for="videoEdition">Ajouter
+                                                une vidéo (l'ancienne sera
                                                 supprimée)</label>
-                                            <input id="videoEdition" name="videoEdition" type="file" class="height-auto"
+                                            <input id="videoEdition"
+                                                   name="videoEdition"
+                                                   type="file"
+                                                   class="height-auto"
                                                    accept="@php
                                                            $output = '';
                                                            foreach (\App\App::$config->get('models.chapter.videoAllowedMimeTypes', []) as $mime) {
@@ -463,9 +493,12 @@ Description : The page is a detailed view of a course that the teacher has creat
                                                        @endphp">
                                         </div>
                                         <div class="col-4">
-                                            <label for="ressourceEdition">Ajouter une ressource (l'ancienne sera
+                                            <label for="ressourceEdition">Ajouter
+                                                une ressource (l'ancienne sera
                                                 supprimée)</label>
-                                            <input id="ressourceEdition" name="ressourceEdition" type="file"
+                                            <input id="ressourceEdition"
+                                                   name="ressourceEdition"
+                                                   type="file"
                                                    class="height-auto"
                                                    accept="@php
                                                            $output = '';
@@ -476,7 +509,8 @@ Description : The page is a detailed view of a course that the teacher has creat
                                                        @endphp">
                                         </div>
                                     </div>
-                                    <small><i class="feather-info"></i>Un chapitre ne peut pas contenir qu'un
+                                    <small><i class="feather-info"></i>Un
+                                        chapitre ne peut pas contenir qu'un
                                         titre</small>
                                 </div>
                             </div>
@@ -484,11 +518,14 @@ Description : The page is a detailed view of a course that the teacher has creat
                         <div class="top-circle-shape"></div>
                         <div class="modal-footer pt--30">
 
-                            <button class="rbt-btn icon-hover btn-md radius-round-10" type="submit">
+                            <button class="rbt-btn icon-hover btn-md radius-round-10"
+                                    type="submit">
                                 <span class="btn-text">Modifier</span>
-                                <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+                                <span class="btn-icon"><i
+                                            class="feather-arrow-right"></i></span>
                             </button>
-                            <button type="button" class="rbt-btn btn-border btn-md radius-round-10"
+                            <button type="button"
+                                    class="rbt-btn btn-border btn-md radius-round-10"
                                     data-bs-dismiss="modal">
                                 Annuler
                             </button>

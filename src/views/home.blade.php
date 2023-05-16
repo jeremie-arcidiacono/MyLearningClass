@@ -10,7 +10,7 @@ Need to provide :
 --}}
 
 @component('layouts.app', ['title' => 'Accueil'])
-    <!-- Start Banner Area -->
+    {{-- Start Banner Area --}}
     <div class="rbt-banner-area rbt-banner-1">
         <div class="container-fluid">
             <div class="row">
@@ -72,7 +72,7 @@ Need to provide :
                         <div class="banner-card pb--60 mb--50 swiper rbt-dot-bottom-center banner-swiper-active">
                             <div class="swiper-wrapper">
 
-                                <!-- Start Single Card  -->
+                                {{-- Start Single Card  --}}
                                 @foreach($topCourses as $course)
                                     <div class="swiper-slide">
                                         @component('components.course-card-s1', [
@@ -82,7 +82,7 @@ Need to provide :
                                         @endcomponent
                                     </div>
                                 @endforeach
-                                <!-- End Single Card  -->
+                                {{-- End Single Card  --}}
 
                             </div>
                             <div class="rbt-swiper-pagination"></div>
@@ -92,9 +92,9 @@ Need to provide :
             </div>
         </div>
     </div>
-    <!-- End Banner Area -->
+    {{-- End Banner Area --}}
 
-    <!-- Start Course Area -->
+    {{-- Start Course Area --}}
     <div class="rbt-course-area rbt-section-gap pt--0">
         <div class="container">
             <div class="row mb--60">
@@ -105,7 +105,7 @@ Need to provide :
                     </div>
                 </div>
             </div>
-            <!-- Start Card Area -->
+            {{-- Start Card Area --}}
             <div class="row g-5">
                 @foreach($randomCourses as $course)
                     <div class="col-lg-4 col-md-6 col-12">
@@ -115,24 +115,24 @@ Need to provide :
                 @endforeach
 
             </div>
-            <!-- End Card Area -->
+            {{-- End Card Area --}}
 
             <div class="row">
                 <div class="col-lg-12">
                     <div class="load-more-btn mt--60 text-center">
                         <a class="rbt-btn btn-gradient btn-lg hover-icon-reverse" href="{{ url('course.index') }}">
-                                <span class="icon-reverse-wrapper">
-                                    <span class="btn-text">Voir plus de cours</span>
-                                <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                                <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                                </span>
+    <span class="icon-reverse-wrapper">
+        <span class="btn-text">Voir plus de cours</span>
+    <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+    <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+    </span>
                         </a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- End Course Area -->
+    {{-- End Course Area --}}
 
     <div class="rbt-separator-mid">
         <div class="container">
