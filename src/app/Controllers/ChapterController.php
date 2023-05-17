@@ -25,6 +25,7 @@ use App\Services\CourseEnrollmentService;
 use App\Services\MediaService;
 use App\Services\Service;
 use App\Validator;
+use Doctrine\ORM\Exception\ORMException;
 use FFMpeg\FFProbe;
 
 /**
@@ -132,8 +133,9 @@ class ChapterController
      * Update the chapter progression of the authenticated user.
      * @param Course $course
      * @param Chapter $chapter
-     * @return string
+     * @return never
      * @throws ForbiddenHttpException
+     * @throws ORMException
      */
     public function updateProgression(Course $course, Chapter $chapter): never
     {
@@ -177,6 +179,13 @@ class ChapterController
         redirect(url('chapter.show', ['courseId' => $course->getId(), 'chapter' => $chapter->getPosition()]));
     }
 
+    /**
+     * Create a new chapter.
+     * @param Course $course
+     * @return string
+     * @throws ForbiddenHttpException
+     * @throws ORMException
+     */
     public function store(Course $course): string
     {
         if (!App::$auth->can(Action::Update, $course)) { // The action of adding a chapter is considered as an update of the course.

@@ -41,7 +41,9 @@ class TemplateEngine extends BladeOne
         parent::__construct(
             templatePath: VIEWS_PATH,
             compiledPath: STORAGE_PATH . '/app/viewsCache',
-            mode: App::isDevMode() ? BladeOne::MODE_DEBUG : BladeOne::MODE_FAST
+            // Put slow mode in production to avoid using a compiled view who has a non-updated csrf token
+            // (that would be a security issue, every user would have the same csrf token, and it would never change until the cache is cleared !)
+            mode: App::isDevMode() ? BladeOne::MODE_DEBUG : BladeOne::MODE_SLOW,
         );
 
         // We add some variables to the all the views (just to be more convenient):

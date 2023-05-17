@@ -8,6 +8,7 @@ declare(strict_types=1);
  *                  It should be used to handle all known exceptions on all routes.
  *
  *                  Warning : This class is not used to handle execution before the routing process has started.
+ *                  To do so, you need to catch the exception in the index.php file and manually pass it to this class.
  ** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 namespace App\Exceptions;
@@ -57,9 +58,17 @@ class ExceptionHandler implements IExceptionHandler
             redirect(url('auth.login_view'));
         }
         elseif ($error instanceof ForbiddenHttpException) {
-            // User is not allowed to access this page or to perform this action
+            // User is not allowed to access this page or to perform this action (for permission reasons)
             http_response_code(403);
             echo App::$templateEngine->run('errors.403', [
+                'message' => $error->getMessage(),
+            ]);
+            exit();
+        }
+        elseif ($error instanceof BadRequestHttpException) {
+            // User is not allowed to access this page or to perform this action (for business logic reasons)
+            http_response_code($error->getCode() ?: 400);
+            echo App::$templateEngine->run('errors.400', [
                 'message' => $error->getMessage(),
             ]);
             exit();

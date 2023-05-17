@@ -94,7 +94,7 @@ class SessionTokenProvider implements ITokenProvider
 
     /**
      * Set csrf token in the session
-     * Overwrite this method to save the token to another storage like session etc.
+     * Overwrite this method to save the token to another storage like session, etc.
      *
      * @param string $token
      */

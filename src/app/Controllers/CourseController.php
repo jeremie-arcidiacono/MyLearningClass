@@ -14,6 +14,7 @@ use App\Contracts\ISession;
 use App\Enums\Action;
 use App\Enums\ChapterProgressStatus;
 use App\Enums\CourseVisibility;
+use App\Exceptions\BadRequestHttpException;
 use App\Exceptions\ForbiddenHttpException;
 use App\Models\Chapter;
 use App\Models\ChapterProgress;
@@ -40,6 +41,7 @@ class CourseController
     /**
      * Show a list of paginated and filtered courses.
      * @return string
+     * @throws \Exception
      */
     public function index(): string
     {
@@ -179,7 +181,8 @@ class CourseController
      * Enroll the authenticated user to the course.
      * @param Course $course
      * @return never
-     * @throws ForbiddenHttpException If the course is not public.
+     * @throws ForbiddenHttpException If the course is not public or if the user is already enrolled.
+     * @throws BadRequestHttpException If the user is already enrolled.
      */
     public function enroll(Course $course): never
     {
@@ -189,8 +192,7 @@ class CourseController
             throw new ForbiddenHttpException('Vous ne pouvez pas vous inscrire à ce cours.');
         }
         elseif (CourseEnrollmentService::isEnrolled($user, $course)) {
-            App::$session->setFlash(ISession::ERROR_KEY, ['Inscription' => 'Vous êtes déjà inscrit à ce cours.']);
-            redirect(url('course.show', ['courseId' => $course->getId()]));
+            throw new BadRequestHttpException('Vous êtes déjà inscrit à ce cours.');
         }
         else {
             $user->createEnrollment($course);
@@ -221,7 +223,7 @@ class CourseController
         $user = App::$auth->getUser();
 
         if (!CourseEnrollmentService::isEnrolled($user, $course)) {
-            throw new \Exception('Vous n\'êtes pas inscrit à ce cours.');
+            throw new BadRequestHttpException('Vous n\'êtes pas inscrit à ce cours.');
         }
 
         $enrollment = CourseEnrollmentService::FindByUserAndCourse($user, $course);
@@ -285,7 +287,7 @@ class CourseController
         $user = App::$auth->getUser();
 
         if (!$user->getBookmarkedCourses()->contains($course)) {
-            throw new ForbiddenHttpException('Vous ne pouvez pas supprimer ce cours de vos favoris car il n\'est pas dans vos favoris.');
+            throw new BadRequestHttpException('Vous ne pouvez pas supprimer ce cours de vos favoris car il n\'est pas dans vos favoris.');
         }
 
         $user->removeBookmarkedCourse($course);
@@ -400,7 +402,6 @@ class CourseController
         }
 
         $categories = CourseCategoryService::FindAll();
-        $enrollments = $course->getEnrollments();
 
         return App::$templateEngine->run(
             'course.config',

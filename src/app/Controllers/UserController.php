@@ -123,6 +123,11 @@ class UserController
         return App::$templateEngine->run('dashboard.user-create');
     }
 
+    /**
+     * Return the view to create a new user.
+     * @return string
+     * @throws ForbiddenHttpException
+     */
     public function create(): string
     {
         if (!App::$auth->can(Action::Create, new User())) {
@@ -140,11 +145,12 @@ class UserController
      * The user can't delete a user who owns a course with enrolled users.
      * @param User $user
      * @return string
+     * @throws ForbiddenHttpException
      */
     public function destroy(User $user): string
     {
         if (!App::$auth->can(Action::Delete, $user)) {
-            throw new \Exception("Vous n'avez pas les droits pour supprimer cet utilisateur.");
+            throw new ForbiddenHttpException("Vous n'avez pas les droits pour supprimer cet utilisateur.");
         }
 
         if ($user->getId() === App::$auth->getUser()->getId()) {

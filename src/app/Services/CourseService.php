@@ -93,7 +93,7 @@ class CourseService extends Service
     }
 
     /**
-     * Find random courses.
+     * Find random courses (only public courses).
      * @param int $limit The number of courses to find.
      * @return Course[]
      */

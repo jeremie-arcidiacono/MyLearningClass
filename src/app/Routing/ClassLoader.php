@@ -65,7 +65,7 @@ class ClassLoader implements IClassLoader
     }
 
     /**
-     * Lookup in the route parameters for a model ID. (an entity name followed by 'Id')
+     * Lookup in the route parameters for a model ID. (An entity name followed by 'Id')
      * If found, try to get the model from the database and bind it to the parameters.
      * If not found, return the original parameters.
      *

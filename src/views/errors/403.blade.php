@@ -1,3 +1,8 @@
+{{--
+Need to provide :
+- $message : (optional) the message to display to the user
+--}}
+
 @component('layouts.app', ['title' => 'Erreur 403'])
     <div class="rbt-error-area bg-gradient-11 rbt-section-gap">
         <div class="error-area">

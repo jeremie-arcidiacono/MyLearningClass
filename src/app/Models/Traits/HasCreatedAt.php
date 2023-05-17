@@ -40,7 +40,7 @@ trait HasCreatedAt
 
     /**
      * Update the created date of the model.
-     * This method is called automatically by Doctrine.
+     * Doctrine calls this method automatically.
      * @return void
      */
     #[PrePersist, PreUpdate]

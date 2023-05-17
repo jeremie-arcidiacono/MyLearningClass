@@ -3,21 +3,30 @@ declare(strict_types=1);
 /** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Author      :    Jérémie Arcidiacono
  * Created     :    May 2023
- * Description :
+ * Description :    This class is a controller used to render some of the basic pages of the dashboard.
  ** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 namespace App\Controllers;
 
 use App\App;
+use App\Enums\Action;
 use App\Enums\ChapterProgressStatus;
 use App\Enums\CourseVisibility;
 use App\Exceptions\ForbiddenHttpException;
 use App\Models\Course;
 use App\Services\ChapterProgressService;
 
+/**
+ * Render some of the basic pages of the dashboard.
+ */
 class DashboardController
 {
-    public function enrolledCourse()
+    /**
+     * Display the courses where the user is enrolled in the dashboard.
+     * @return string
+     * @throws \Exception
+     */
+    public function enrolledCourse(): string
     {
         $enrollments = App::$auth->getUser()->getEnrollments();
         $enrolledCourses = [];
@@ -49,7 +58,12 @@ class DashboardController
         ]);
     }
 
-    public function bookmarkedCourse()
+    /**
+     * Display the courses bookmarked by the user in the dashboard.
+     * @return string
+     * @throws \Exception
+     */
+    public function bookmarkedCourse(): string
     {
         $bookmarkedCourses = App::$auth->getUser()->getBookmarkedCourses();
 
@@ -72,9 +86,14 @@ class DashboardController
         );
     }
 
-    public function createdCourse()
+    /**
+     * Display the courses created by the user in the dashboard.
+     * @return string
+     * @throws ForbiddenHttpException
+     */
+    public function createdCourse(): string
     {
-        if (!App::$auth->can(\App\Enums\Action::Create, new \App\Models\Course())) {
+        if (!App::$auth->can(Action::Create, new Course())) {
             throw new ForbiddenHttpException('Vous n\'avez pas la permission de créer un cours.');
         }
 

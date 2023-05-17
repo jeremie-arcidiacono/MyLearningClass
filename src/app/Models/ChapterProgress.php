@@ -24,7 +24,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
 
 /**
- *  Entity representing a chapter progress.
+ *  Entity representing chapter progress.
  *  After a user enrolled in a course, he can start to take the courses.
  *  He marks each chapter as 'to do', 'in progress' or 'done', etc. (see ChapterProgressStatus enum).
  */

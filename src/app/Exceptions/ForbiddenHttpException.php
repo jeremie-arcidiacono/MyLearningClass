@@ -14,7 +14,7 @@ use Pecee\SimpleRouter\Exceptions\HttpException;
 use Throwable;
 
 /**
- * Occurs when a user try to access a page or do an action that he is not allowed to do (for permissions reasons or for other reasons)
+ * Occurs when a user tries to access a page or do an action that they are not allowed to do (for permission reasons or for other reasons)
  */
 class ForbiddenHttpException extends HttpException
 {
