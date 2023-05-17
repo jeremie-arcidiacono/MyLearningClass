@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 15, 2023 at 11:37 AM
+-- Generation Time: May 17, 2023 at 05:53 AM
 -- Server version: 10.3.38-MariaDB-0ubuntu0.20.04.1
 -- PHP Version: 8.2.6
 
@@ -472,7 +472,6 @@ INSERT INTO `PERMISSION` (`codePermission`, `action`, `ressource`) VALUES
 (2, 'create', 'course'),
 (3, 'update_own', 'course'),
 (4, 'delete_own', 'course'),
-(5, 'delete_any', 'course'),
 (6, 'create', 'user'),
 (7, 'delete_any', 'user'),
 (8, 'read', 'user');
@@ -522,7 +521,7 @@ INSERT INTO `ROLE_HAS_PERMISSION` (`codeRole`, `codePermission`) VALUES
 (3, 1),
 (3, 2),
 (3, 3),
-(3, 5),
+(3, 4),
 (3, 6),
 (3, 7),
 (3, 8);
