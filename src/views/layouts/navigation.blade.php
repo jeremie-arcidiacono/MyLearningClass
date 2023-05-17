@@ -84,7 +84,7 @@
                                                     </a>
                                                 </li>
                                             @endif
-                                            @if($auth->can(\App\Enums\Action::Create,new \App\Models\Course()))
+                                            @if($auth->can(\App\Enums\Action::Create,new \App\Models\User()))
                                                 <li>
                                                     <a href="{{ url('user.index') }}">
                                                         <i class="fas fa-users"></i>
@@ -112,7 +112,7 @@
                         </ul>
 
                         <div class="rbt-btn-wrapper d-none d-xl-block">
-                            <a class="rbt-btn rbt-marquee-btn marquee-auto btn-border-gradient radius-round btn-sm hover-transform-none"
+                            <a class="rbt-btn btn-border-gradient radius-round btn-sm"
                                href="{{ url('dashboard.index') }}">
                                 <span data-text="Dashboard">Dashboard</span>
                             </a>
@@ -123,7 +123,7 @@
                         </div>
 
                         <div class="rbt-btn-wrapper d-none d-xl-block">
-                            <a class="rbt-btn rbt-marquee-btn marquee-auto btn-border-gradient radius-round btn-sm hover-transform-none"
+                            <a class="rbt-btn btn-border-gradient radius-round btn-sm"
                                href="{{ url('auth.register_view') }}">
                                 <span data-text="Inscription">Inscription</span>
                             </a>
