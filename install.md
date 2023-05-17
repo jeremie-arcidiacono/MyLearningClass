@@ -1,5 +1,27 @@
 # Install procedure for MyLearningClass
 
+## Table of contents
+
+<!-- TOC -->
+* [Install procedure for MyLearningClass](#install-procedure-for-mylearningclass)
+    * [Table of contents](#table-of-contents)
+    * [Introduction](#introduction)
+    * [Pre-requisites](#pre-requisites)
+        * [PHP](#php)
+        * [Apache](#apache)
+        * [MariaDB](#mariadb)
+        * [FFmpeg](#ffmpeg)
+    * [Installation](#installation)
+        * [Web server configuration](#web-server-configuration)
+        * [Configuration of PHP](#configuration-of-php)
+        * [Database configuration](#database-configuration)
+    * [Configuration of the project](#configuration-of-the-project)
+    * [Test the installation](#test-the-installation)
+    * [Contact](#contact)
+<!-- TOC -->
+
+## Introduction
+
 The following procedure describes how to install the project on a Linux server.
 
 These instructions are intended to be as simple as possible, but if you know what you are doing,
@@ -157,7 +179,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON my_learning_class.* TO 'mlc_user'@'local
 FLUSH PRIVILEGES;
 ```
 
-#### Configuration of the project
+## Configuration of the project
 
 Copy the file `.env.example` to `.env`:
 
@@ -165,9 +187,11 @@ Copy the file `.env.example` to `.env`:
 cp .env.example .env
 ```
 
-Edit the `.env` file and change the lines as needed. Especially the database connection parameters.
+Edit the `.env` file and change the lines as needed.
+Especially the database connection parameters and the `APP_DOMAIN` parameter.
 
 ```
+APP_DOMAIN={YOUR_DOMAIN_NAME}
 DB_NAME=my_learning_class
 DB_USER=mlc_user
 DB_PASSWORD=password
@@ -184,12 +208,22 @@ RECAPTCHA_SECRET_KEY=your_secret_key
 The other parameters can be left as they are for a production environment.
 Note: If you want to activate the debug mode, you must have a working Xdebug installation.
 
-#### Test the installation
+## Test the installation
 
 You can now access the project at the address you have configured in the Apache virtual host.
 
 Be careful about the permissions of the `storage` directory, the web server must be able to write in it.
 It is recommended to test the creation of a course to check that everything is working properly.
+
+## Troubleshooting
+
+If you have a problem with the installation, you can check the following points:
+1. Check that the Apache virtual host is correctly configured<br>
+   Domain name should be the same as the one you have configured in the `.env` file.
+2. Change the driver of the session in the `.env` file
+3. If you run the project with production parameters, check that you have HTTPS enabled on your server.<br>
+   By default, the cookie session is configured to be sent only via HTTPS in production (see `config/session.php`).
+   You can change this behavior by modifying the `secure` parameter in the config file (set it to `false`).
 
 ## Contact
 
