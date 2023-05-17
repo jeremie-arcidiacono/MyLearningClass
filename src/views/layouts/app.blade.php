@@ -156,6 +156,21 @@ Need to provide :
 {{-- Custom JS by page --}}
 @stack('scripts*')
 
+<script>
+    // To prevent the user to put folder in the input form (with drag and drop)
+    const forms = document.querySelectorAll('form');
+
+    forms.forEach(form => {
+        form.addEventListener('dragover', function (e) {
+            e.preventDefault();
+        }, false);
+
+        form.addEventListener('drop', function (e) {
+            e.preventDefault();
+        }, false);
+    });
+</script>
+
 </body>
 
 </html>
