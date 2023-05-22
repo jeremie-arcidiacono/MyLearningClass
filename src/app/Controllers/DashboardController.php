@@ -36,6 +36,10 @@ class DashboardController
 
             $chaptersProgress = ChapterProgressService::FindByUserAndCourse(App::$auth->getUser(), $course);
 
+            if ($chaptersProgress === null || count($chaptersProgress) < count($course->getChapters())) {
+                $enrolledCourses[] = $course;
+                continue;
+            }
             $isFinished = true;
             foreach ($chaptersProgress as $chapterProgress) {
                 if ($chapterProgress->getStatus() !== ChapterProgressStatus::Done) {

@@ -68,17 +68,17 @@ class ChapterProgressService extends Service
      * Get the percentage of a user's progress on a course
      * @param User $user
      * @param Course $course
-     * @return int|null
+     * @return int percentage of progress (0 if no progress found)
      */
-    public static function GetProgressPercentage(User $user, Course $course): ?int
+    public static function GetProgressPercentage(User $user, Course $course): int
     {
-        $chapterProgresses = static::FindByUserAndCourse($user, $course);
-        if ($chapterProgresses === null) {
-            return null;
-        }
-        $total = count($chapterProgresses);
+        $total = count($course->getChapters());
         $done = 0;
-        foreach ($chapterProgresses as $chapterProgress) {
+        foreach ($course->getChapters() as $chapter) {
+            $chapterProgress = static::Find($user, $chapter);
+            if ($chapterProgress === null) {
+                continue; // The database has not registered the progress of the user on this chapter, so we consider it as not done
+            }
             if ($chapterProgress->getStatus() === ChapterProgressStatus::Done) {
                 $done++;
             }
