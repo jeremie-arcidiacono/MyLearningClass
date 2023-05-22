@@ -81,7 +81,11 @@ class App
                 'register_helpers' => true,
             ]);
             static::$clockwork->getClockwork()->addDataSource(new PhpDataSource());
-            static::$clockwork->getClockwork()->addDataSource(new XdebugDataSource());
+
+            // Add the Xdebug data source only if the extension is loaded
+            if (extension_loaded('xdebug')) {
+                static::$clockwork->getClockwork()->addDataSource(new XdebugDataSource());
+            }
         }
 
         $ORMConfiguration = ORMSetup::createAttributeMetadataConfiguration([MODELS_PATH], isDevMode: true);
