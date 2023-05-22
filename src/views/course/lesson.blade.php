@@ -63,7 +63,8 @@ Need to provide :
                                                         <div class="course-content-right">
                                                             @if($currentLoopChapter->getVideo() != null)
                                                                 <span class="min-lable">
-                                                                    {{ $currentLoopChapter->getVideo()->getDuration() }} s
+                                                                    {{ gmdate('i', $currentLoopChapter->getVideo()
+                                                                    ->getDuration()) }}m
                                                                 </span>
                                                             @endif
                                                             @php

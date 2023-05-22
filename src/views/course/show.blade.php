@@ -129,7 +129,7 @@ Need to provide :
                                                 @if($chapter->getVideo() != null)
                                                     <div class="course-content-right">
                                                         <span class="min-lable">
-                                                            {{ $chapter->getVideo()->getDuration() }} secondes
+                                                            {{ gmdate('i', $chapter->getVideo()->getDuration()) }} minutes
                                                         </span>
                                                     </div>
                                                 @endif
@@ -201,8 +201,8 @@ Need to provide :
                                             }
                                         @endphp
                                         <li><span>Durée</span><span
-                                                    class="rbt-feature-value rbt-badge-5">{{ $totalDuration }}
-                                                secondes</span>
+                                                    class="rbt-feature-value rbt-badge-5">
+                                                {{ gmdate('i', $totalDuration) }} minutes</span>
                                         </li>
                                     </ul>
                                 </div>
