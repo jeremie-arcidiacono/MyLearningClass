@@ -38,6 +38,8 @@ The following packages are required:
     - pdo_mysql
     - mbstring
     - xml
+    - curl
+    - zip
 - Apache 2.4 (with mod_rewrite)
 - MariaDB 10
 - PHP [Composer](https://getcomposer.org/download/) (for the installation of the project dependencies)
@@ -52,7 +54,7 @@ Otherwise, you can follow the instructions below :
 sudo apt install software-properties-common ca-certificates lsb-release apt-transport-https 
 sudo add-apt-repository ppa:ondrej/php
 sudo apt update 
-sudo apt install php8.2 php8.2-mysql php8.2-mbstring php8.2-xml
+sudo apt install php8.2 php8.2-mysql php8.2-mbstring php8.2-xml php8.2-curl php8.2-zip
 ```
 
 Then install Composer:
