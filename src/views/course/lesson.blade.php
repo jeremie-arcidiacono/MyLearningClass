@@ -242,7 +242,9 @@ Need to provide :
     @push('scripts')
         <script>
             function downloadRessource() {
-                const url = 'http://localhost:8888/cours/{{ $course->getId() }}/chapitres/{{ $chapter->getId() }}/ressource';
+                const url = '{{ url('chapter.ressource',
+                                    ['courseId' => $course->getId(),
+                                    'chapterId' => $chapter->getId()]) }}';
 
                 // Create an invisible iframe element
                 const iframe = document.createElement('iframe');
