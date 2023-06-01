@@ -226,6 +226,8 @@ If you have a problem with the installation, you can check the following points:
 3. If you run the project with production parameters, check that you have HTTPS enabled on your server.<br>
    By default, the cookie session is configured to be sent only via HTTPS in production (see `config/session.php`).
    You can change this behavior by modifying the `secure` parameter in the config file (set it to `false`).
+4. Apache must be configured to allow the use of `.htaccess` files.<br>
+   Check that the `AllowOverride` parameter is set to `All` in the apache2.conf and vhost files.
 
 ## Contact
 
